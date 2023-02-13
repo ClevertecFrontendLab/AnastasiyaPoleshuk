@@ -35,7 +35,8 @@ module.exports = {
             {
                 'cases': {
                     'camelCase': true,
-                    'pascalCase': true
+                    'pascalCase': true,
+                    'UPPER_CASE': true
                 }
             }
         ],
