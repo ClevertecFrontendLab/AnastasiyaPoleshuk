@@ -1,6 +1,4 @@
 import { ICategories } from '../../types/apiTypes';
-import { GET__CATEGORIES } from '../actionTypes';
+import { GET_CATEGORIES } from '../actionTypes';
 
-export const CategoriesActions = (payload: ICategories) => {
-  return { type: GET__CATEGORIES, payload };
-};
+export const CategoriesActions = (payload: ICategories) => ({ type: GET_CATEGORIES, payload });

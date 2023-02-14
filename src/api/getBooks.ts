@@ -8,26 +8,37 @@ export const getBooks = async () => {
         const { data, status } = await axios.get<IGetBooks | IError>(
             `${CONSTANTS.URL}/api/books`,
         );
+
         return { data, status };
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            const data = error.response?.data;
-            const status = error.response?.data.error.status;
 
-            return { data, status };
-        } else {
             return {
-                data: {
+                data: error.response?.data || {
                     data: null,
                     error: {
-                        status: 0,
+                        status: 404,
                         name: '',
-                        message: '',
+                        message: error.message,
                         details: {}
                     }
                 },
-                status: 0
+                status: error.response?.status || 404
             }
         }
+
+        return {
+            data: {
+                data: null,
+                error: {
+                    status: 404,
+                    name: 'uncached error',
+                    message: '',
+                    details: {}
+                }
+            },
+            status: 404
+        }
+
     }
 };

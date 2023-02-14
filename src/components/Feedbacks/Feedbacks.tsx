@@ -1,29 +1,32 @@
-import userAvatarPath from '../../assets/userAvatar.png';
-import { IBookInfoMock, IFeedback } from '../Card/types/types';
+import { IBookComments } from '../../types/apiTypes';
+import { CONSTANTS } from '../../utils/constants';
 
 import './Feedbacks.scss';
 
 interface IProps {
-    book: IBookInfoMock;
+    comments: IBookComments[];
 }
 
 export const Feedbacks = (props: IProps) => {
-    const { book } = props;
+    const { comments } = props;
 
     return (
         <details className='feedbacks__details' open={true} data-test-id='button-hide-reviews'>
             <summary className="feedbacks__title">
                 Отзывы
-                <span className="feedbacks__count">{book.feedbacks.length}</span>
+                <span className="feedbacks__count">{
+                    comments ? comments.length : 0
+                }</span>
             </summary>
             <div className="feedbacks__wrap">
                 {
-                    book.feedbacks.map((feedback: IFeedback) => <div className="feedback" key={feedback.id}>
+                    comments &&
+                    comments.map((comment: IBookComments) => <div className="feedback" key={comment.id}>
                         <div className="feedback__header">
-                            <img src={userAvatarPath} alt="аватар" className="feedback__user-img" />
+                            <img src={`${CONSTANTS.URL}${comment.user.avatarUrl}`} alt="аватар" className="feedback__user-img" />
                             <div className="feedback__header-info">
-                                <div className="feedback__user-name">{feedback.name}</div>
-                                <div className="feedback__date">{feedback.date}</div>
+                                <div className="feedback__user-name">{`${comment.user.firstName} ${comment.user.lastName}`}</div>
+                                <div className="feedback__date">{comment.createdAt}</div>
                             </div>
                         </div>
                         <div className='rating__stars'>
@@ -33,7 +36,7 @@ export const Feedbacks = (props: IProps) => {
                             <i className="star-fill" />
                             <i className="star" />
                         </div>
-                        <p className="feedback__text">{feedback.comment}</p>
+                        <p className="feedback__text">{comment.text}</p>
                     </div>)
                 }
             </div>

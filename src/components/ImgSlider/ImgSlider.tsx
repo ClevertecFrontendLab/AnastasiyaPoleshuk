@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { FreeMode, Navigation, Pagination, Swiper as ISwiper, Thumbs } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import imgPath from '../../../assets/book.png';
-import altPath from '../../../assets/icon_cat.png';
+import altPath from '../../assets/icon_cat.png';
+import { IBookImage } from '../../types/apiTypes';
+import { CONSTANTS } from '../../utils/constants'
 
 import './ImgSlider.scss';
 
@@ -13,8 +14,9 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/thumbs';
 import 'swiper/scss/pagination';
 
+
 interface Iprops {
-    img: string[],
+    img: IBookImage[],
 }
 
 export function ImgSlider(props: Iprops) {
@@ -37,8 +39,8 @@ export function ImgSlider(props: Iprops) {
                         <SwiperSlide>
                             <img src={altPath} alt="фото книги" className={img.length > 0 ? 'main-info__img' : 'main-info__img-alt'} />
                         </SwiperSlide>
-                        : img.map((item) => <SwiperSlide key={item}>
-                            <img src={imgPath} alt="фото книги" className="main-info__img" />
+                        : img.map((item) => <SwiperSlide key={item.url} >
+                            <img src={`${CONSTANTS.URL}${item.url}`} alt="фото книги" className="main-info__img" />
                         </SwiperSlide>
                         )
                 }
@@ -55,8 +57,8 @@ export function ImgSlider(props: Iprops) {
                 {
                     img.length <= 1 ?
                         null
-                        : img.map((item) => <SwiperSlide key={item} data-test-id='slide-mini'>
-                            <img src={imgPath} alt="фото книги" className="slide" />
+                        : img.map((item) => <SwiperSlide key={item.url} data-test-id='slide-mini'>
+                            <img src={`${CONSTANTS.URL}${item.url}`} alt="фото книги" className="slide" />
                         </SwiperSlide>
                         )
                 }

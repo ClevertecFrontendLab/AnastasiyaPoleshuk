@@ -1,30 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ErrorAction } from '../../store/actions/ErrorAction';
-import { IError } from '../../types/apiTypes';
+
 import { IStore } from '../../types/storeTypes';
+
 import './ErrorModal.scss';
 
 export const ErrorModal = () => {
-    const error = useSelector((state: IStore) => { return state.error.error; });
-    const [isOpen, setIsOpen] = useState(!!error.error.name);
-    const dispatch = useDispatch();
+    const error = useSelector((state: IStore) => state.error.error);
+    const [isOpen, setIsOpen] = useState(error.error.status !== 0);
 
     useEffect(() => {
         setIsOpen(!!error.error.name);
     }, [error.error.name])
 
     const clearError = () => {
-        setIsOpen(false);
-        dispatch(ErrorAction({
-            data: null,
-            error: {
-                status: 0,
-                name: '',
-                message: '',
-                details: {}
-            }
-        } as IError));
+        setIsOpen(!isOpen);
+
     }
 
     return (

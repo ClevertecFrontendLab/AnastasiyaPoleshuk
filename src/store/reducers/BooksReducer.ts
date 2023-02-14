@@ -1,6 +1,6 @@
 import { IGetBook, IGetBooks } from '../../types/apiTypes';
 import { IStore } from '../../types/storeTypes';
-import { GET__BOOK,GET__BOOKS } from '../actionTypes';
+import { GET_BOOK,GET_BOOKS } from '../actionTypes';
 import { initialState } from '../initialState';
 
 interface IAction {
@@ -10,9 +10,9 @@ interface IAction {
 
 export const BooksReducer = (state = initialState as unknown as IStore, action: IAction) => {
   switch (action.type) {
-    case GET__BOOKS:
+    case GET_BOOKS:
       return { ...state, books: action.payload };
-    case GET__BOOK:
+    case GET_BOOK:
       return { ...state, book: action.payload };
     default:
       return state;

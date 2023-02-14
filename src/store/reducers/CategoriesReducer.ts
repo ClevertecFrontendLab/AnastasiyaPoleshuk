@@ -1,6 +1,6 @@
 import { ICategories } from '../../types/apiTypes';
 import { IStore } from '../../types/storeTypes';
-import { GET__CATEGORIES } from '../actionTypes';
+import { GET_CATEGORIES } from '../actionTypes';
 import { initialState } from '../initialState';
 
 interface IAction {
@@ -10,7 +10,7 @@ interface IAction {
 
 export const CategoriesReducer = (state = initialState as unknown as IStore, action: IAction) => {
   switch (action.type) {
-    case GET__CATEGORIES:
+    case GET_CATEGORIES:
       return { ...state, categories: action.payload };
     default:
       return state;

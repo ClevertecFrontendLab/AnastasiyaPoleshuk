@@ -19,7 +19,7 @@ export const MenuItem = (props: IProps) => {
 
     return (
         <NavLink
-            to={`/books${path}`}
+            to={`/books/${path}`}
             className="book-type__item"
             data-test-id={
                 dataTestIdValue ?

@@ -4,15 +4,15 @@ import { ERROR } from '../actionTypes';
 import { initialState } from '../initialState';
 
 interface IAction {
-  type: string,
-  payload: IError,
+    type: string,
+    payload: IError,
 }
 
 export const ErrorReducer = (state = initialState as unknown as IStore, action: IAction) => {
-  switch (action.type) {
-    case ERROR:
-      return { ...state, error: action.payload };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case ERROR:
+            return { ...state, error: action.payload };
+        default:
+            return state;
+    }
 };

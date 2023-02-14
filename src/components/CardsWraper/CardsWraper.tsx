@@ -1,23 +1,22 @@
-import { cardInfoMock } from '../../utils/CardsInfoMock';
+import { useSelector } from 'react-redux';
+
+import { IGetBooks } from '../../types/apiTypes';
+import { IStore } from '../../types/storeTypes';
 import { Card } from '../Card/Card';
-import { IBookInfoMock } from '../Card/types/types';
 
 import './CardsWraper.scss';
 
-export const CardsWraper = () => (
-    <section className="cards-wraper">
-        {
-            cardInfoMock.map((item: IBookInfoMock) => <Card
-                key={item.id}
-                id={item.id}
-                img={item.img}
-                rating={item.rating}
-                title={item.title}
-                author={item.author}
-                isBooked={item.isBooked}
-                busyUntil={item.busyUntil}
-                category={item.category}
-            />)
-        }
-    </section>
-)
+export const CardsWraper = () => {
+    const books = useSelector((state: IStore) => state.books.books);
+
+    return (
+        <section className="cards-wraper">
+            {
+                books.map((item: IGetBooks) => <Card
+                    key={item.id}
+                    book={item}
+                />)
+            }
+        </section>
+    )
+}

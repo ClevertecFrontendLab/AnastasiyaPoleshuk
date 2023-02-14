@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { menuMockList } from '../../utils/menuMockList';
+import { ICategories } from '../../types/apiTypes';
+import { IStore } from '../../types/storeTypes';
 
 import { MenuItem } from './components/MenuItem';
-import { IMenuMockList } from './types/type';
 
 import './Menu.scss';
 
@@ -16,6 +17,7 @@ interface IProps {
 export const Menu = (props: IProps) => {
     const { isOpen, dataTestId } = props;
     const [toggleBookList, setToggleBookList] = useState(isOpen);
+    const categories = useSelector((state: IStore) => state.categories.categories);
 
     return (
         <aside className="menu">
@@ -26,9 +28,11 @@ export const Menu = (props: IProps) => {
                             <summary className='book-type__title' data-test-id={`${dataTestId}-showcase`}>
                                 Витрина книг
                             </summary>
-                            <MenuItem key={-1} path='/all' name='Все книги' bookCount='157' dataTestIdValue={dataTestId} />
+                            <MenuItem key={-1} path='all' name='Все книги' bookCount='157' dataTestIdValue={dataTestId} />
                             {
-                                menuMockList.map((item: IMenuMockList) => <MenuItem key={item.id} path={item.path} name={item.name} bookCount={item.bookCount} dataTestIdValue='' />)
+                                categories ?
+                                    categories.map((item: ICategories) => <MenuItem key={item.id} path={item.path} name={item.name} bookCount="12" dataTestIdValue='' />)
+                                : <p>null</p>
                             }
                         </details>
                     </li>

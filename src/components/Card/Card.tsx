@@ -1,29 +1,50 @@
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AnyAction } from 'redux';
 
-import path from '../../assets/book.png';
 import altPath from '../../assets/icon_cat.png';
 import { AppContext } from '../../context/AppContext';
-
-import { ICardInfoMock } from './types/types';
+import { ErrorAction } from '../../store/actions/ErrorAction';
+import { GetBookThunk } from '../../store/thunks/GetBookThunk';
+import { IError, IGetBooks } from '../../types/apiTypes';
+import { IStore } from '../../types/storeTypes';
+import { CONSTANTS } from '../../utils/constants';
 
 import './Card.scss';
 
-
-export const Card = (props: ICardInfoMock) => {
-    const { id, img, rating, title, author, isBooked, busyUntil, category } = props;
+export const Card = (props: { book: IGetBooks }) => {
+    const { id, image, rating, title, authors, booking, delivery, categories } = props.book;
+    const error = useSelector((state: IStore) => state.error.error);
     const { isList } = useContext(AppContext);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { category } = useParams();
+    const bookCategory = category ? category : 'all';
 
     const changePage = () => {
-        navigate(`/books/${category}/${id}`)
+        dispatch(ErrorAction({
+            data: null,
+            error: {
+                status: 0,
+                name: '',
+                message: '',
+                details: {}
+            }
+        } as IError)
+        )
+        error.error.name ? null : navigate(`/books/${bookCategory}/${id}`);
+        // dispatch(GetBookThunk(id) as unknown as AnyAction)
+        //     .then(() => {
+        //
+        //     })
     };
 
     return (
         <div className={`${isList ? 'list-item' : 'card'}`} data-test-id='card' onClick={changePage}>
             {
-                img.length > 0 ?
-                    <img src={path} alt='фото книги' className={`${isList ? 'list-item__img' : 'card__img'}`} />
+                image ?
+                    <img src={`${CONSTANTS.URL}${image.url}`} alt='фото книги' className={`${isList ? 'list-item__img' : 'card__img'}`} />
                     : <img src={altPath} alt='фото книги' className={`${isList ? 'list-item__img-alt' : 'card__img-alt'}`} />
             }
             <div className={`${isList ? 'list-item__info-box' : null}`}>
@@ -41,7 +62,7 @@ export const Card = (props: ICardInfoMock) => {
                 }
 
                 <h2 className={`${isList ? 'list-item__title' : 'card__title'}`}>{title}</h2>
-                <h3 className={`${isList ? 'list-item__author' : 'card__author'}`}>{author}</h3>
+                <h3 className={`${isList ? 'list-item__author' : 'card__author'}`}>{authors.join(' ')}</h3>
                 <div className={`${isList ? 'list-item__button-block' : null}`}>
                     {
                         rating ?
@@ -58,12 +79,12 @@ export const Card = (props: ICardInfoMock) => {
                     <button
                         type='button'
                         className={
-                            `${isList ? 'list-item__btn' : 'card__btn'} ${isBooked ? 'booked' : busyUntil ? 'busy' : null}`
+                            `${isList ? 'list-item__btn' : 'card__btn'} ${booking ? 'booked' : delivery ? 'busy' : null}`
                         }
-                        disabled={isBooked ? true : busyUntil ? true : false}
+                        disabled={booking ? true : delivery ? true : false}
                     >
                         {
-                            isBooked ? 'Забронирована' : busyUntil ? `занята до ${busyUntil}` : 'Забронировать'
+                            booking ? 'Забронирована' : delivery ? `занята до ${delivery}` : 'Забронировать'
                         }
                     </button>
                 </div>
