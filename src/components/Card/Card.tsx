@@ -1,12 +1,10 @@
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AnyAction } from 'redux';
 
 import altPath from '../../assets/icon_cat.png';
 import { AppContext } from '../../context/AppContext';
 import { ErrorAction } from '../../store/actions/ErrorAction';
-import { GetBookThunk } from '../../store/thunks/GetBookThunk';
 import { IError, IGetBooks } from '../../types/apiTypes';
 import { IStore } from '../../types/storeTypes';
 import { CONSTANTS } from '../../utils/constants';
@@ -14,7 +12,7 @@ import { CONSTANTS } from '../../utils/constants';
 import './Card.scss';
 
 export const Card = (props: { book: IGetBooks }) => {
-    const { id, image, rating, title, authors, booking, delivery, categories } = props.book;
+    const { id, image, rating, title, authors, booking, delivery } = props.book;
     const error = useSelector((state: IStore) => state.error.error);
     const { isList } = useContext(AppContext);
     const navigate = useNavigate();
@@ -34,10 +32,6 @@ export const Card = (props: { book: IGetBooks }) => {
         } as IError)
         )
         error.error.name ? null : navigate(`/books/${bookCategory}/${id}`);
-        // dispatch(GetBookThunk(id) as unknown as AnyAction)
-        //     .then(() => {
-        //
-        //     })
     };
 
     return (

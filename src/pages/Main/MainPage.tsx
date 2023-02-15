@@ -8,10 +8,13 @@ import './MainPage.scss';
 
 export const MainPage = () => {
     const books = useSelector((state: IStore) => state.books.books);
+    const error = useSelector((state: IStore) => state.error.error);
 
     return (
         <section className="content-wrap">
-            <Navigation />
+            {
+                error.error.message ? null : <Navigation />
+            }
             {
                 books.length > 0 ? <CardsWraper /> : null
             }
