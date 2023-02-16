@@ -5,12 +5,6 @@ import { ImgSlider } from '../ImgSlider/ImgSlider';
 import './BookComponent.scss';
 
 export const BookComponent = ({ book }: { book: IGetBook }) => (
-    <div>
-        <section className="book__path">
-            <div className="book__path__container">
-                {book.categories.join(' ')} / {book.title}
-            </div>
-        </section>
         <main className='book__container'>
             <div className="book__main-info">
                 <ImgSlider img={book.images} />
@@ -105,5 +99,4 @@ export const BookComponent = ({ book }: { book: IGetBook }) => (
                 </section>
             </div>
         </main >
-    </div >
 )
