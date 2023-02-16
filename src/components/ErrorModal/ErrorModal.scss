@@ -2,7 +2,6 @@
 
 .error-modal__container {
     box-sizing: border-box;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,7 +13,6 @@
     border: 1.5px solid $negative-color;
     border-radius: 5px;
     transition: top .1s cubic-bezier(0.165, 0.84, 0.44, 1);
-
 
     .error__text {
         @include subtitle-large;
@@ -52,8 +50,4 @@
             transform: rotate(90deg);
         }
     }
-}
-
-.error-modal__open {
-    top: 64px;
 }
