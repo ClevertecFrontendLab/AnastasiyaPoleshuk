@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 import { AnyAction } from 'redux';
 import StatusCodes from 'http-status-codes';
 
-import { LoadingAction } from '../../store/actions/LoadingAction';
 import { GetBooksThunk } from '../../store/thunks/GetBooksThunk';
+import { GetBookThunk } from '../../store/thunks/GetBookThunk';
 import { GetCategoriesThunk } from '../../store/thunks/GetCategoriesThunk';
 import { IStore } from '../../types/storeTypes';
 import { ErrorModal } from '../ErrorModal/ErrorModal';
@@ -19,13 +19,18 @@ export const Layout = () => {
     const isLoadingState = useSelector((state: IStore) => state.isLoading);
     const error = useSelector((state: IStore) => state.error.error);
     const [isLoading, setIsLoading] = useState(isLoadingState);
+    const { bookId } = useParams();
+    const id = bookId ? +bookId : 2;
+
 
     useEffect(() => {
-        dispatch(GetCategoriesThunk() as unknown as AnyAction);
-        dispatch(GetBooksThunk() as unknown as AnyAction)
-            .then(() => {
-                dispatch(LoadingAction(false));
-                setIsLoading(false)
+        bookId ? dispatch(GetBookThunk(id) as unknown as AnyAction).then(() => {
+            setIsLoading(false);
+        })
+            : (dispatch(GetCategoriesThunk() as unknown as AnyAction),
+                dispatch(GetBooksThunk() as unknown as AnyAction)
+            ).then(() => {
+                setIsLoading(false);
             })
     }, [])
 
@@ -41,7 +46,7 @@ export const Layout = () => {
             <Footer />
             <MenuModal />
             {
-                isLoading ? <Loader /> : null
+                isLoading ? error.error.status !== StatusCodes.OK ? null : <Loader /> : null
             }
         </React.Fragment>
     )

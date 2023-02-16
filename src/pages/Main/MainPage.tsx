@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 
 import { CardsWraper } from '../../components/CardsWraper/CardsWraper';
-import { ErrorModal } from '../../components/ErrorModal/ErrorModal';
 import { Navigation } from '../../components/Navigation/Navigation';
 import { IStore } from '../../types/storeTypes';
 
@@ -14,7 +13,7 @@ export const MainPage = () => {
     return (
         <section className="content-wrap">
             {
-                error.error.message ? <ErrorModal /> : <Navigation />
+                error.error.message ? null : <Navigation />
             }
             {
                 books.length > 0 ? <CardsWraper /> :  null

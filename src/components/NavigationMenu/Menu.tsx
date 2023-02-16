@@ -29,12 +29,15 @@ export const Menu = (props: IProps) => {
                             <summary className='book-type__title' data-test-id={`${dataTestId}-showcase`}>
                                 Витрина книг
                             </summary>
-                            <MenuItem key={-1} path='all' name='Все книги' bookCount={`${books.length && 0}`} dataTestIdValue={dataTestId} />
+                            {
+                                categories.length > 0 ?
+                                    <MenuItem key={-1} path='all' name='Все книги' bookCount={`${books.length && 0}`} dataTestIdValue={dataTestId} />
+                                    : null
+                            }
                             {
                                 categories.length > 0 ?
                                     categories.map((item: ICategories) => <MenuItem key={item.id} path={item.path} name={item.name} bookCount="12" dataTestIdValue='' />)
                                     : null
-                                    // : <ErrorModal />
                             }
                         </details>
                     </li>
