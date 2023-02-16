@@ -1,0 +1,8 @@
+@import '../../App.variables.scss';
+
+.cards-wraper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin: 32px 0 62px 0;
+}
