@@ -63,7 +63,7 @@ export const initialState = {
     error: {
         data: null,
         error: {
-            status: 0,
+            status: 200,
             name: '',
             message: '',
             details: {}

@@ -20,7 +20,7 @@ export const ErrorModal = () => {
         dispatch(ErrorAction({
             data: null,
             error: {
-                status: 0,
+                status: 200,
                 name: '',
                 message: '',
                 details: {}
