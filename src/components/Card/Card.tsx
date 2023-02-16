@@ -1,37 +1,22 @@
 import { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import altPath from '../../assets/icon_cat.png';
 import { AppContext } from '../../context/AppContext';
-import { ErrorAction } from '../../store/actions/ErrorAction';
-import { IError, IGetBooks } from '../../types/apiTypes';
-import { IStore } from '../../types/storeTypes';
+import { IGetBooks } from '../../types/apiTypes';
 import { CONSTANTS } from '../../utils/constants';
 
 import './Card.scss';
 
 export const Card = (props: { book: IGetBooks }) => {
     const { id, image, rating, title, authors, booking, delivery } = props.book;
-    const error = useSelector((state: IStore) => state.error.error);
     const { isList } = useContext(AppContext);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const { category } = useParams();
     const bookCategory = category ? category : 'all';
 
     const changePage = () => {
-        dispatch(ErrorAction({
-            data: null,
-            error: {
-                status: 0,
-                name: '',
-                message: '',
-                details: {}
-            }
-        } as IError)
-        )
-        error.error.name ? null : navigate(`/books/${bookCategory}/${id}`);
+        navigate(`/books/${bookCategory}/${id}`);
     };
 
     return (

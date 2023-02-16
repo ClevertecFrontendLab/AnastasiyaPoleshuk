@@ -1,3 +1,4 @@
+import altImg from '../../assets/userAvatar.png';
 import { IBookComments } from '../../types/apiTypes';
 import { CONSTANTS } from '../../utils/constants';
 
@@ -9,6 +10,7 @@ interface IProps {
 
 export const Feedbacks = (props: IProps) => {
     const { comments } = props;
+
 
     return (
         <details className='feedbacks__details' open={true} data-test-id='button-hide-reviews'>
@@ -23,7 +25,11 @@ export const Feedbacks = (props: IProps) => {
                     comments &&
                     comments.map((comment: IBookComments) => <div className="feedback" key={comment.id}>
                         <div className="feedback__header">
-                            <img src={`${CONSTANTS.URL}${comment.user.avatarUrl}`} alt="аватар" className="feedback__user-img" />
+                            <img src={
+                                comment.user.avatarUrl ?
+                                    `${CONSTANTS.URL}${comment.user.avatarUrl}`
+                                    : altImg
+                            } alt="аватар" className="feedback__user-img" />
                             <div className="feedback__header-info">
                                 <div className="feedback__user-name">{`${comment.user.firstName} ${comment.user.lastName}`}</div>
                                 <div className="feedback__date">{comment.createdAt}</div>

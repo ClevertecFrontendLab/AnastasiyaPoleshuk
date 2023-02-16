@@ -8,12 +8,12 @@
     align-items: center;
     padding: 28px 32px;
     position: absolute;
-    top: -155px;
+    top: 64px;
     z-index: 40;
     background: $negative-bg-color;
     border: 1.5px solid $negative-color;
     border-radius: 5px;
-    transition: top .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: top .1s cubic-bezier(0.165, 0.84, 0.44, 1);
 
 
     .error__text {

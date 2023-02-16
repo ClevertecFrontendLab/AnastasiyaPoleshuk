@@ -18,6 +18,7 @@ export const Menu = (props: IProps) => {
     const { isOpen, dataTestId } = props;
     const [toggleBookList, setToggleBookList] = useState(isOpen);
     const categories = useSelector((state: IStore) => state.categories.categories);
+    const books = useSelector((state: IStore) => state.books.books);
 
     return (
         <aside className="menu">
@@ -28,11 +29,12 @@ export const Menu = (props: IProps) => {
                             <summary className='book-type__title' data-test-id={`${dataTestId}-showcase`}>
                                 Витрина книг
                             </summary>
-                            <MenuItem key={-1} path='all' name='Все книги' bookCount='157' dataTestIdValue={dataTestId} />
+                            <MenuItem key={-1} path='all' name='Все книги' bookCount={`${books.length && 0}`} dataTestIdValue={dataTestId} />
                             {
-                                categories ?
+                                categories.length > 0 ?
                                     categories.map((item: ICategories) => <MenuItem key={item.id} path={item.path} name={item.name} bookCount="12" dataTestIdValue='' />)
-                                : <p>null</p>
+                                    : null
+                                    // : <ErrorModal />
                             }
                         </details>
                     </li>

@@ -72,4 +72,5 @@ export const initialState = {
     categories: {
         categories: []
     },
+    isLoading: false,
 }
