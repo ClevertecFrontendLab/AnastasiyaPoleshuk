@@ -16,7 +16,7 @@ export const MainPage = () => {
                 error.error.message ? null : <Navigation />
             }
             {
-                books.length > 0 ? <CardsWraper /> :  null
+                books.length > 0 ? <CardsWraper category='' /> :  null
             }
         </section>
     )

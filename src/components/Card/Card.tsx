@@ -1,21 +1,15 @@
 import { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AnyAction } from 'redux';
 
 import altPath from '../../assets/icon_cat.png';
 import { AppContext } from '../../context/AppContext';
-import { GetBookThunk } from '../../store/thunks/GetBookThunk';
 import { IGetBooks } from '../../types/apiTypes';
-import { IStore } from '../../types/storeTypes';
 import { CONSTANTS } from '../../utils/constants';
 
 import './Card.scss';
 
 export const Card = (props: { book: IGetBooks }) => {
     const { id, image, rating, title, authors, booking, delivery } = props.book;
-    const book = useSelector((state: IStore) => state.books.book);
-    const dispatch = useDispatch();
     const { isList } = useContext(AppContext);
     const navigate = useNavigate();
     const { category } = useParams();
@@ -23,7 +17,6 @@ export const Card = (props: { book: IGetBooks }) => {
 
     const changePage = () => {
         navigate(`/books/${bookCategory}/${id}`)
-        book ? null  : dispatch(GetBookThunk(id) as unknown as AnyAction)
     };
 
     return (

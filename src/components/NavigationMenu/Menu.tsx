@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { ICategories } from '../../types/apiTypes';
 import { IStore } from '../../types/storeTypes';
+import { FilteredBooksCount } from '../../utils/FilteredBooksCount';
 
 import { MenuItem } from './components/MenuItem';
 
@@ -31,12 +32,20 @@ export const Menu = (props: IProps) => {
                             </summary>
                             {
                                 categories.length > 0 ?
-                                    <MenuItem key={-1} path='all' name='Все книги' bookCount={`${books.length && 0}`} dataTestIdValue={dataTestId} />
+                                    <MenuItem key={-1} path='all' name='Все книги' bookCount='' dataTestIdValue={dataTestId} />
                                     : null
                             }
                             {
-                                categories.length > 0 ?
-                                    categories.map((item: ICategories) => <MenuItem key={item.id} path={item.path} name={item.name} bookCount="12" dataTestIdValue='' />)
+                                (categories.length > 0 && books.length > 0) ?
+                                    categories.map((item: ICategories) =>
+                                        <MenuItem
+                                            key={item.id}
+                                            path={item.path}
+                                            name={item.name}
+                                            bookCount={`${FilteredBooksCount(books, item.name)}`}
+                                            dataTestIdValue=''
+                                        />
+                                    )
                                     : null
                             }
                         </details>
