@@ -43,7 +43,7 @@ export const Menu = (props: IProps) => {
                                             path={item.path}
                                             name={item.name}
                                             bookCount={`${FilteredBooksCount(books, item.name)}`}
-                                            dataTestIdValue=''
+                                            dataTestIdValue={`${dataTestId}`}
                                         />
                                     )
                                     : null

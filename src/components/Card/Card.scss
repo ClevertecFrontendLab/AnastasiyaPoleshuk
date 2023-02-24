@@ -42,6 +42,10 @@
         height: 55px;
         overflow: hidden;
         margin-top: 22px;
+
+        .hightlight {
+            color: $accept-color;
+        }
     }
 
     .card__author {
@@ -125,6 +129,10 @@
 
     .list-item__title {
         @include h4;
+
+        .hightlight {
+            color: $accept-color;
+        }
 
         @media (max-width: 320px) {
             @include subtitle-small;

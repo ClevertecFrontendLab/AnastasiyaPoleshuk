@@ -109,9 +109,13 @@
         cursor: pointer;
     }
 
+    .book-type__item-wrap {
+        margin: 16px 0 0 20px;
+    }
+
     .book-type__wrap .book-type__item {
         @include body-large;
-        margin: 16px 0 0 20px;
+
         visibility: hidden;
         transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
 
@@ -122,14 +126,14 @@
             background-clip: text;
             text-fill-color: transparent;
         }
+    }
 
-        & span {
-            @include body-small;
-            color: $dark40-color;
-            margin: 0 0 0 6px;
-        }
+    .book-type__bookCount {
+        @include body-small;
+        color: $dark40-color;
+        margin: 0 0 0 6px;
 
-        &:hover span {
+        &:hover {
             color: $text-color;
         }
     }

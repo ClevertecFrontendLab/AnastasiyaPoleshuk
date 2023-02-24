@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import altPath from '../../assets/icon_cat.png';
@@ -7,15 +7,20 @@ import { AppContext } from '../../context/AppContext';
 import { IGetBooks } from '../../types/apiTypes';
 import { CONSTANTS } from '../../utils/constants';
 
+import { Hightlight } from './components/Hightlight';
+
 import './Card.scss';
+
+
 
 export const Card = (props: { book: IGetBooks }) => {
     const { id, image, rating, title, authors, booking, delivery } = props.book;
     const ratingNum = Math.floor(+rating);
-    const { isList } = useContext(AppContext);
+    const { isList, searchString } = useContext(AppContext);
     const navigate = useNavigate();
     const { category } = useParams();
     const bookCategory = category ? category : 'all';
+    const light = useCallback((str: string) => Hightlight(searchString, str), [searchString])
 
     const changePage = () => {
         navigate(`/books/${bookCategory}/${id}`)
@@ -41,8 +46,7 @@ export const Card = (props: { book: IGetBooks }) => {
                         :
                         <p className={`${isList ? 'hide' : 'card__rating'}`}>нет оценок</p>
                 }
-
-                <h2 className={`${isList ? 'list-item__title' : 'card__title'}`}>{title}</h2>
+                <h2 className={`${isList ? 'list-item__title' : 'card__title'}`}>{light(title)}</h2>
                 <h3 className={`${isList ? 'list-item__author' : 'card__author'}`}>{authors.join(' ')}</h3>
                 <div className={`${isList ? 'list-item__button-block' : null}`}>
                     {
