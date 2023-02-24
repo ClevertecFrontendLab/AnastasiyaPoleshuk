@@ -1,4 +1,4 @@
-import { ICategories, IError,IGetBook, IGetBooks } from "./apiTypes";
+import { ICategories, IError,IGetBook, IGetBooks } from './apiTypes';
 
 export interface IStore {
     books: {
@@ -12,6 +12,7 @@ export interface IStore {
         categories: ICategories[],
     },
     isLoading: boolean,
+    isError: boolean,
 }
 
 export interface IGetBooksResponse {
@@ -28,3 +29,9 @@ export interface ICategoriesResponse {
     data: ICategories | IError;
     status: number;
 }
+
+export interface ISetError {
+    data: IError;
+    isError: boolean;
+}
+

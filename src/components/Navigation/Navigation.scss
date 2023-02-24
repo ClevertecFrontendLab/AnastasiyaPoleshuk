@@ -47,7 +47,7 @@
         }
 
         &:focus {
-            color: $button-color;
+            color: $search-color;
         }
 
         &:focus~.cross {
@@ -69,6 +69,13 @@
             height: 16px;
         }
     }
+
+        .cross {
+            content: url(../../assets/svg/cross.svg);
+            width: 22px;
+            height: 22px;
+           visibility: hidden;
+        }
 
     .search {
         content: url(../../assets/svg/Search.svg);
@@ -105,14 +112,7 @@
             border: 1px solid $text-color;
         }
 
-        &::before {
-            content: url(../../assets/svg/sort.svg);
-            margin-right: 8px;
 
-            @media (max-width: 320px) {
-                margin: 0;
-            }
-        }
 
         @media (max-width: 320px) {
             font-size: 0;
@@ -120,6 +120,24 @@
             height: 32px;
         }
 
+    }
+
+    .descending::before {
+        content: url(../../assets/svg/sort.svg);
+        margin-right: 8px;
+
+        @media (max-width: 320px) {
+            margin: 0;
+        }
+    }
+
+    .ascending::before {
+        content: url(../../assets/svg/icon-sort-descending.svg);
+        margin-right: 8px;
+
+        @media (max-width: 320px) {
+            margin: 0;
+        }
     }
 
     .view-controls__control {
@@ -159,7 +177,7 @@
     }
 
     .search-open {
-        transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        transition: all .1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
         @media (max-width: 320px) {
             visibility: visible;
@@ -187,4 +205,6 @@
             top: 10px;
         }
     }
+
+
 }

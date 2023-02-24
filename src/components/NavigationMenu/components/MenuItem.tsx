@@ -18,18 +18,9 @@ export const MenuItem = (props: IProps) => {
     const { closeModal } = useContext(AppContext);
 
     return (
-        <NavLink
-            to={`/books/${path}`}
-            className="book-type__item"
-            data-test-id={
-                dataTestIdValue ?
-                    `${dataTestIdValue}-books`
-                    : null
-            }
-            onClick={closeModal}
-        >
-            {name}
-            <span className='book-type__bookCount'>{bookCount}</span>
+        <NavLink className="book-type__item-wrap"  to={`/books/${path}`} onClick={closeModal}>
+            <span className="book-type__item" data-test-id={`${dataTestIdValue}-${path === 'all' ? 'books' : path}`}>{name}</span>
+            <span className='book-type__bookCount' data-test-id={`${dataTestIdValue}-book-count-for-${path}`}>{bookCount}</span>
         </NavLink>
     )
 }
