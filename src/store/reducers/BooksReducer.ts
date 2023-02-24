@@ -11,9 +11,9 @@ interface IAction {
 export const BooksReducer = (state = initialState as unknown as IStore, action: IAction) => {
   switch (action.type) {
     case GET_BOOKS:
-      return { ...state, books: action.payload, isLoading: false };
+        return { ...state, books: action.payload, isLoading: false, isError: false };
     case GET_BOOK:
-      return { ...state, book: action.payload, isLoading: false };
+        return { ...state, book: action.payload, isLoading: false, isError: false };
     default:
       return state;
   }

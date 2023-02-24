@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
     error: ErrorReducer,
     categories: CategoriesReducer,
     isLoading: LoadingReducer,
+    isError: ErrorReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

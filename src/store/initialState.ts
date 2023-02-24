@@ -67,10 +67,11 @@ export const initialState = {
             name: '',
             message: '',
             details: {}
-        }
+        },
     },
     categories: {
         categories: []
     },
     isLoading: false,
+    isError: false,
 }

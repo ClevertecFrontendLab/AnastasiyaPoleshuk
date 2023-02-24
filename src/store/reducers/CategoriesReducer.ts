@@ -4,15 +4,15 @@ import { GET_CATEGORIES } from '../actionTypes';
 import { initialState } from '../initialState';
 
 interface IAction {
-  type: string,
+    type: string,
     payload: ICategories,
 }
 
 export const CategoriesReducer = (state = initialState as unknown as IStore, action: IAction) => {
-  switch (action.type) {
-    case GET_CATEGORIES:
-      return { ...state, categories: action.payload, isLoading: false };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case GET_CATEGORIES:
+            return { ...state, categories: action.payload, isLoading: false, isError: false };
+        default:
+            return state;
+    }
 };

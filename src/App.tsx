@@ -5,7 +5,6 @@ import { LayoutMainPage } from './components/LayoutMainPage/LayoutMainPage';
 import { BookPage } from './pages/Book/BookPage';
 import { Contract } from './pages/Contract/Contract';
 import { MainPage } from './pages/Main/MainPage';
-import { OtherPage } from './pages/OtherPage/OtherPage';
 import { Profile } from './pages/Profile/Profile';
 import { Terms } from './pages/Terms/Terms';
 
@@ -16,7 +15,6 @@ export const App = () => (
             <Route element={<LayoutMainPage />}>
                 <Route path='/' element={<Navigate to='/books/all' />} />
                 <Route path='/books/:category' element={<MainPage />} />
-                <Route path='/books/other' element={<OtherPage />} />
                 <Route path="/contract" element={<Contract />} />
                 <Route path="/terms" element={<Terms />} />
             </Route>

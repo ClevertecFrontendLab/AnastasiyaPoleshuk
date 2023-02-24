@@ -3,4 +3,5 @@ export const GET_BOOK = 'GET__BOOK';
 export const GET_CATEGORIES = 'GET__CATEGORIES';
 export const ERROR = 'ERROR';
 export const IS_LOADING = 'IS_LOADING';
+export const IS_ERROR = 'IS_ERROR';
 
