@@ -1,4 +1,4 @@
-import { ICategories, IError,IGetBook, IGetBooks } from './apiTypes';
+import { ICategories, IError, IGetBook, IGetBooks, IUserResponse } from './apiTypes';
 
 export interface IStore {
     books: {
@@ -11,8 +11,25 @@ export interface IStore {
     categories: {
         categories: ICategories[],
     },
-    isLoading: boolean,
-    isError: boolean,
+    user: {
+        user: {
+            user: IUserResponse,
+            isAuth: boolean,
+            isRegistration: boolean,
+        }
+    },
+    isAuth: {
+        isAuth: boolean,
+    },
+    isRegistration: {
+        isRegistration: boolean
+    },
+    isLoading: {
+        isLoading: boolean,
+    },
+    isError: {
+        isError: boolean
+    },
 }
 
 export interface IGetBooksResponse {

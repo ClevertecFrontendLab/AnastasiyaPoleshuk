@@ -20,15 +20,15 @@ export const initialState = {
                     url: ""
                 },
             ],
-            categories: [ 'i', 'p' ],
+            categories: ['i', 'p'],
             comments: [
                 {
-    	            id: 0,
+                    id: 0,
                     rating: 0,
                     text: "",
                     createdAt: "",
                     user: {
-	                commentUser: 0,
+                        commentUser: 0,
                         firstName: "",
                         lastName: "",
                         avatarUrl: ""
@@ -36,21 +36,21 @@ export const initialState = {
                 },
             ],
             booking: {
- 	        	id: 0,
+                id: 0,
                 order: false,
                 dateOrder: "",
                 customerId: 0,
-    	        customerFirstName: "",
+                customerFirstName: "",
                 customerLastName: ""
             },
             delivery: {
- 	            id: 0,
+                id: 0,
                 handed: false,
                 dateHandedFrom: "",
-	            dateHandedTo: "",
+                dateHandedTo: "",
                 recipientId: 0,
-	            recipientFirstName: "",
-    	        recipientLastName: ""
+                recipientFirstName: "",
+                recipientLastName: ""
             },
             histories: [
                 {
@@ -72,6 +72,28 @@ export const initialState = {
     categories: {
         categories: []
     },
+    user: {
+        jwt: '',
+        user: {
+            id: 0,
+            username: '',
+            email: '',
+            provider: '',
+            confirmed: false,
+            blocked: false,
+            createdAt: '',
+            updatedAt: '',
+            firstName: '',
+            lastName: '',
+            phone: '',
+        },
+    },
+    isAuth: false,
+    isRegistration: false,
     isLoading: false,
-    isError: false,
+    isError: false
+    // isError: {
+    //     isError: false
+    // },
+
 }

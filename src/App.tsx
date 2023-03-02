@@ -2,10 +2,12 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { Layout } from './components/Layout/Layout';
 import { LayoutMainPage } from './components/LayoutMainPage/LayoutMainPage';
+import { AuthorizationPage } from './pages/AuthorizationPage/AuthorizationPage';
 import { BookPage } from './pages/Book/BookPage';
 import { Contract } from './pages/Contract/Contract';
 import { MainPage } from './pages/Main/MainPage';
 import { Profile } from './pages/Profile/Profile';
+import { Registration } from './pages/Registration/Registration';
 import { Terms } from './pages/Terms/Terms';
 
 
@@ -21,5 +23,7 @@ export const App = () => (
             <Route path='books/:category/:bookId' element={<BookPage />} />
             <Route path='profile' element={<Profile />} />
         </Route>
+        <Route path='/registration' element={<Registration />} />
+        <Route path='/auth' element={<AuthorizationPage />} />
     </Routes>
 );
