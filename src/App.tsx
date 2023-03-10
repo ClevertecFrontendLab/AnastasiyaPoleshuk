@@ -5,9 +5,11 @@ import { LayoutMainPage } from './components/LayoutMainPage/LayoutMainPage';
 import { AuthorizationPage } from './pages/AuthorizationPage/AuthorizationPage';
 import { BookPage } from './pages/Book/BookPage';
 import { Contract } from './pages/Contract/Contract';
+import { ForgotPassword } from './pages/ForgotPassword/ForgotPassword';
 import { MainPage } from './pages/Main/MainPage';
 import { Profile } from './pages/Profile/Profile';
 import { Registration } from './pages/Registration/Registration';
+import { ResetPassword } from './pages/ResetPassword/ResetPassword';
 import { Terms } from './pages/Terms/Terms';
 
 
@@ -25,5 +27,7 @@ export const App = () => (
         </Route>
         <Route path='/registration' element={<Registration />} />
         <Route path='/auth' element={<AuthorizationPage />} />
+        <Route path='/forgot-pass' element={<ForgotPassword />} />
+        <Route path='/reset-pass' element={<ResetPassword />} />
     </Routes>
 );

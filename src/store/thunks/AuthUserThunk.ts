@@ -18,5 +18,6 @@ export const AuthUserThunk = (requestData: IAuthRequest) => async function (disp
         dispatch(ErrorAction(response.data as IError));
         dispatch(IsAuthAction(false));
     }
+    dispatch(LoadingAction(false));
 };
 

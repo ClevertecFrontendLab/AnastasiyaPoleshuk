@@ -10,6 +10,7 @@ import { BooksReducer } from './reducers/BooksReducer';
 import { CategoriesReducer } from './reducers/CategoriesReducer';
 import { ErrorReducer } from './reducers/ErrorReducer';
 import { LoadingReducer } from './reducers/LoadingReducer';
+import { SendEmailReducer } from './reducers/SendEmailReducer';
 import { UserReducer } from './reducers/UserReducer';
 
 const rootReducer = combineReducers({
@@ -21,6 +22,10 @@ const rootReducer = combineReducers({
     isRegistration: UserReducer,
     isLoading: LoadingReducer,
     isError: ErrorReducer,
+    SendEmailSuccess: SendEmailReducer,
+    registrationRequest: UserReducer,
+    isChangePasswordSuccess: UserReducer,
+    authRequest: UserReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

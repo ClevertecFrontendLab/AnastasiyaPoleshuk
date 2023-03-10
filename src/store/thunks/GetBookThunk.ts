@@ -8,12 +8,12 @@ import { GetBookAction } from '../actions/BooksActions';
 import { ErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
 
-export const GetBookThunk = (id: number) => async function (dispatch: Dispatch) {
+export const GetBookThunk = (reqData: { id: number, jwt: string }) => async function (dispatch: Dispatch) {
     dispatch(LoadingAction(true));
-    const response: IGetBookResponse = await getBook(id)
-
+    const response: IGetBookResponse = await getBook(reqData)
+    
     if (response.status === StatusCodes.OK) {
-      dispatch(GetBookAction(response.data as IGetBook));
+        dispatch(GetBookAction(response.data as IGetBook));
     } else {
         dispatch(ErrorAction(response.data as IError));
     }

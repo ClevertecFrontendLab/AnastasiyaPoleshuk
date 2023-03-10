@@ -1,9 +1,9 @@
-import { ICategories, IError, IGetBook, IGetBooks, IUserResponse } from './apiTypes';
+import { IAuthRequest, ICategories, IError, IGetBook, IGetBooks, IRegistrationRequest, IUserResponse } from './apiTypes';
 
 export interface IStore {
     books: {
-        books: IGetBooks[];
-        book: IGetBook;
+        books: IGetBooks[],
+        book: IGetBook,
     },
     error: {
         error: IError,
@@ -16,19 +16,31 @@ export interface IStore {
             user: IUserResponse,
             isAuth: boolean,
             isRegistration: boolean,
-        }
+        },
     },
     isAuth: {
         isAuth: boolean,
     },
     isRegistration: {
-        isRegistration: boolean
+        isRegistration: boolean,
+    },
+    registrationRequest: {
+        registrationRequest: IRegistrationRequest,
+    },
+    authRequest: {
+        authRequest: IAuthRequest,
     },
     isLoading: {
         isLoading: boolean,
     },
     isError: {
-        isError: boolean
+        isError: boolean,
+    },
+    SendEmailSuccess: {
+        SendEmailSuccess: boolean,
+    },
+    isChangePasswordSuccess: {
+        isChangePasswordSuccess: boolean,
     },
 }
 

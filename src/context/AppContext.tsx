@@ -40,7 +40,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         switch (type) {
             case CONSTANTS.BURGER_MODAL:
                 setIsBurgerModalOpen(true);
-                document.body.style.overflow = 'hidden';
+                // document.body.style.overflow = 'hidden';
                 break
             case CONSTANTS.NAV_MODAL:
                 setIsNavModalOpen(true)
@@ -53,7 +53,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         switch (type) {
             case CONSTANTS.BURGER_MODAL:
                 setIsBurgerModalOpen(false);
-                document.body.style.overflow = 'visible';
+                // document.body.style.overflow = 'visible';
                 break
             case CONSTANTS.NAV_MODAL:
                 setIsNavModalOpen(false)

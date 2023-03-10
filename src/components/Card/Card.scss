@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    @media (max-width: 320px) {
+    @media (max-width: 360px) {
         width: 288px;
         align-items: center;
     }
@@ -69,7 +69,7 @@
             border: 1px solid #BFC4C9;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             padding: 11px 70px;
             margin-left: 5px;
         }
@@ -87,7 +87,7 @@
     align-items: center;
     gap: 16px;
 
-    @media (max-width: 320px) {
+    @media (max-width: 360px) {
         gap: 8px;
         border-radius: 10px;
         padding: 16px 16px 16px 8px;
@@ -105,14 +105,14 @@
             border-radius: 10px;
             border: 1px solid $dark40-color;
 
-            @media (max-width: 320px) {
+            @media (max-width: 360px) {
                 padding: 26px 11px;
 
             }
 
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             width: 70px;
             height: 100px;
         }
@@ -134,7 +134,7 @@
             color: $accept-color;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include subtitle-small;
         }
     }
@@ -143,7 +143,7 @@
         @include body-large;
         margin-top: 8px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include body-small;
             margin-top: 3px;
         }
@@ -155,7 +155,7 @@
         align-items: center;
         margin-top: 24px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             flex-direction: column;
             margin-top: 3px;
             gap: 16px;
@@ -176,7 +176,7 @@
             border: 1px solid #BFC4C9;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             padding: 11px 33px;
         }
     }

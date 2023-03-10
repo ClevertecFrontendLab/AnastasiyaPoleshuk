@@ -19,7 +19,7 @@
         border-radius: 20px;
         padding: 10px 16px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             width: 32px;
             padding: 8px;
         }
@@ -35,7 +35,7 @@
             @include body-small;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             visibility: hidden;
             width: 32px;
             height: 32px;
@@ -70,12 +70,12 @@
         }
     }
 
-        .cross {
-            content: url(../../assets/svg/cross.svg);
-            width: 22px;
-            height: 22px;
-           visibility: hidden;
-        }
+    .cross {
+        content: url(../../assets/svg/cross.svg);
+        width: 22px;
+        height: 22px;
+        visibility: hidden;
+    }
 
     .search {
         content: url(../../assets/svg/Search.svg);
@@ -86,7 +86,7 @@
         width: 16px;
         height: 16px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             width: 32px;
             height: 32px;
             padding: 8px;
@@ -114,7 +114,7 @@
 
 
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             font-size: 0;
             width: 32px;
             height: 32px;
@@ -126,7 +126,7 @@
         content: url(../../assets/svg/sort.svg);
         margin-right: 8px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             margin: 0;
         }
     }
@@ -135,7 +135,7 @@
         content: url(../../assets/svg/icon-sort-descending.svg);
         margin-right: 8px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             margin: 0;
         }
     }
@@ -152,7 +152,7 @@
             fill: $dark40-color;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             padding: 0;
             width: 32px;
             height: 32px;
@@ -179,7 +179,7 @@
     .search-open {
         transition: all .1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             visibility: visible;
             position: absolute;
             z-index: 8;
@@ -196,7 +196,7 @@
     .cross-active {
         transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             content: url(../../assets/svg/cross.svg);
             display: inline-block;
             position: absolute;

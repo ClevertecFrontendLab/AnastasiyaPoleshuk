@@ -88,12 +88,23 @@ export const initialState = {
             phone: '',
         },
     },
+    registrationRequest: {
+        email: '',
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+    },
+    authRequest: {
+        username: '',
+        password: '',
+    },
     isAuth: false,
     isRegistration: false,
     isLoading: false,
-    isError: false
-    // isError: {
-    //     isError: false
-    // },
+    isError: false,
+    SendEmailSuccess: false,
+    isChangePasswordSuccess: false
 
 }

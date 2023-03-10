@@ -1,25 +1,27 @@
 import axios from 'axios';
 
-import { IAuthRequest, IError, IUserResponse } from '../types/apiTypes';
-import { CONSTANTS } from '../utils/constants';
+import { IAuthRequest, IUserResponse } from '../types/apiTypes';
+
+import { api, apiSetHeader } from './api';
 
 export const authUser = async (request: IAuthRequest) => {
     try {
-        const { data, status } = await axios.post<IUserResponse | IError>(
-            `${CONSTANTS.URL}/api/auth/local`,
+        const { data, status } = await api.post<IUserResponse>(
+            '/api/auth/local',
             request
         );
 
+        apiSetHeader('Authorization', `Bearer ${data.jwt}`)
+
         return { data, status };
     } catch (error) {
-
         if (axios.isAxiosError(error)) {
             return {
-                data: error.response?.data || {
-                    data: null,
+                data: {
+                    data: error.response?.data || null,
                     error: {
-                        status: 502,
-                        name: '',
+                        status: error.response?.status || 502,
+                        name: error.response?.data.name || '',
                         message: error.message,
                         details: {}
                     }

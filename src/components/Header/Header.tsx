@@ -32,8 +32,7 @@ export const Header = () => {
                 <h1 className="header__title">Библиотека</h1>
                 <div className="header__profile-block profile-block">
                     <h5 className="profile__greetings">Привет, Иван!</h5>
-                    <button
-                        type='button'
+                    <div
                         className="profile__link"
                         onClick={() => toggleMenu(CONSTANTS.NAV_MODAL, isNavModalOpen)}
                     />

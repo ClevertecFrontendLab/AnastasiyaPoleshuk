@@ -13,6 +13,11 @@
         transform: translateX(-50%);
         @include h3;
         color: $white-color;
+
+        @media (max-width: 360px) {
+            @include h5;
+            top: 16px;
+        }
     }
 
     .registration__block {
@@ -22,7 +27,10 @@
         left: 50%;
         transform: translateX(-50%);
         border-radius: 16px;
-        padding: 48px 56px;
+
+        @media (max-width: 360px) {
+            top: 56px;
+        }
     }
 
     .registration__redirect {
@@ -57,6 +65,10 @@
             @include body-large;
             text-align: center;
             width: 63%;
+
+            @media (max-width: 360px) {
+                width: 100%;
+            }
         }
 
         .success-flow__button {
@@ -67,6 +79,10 @@
             background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
             border-radius: 30px;
             padding: 14px 0px;
+
+            @media (max-width: 360px) {
+                width: 256px;
+            }
         }
     }
 }

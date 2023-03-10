@@ -35,7 +35,7 @@ export const HeaderNav = ({ styleType }: { styleType: string }) => {
     return (
         <section className={`header-nav ${styleType}`}>
             <NavLink to='profile' className="header-nav__profile">Профиль</NavLink>
-            <button type='button' className="header-nav__exit-btn" onClick={() => logout()}>Выход</button>
+            <button type='button' className="header-nav__exit-btn" data-test-id='exit-button' onClick={() => logout()}>Выход</button>
         </section>
     )
 }

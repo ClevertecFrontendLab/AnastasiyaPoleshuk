@@ -1,11 +1,15 @@
 @import '../../App.variables.scss';
 
+.auth-form__wrap {
+    padding: 48px 56px;
+
+    @media (max-width: 360px) {
+        padding: 24px 16px;
+    }
+}
+
 .auth-form {
     width: 100%;
-
-    &-hide {
-        display: none;
-    }
 
     .form__title {
         @include h4;
@@ -50,12 +54,16 @@
         padding: 14px 0;
         margin-top: 32px;
 
+        @media (max-width: 360px) {
+            width: 255px;
+        }
     }
 
     .form__warn {
         @include info-large;
         color: $negative-color;
         margin-right: 12px;
+        // margin-bottom: 30px;
     }
 
     .forgot-pass {
@@ -134,5 +142,9 @@
         background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
         border-radius: 30px;
         padding: 14px 0px;
+
+        @media (max-width: 360px) {
+            width: 255px;
+        }
     }
 }

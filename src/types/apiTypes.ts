@@ -63,9 +63,19 @@ export interface IRegistrationRequest {
     phone: string,
 }
 
+export interface IResetPasswordRequest {
+    password: string,
+    passwordConfirmation: string,
+    code: string,
+}
+
 export interface IUserResponse {
     jwt: string,
     user: IGetUser,
+}
+
+export interface ISendEmailResponse {
+    ok: boolean,
 }
 
 // ============================================
