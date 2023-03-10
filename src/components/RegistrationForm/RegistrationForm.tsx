@@ -173,7 +173,7 @@ export const RegistrationForm = () => {
     };
 
     const setPhoneValue = (value: string) => {
-        setPhone(value)
+        setPhone(`+375 ${value}`)
     };
 
     const checkPhone = (value: string) => {
@@ -304,7 +304,6 @@ export const RegistrationForm = () => {
                         className={`form__input ${errors.phone ? 'input-error' : null}`}
                         name='phone'
                         placeholderChar="x"
-                        value={`+375 ${phone}`}
                         mask={['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
                         type='tel'
                         onChange={(e) => setPhoneValue(e.target.value)}

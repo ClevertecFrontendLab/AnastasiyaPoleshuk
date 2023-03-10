@@ -38,9 +38,9 @@ export const ForgotPasswordForm = () => {
     const validateEmail = (data: string) => {
         console.log(/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(data));
 
-        // /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(data) ?
-        //  null :
-        //     setError('email', { type: 'error', message: 'Введие коррекный e-mail' })
+        /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(data) ?
+            null :
+            setInputError('Введите корректный e-mail')
     };
 
     const checkreQuired = (data: string) => {
@@ -63,22 +63,14 @@ export const ForgotPasswordForm = () => {
                     className={`form__input ${errors.email ? 'form__highlight-error' : null}`}
                     placeholder="Email"
                     {...register('email', {
-                        required: 'Поле не может быть пустым',
-                        pattern: {
-                            value: /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/,
-                            message: 'Введие коррекный e-mail'
-                        },
+                        required: true,
                         onBlur: (e) => checkreQuired(e.target.value),
                         onChange: (e) => checkreQuired(e.target.value)
                     })}
                 />
-                <p className={`form__error ${errors.email ? 'highlight-error' : 'hide-error'}`} data-test-id='hint'>
-                    {errors?.email?.message || inputError}
+                <p className={`form__error ${errors.email ? 'highlight-error' : ''}`} data-test-id='hint'>
+                    {errors.email?.message || inputError}
                 </p>
-                {/* {
-                    errors.email && <p className={`form__error ${errors.email ? 'highlight-error' : 'hide-error'}`} data-test-id='hint' >{errors.email?.message}</p>
-                } */}
-                {/* <p className="form__description">На это email  будет отправлено письмо с инструкциями по восстановлению пароля</p> */}
                 <button type="submit" className="form-btn">Восстановить</button>
             </form>
             <p className="reset-password-form__redirect-registration">
