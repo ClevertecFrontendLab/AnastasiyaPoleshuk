@@ -20,6 +20,7 @@ export const AuthForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [passwordValue, setPasswordValue] = useState('');
     const [inputError, setInputError] = useState('');
+    const [identifierError, setIdentifierError] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {
@@ -66,6 +67,14 @@ export const AuthForm = () => {
         }
     };
 
+    const validateIdentifier = (data: string) => {
+        if (!data.trim()) {
+            setIdentifierError('Поле не может быть пустым');
+        } else {
+            setIdentifierError('')
+        }
+    };
+
 
     return (
         <div className='auth-form__wrap '>
@@ -75,17 +84,27 @@ export const AuthForm = () => {
                     <input
                         className={`form__input ${errors.identifier ? 'form__highlight-error' : ''}`}
                         placeholder="Логин"
-                        {...register('identifier', { required: 'Поле не может быть пустым' })}
+                        {...register('identifier', {
+                            required: true,
+                            onChange: (e) => validateIdentifier(e.target.value),
+                            onBlur: (e) => validateIdentifier(e.target.value),
+                        })}
                         name='identifier'
                     />
-                    {
+                    {/* {
                         errors.identifier && <p
                             className={`form__warn ${errors.identifier ? 'highlight-error' : 'hide-error'}`}
                             data-test-id='hint'
                         >
-                            {errors.identifier?.message}
+                            {errors.identifier?.message || identifierError}
                         </p>
-                    }
+                    } */}
+                    <p
+                        className={`form__warn ${errors.identifier ? 'highlight-error' : 'hide-error'}`}
+                        data-test-id='hint'
+                    >
+                        {errors.identifier?.message || identifierError}
+                    </p>
 
                     <label className='form__lable'>
                         <input
