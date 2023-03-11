@@ -3,10 +3,12 @@ import axios from 'axios';
 import { IError, IGetBooks } from '../types/apiTypes';
 import { CONSTANTS } from '../utils/constants';
 
-export const getBooks = async () => {
+import { api, apiSetHeader } from './api';
+
+export const getBooks = async (jwt: string) => {
     try {
-        const { data, status } = await axios.get<IGetBooks | IError>(
-            `${CONSTANTS.URL}/api/books`,
+        const { data, status } = await api.get<IGetBooks | IError>(
+            '/api/books',
         );
 
         return { data, status };

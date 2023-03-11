@@ -1,19 +1,23 @@
 import React, { createContext, useMemo, useState } from 'react';
 
+import { CONSTANTS } from '../utils/constants';
+
 interface IAppContext {
-    isModalOpen: boolean,
+    isBurgerModalOpen: boolean,
+    isNavModalOpen: boolean,
     isList: boolean,
     sortType: string,
     searchString: string,
     changeCardsView: (value: boolean) => void,
     changeSortType: () => void,
     changeSearchString: (value: string) => void,
-    openModal: () => void,
-    closeModal: () => void,
+    openModal: (type: string) => void,
+    closeModal: (type: string) => void,
 }
 
 export const AppContext = createContext<IAppContext>({
-    isModalOpen: false,
+    isBurgerModalOpen: false,
+    isNavModalOpen: false,
     isList: false,
     sortType: 'descending',
     searchString: '',
@@ -26,19 +30,36 @@ export const AppContext = createContext<IAppContext>({
 
 export const AppState = ({ children }: { children: React.ReactNode }) => {
     const [isList, setIsList] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isBurgerModalOpen, setIsBurgerModalOpen] = useState(false);
+    const [isNavModalOpen, setIsNavModalOpen] = useState(false);
     const [sortType, setSortType] = useState('descending');
     const [searchString, setSearchString] = useState('');
 
 
-    const openModal = () => {
-        setIsModalOpen(true);
-        document.body.style.overflow = 'hidden';
+    const openModal = (type: string) => {
+        switch (type) {
+            case CONSTANTS.BURGER_MODAL:
+                setIsBurgerModalOpen(true);
+                // document.body.style.overflow = 'hidden';
+                break
+            case CONSTANTS.NAV_MODAL:
+                setIsNavModalOpen(true)
+                break
+        }
+
     };
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        document.body.style.overflow = 'visible';
+    const closeModal = (type: string) => {
+        switch (type) {
+            case CONSTANTS.BURGER_MODAL:
+                setIsBurgerModalOpen(false);
+                // document.body.style.overflow = 'visible';
+                break
+            case CONSTANTS.NAV_MODAL:
+                setIsNavModalOpen(false)
+                break
+        }
+
     };
 
     const changeCardsView = (value: boolean) => {
@@ -61,7 +82,8 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
     };
 
     const contextValue = useMemo(() => ({
-        isModalOpen,
+        isBurgerModalOpen,
+        isNavModalOpen,
         isList,
         sortType,
         searchString,
@@ -70,7 +92,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         changeSearchString,
         openModal,
         closeModal,
-    }), [isList, isModalOpen, sortType, searchString]);
+    }), [isList, isBurgerModalOpen, isNavModalOpen, sortType, searchString]);
 
     return (
         <AppContext.Provider value={contextValue}

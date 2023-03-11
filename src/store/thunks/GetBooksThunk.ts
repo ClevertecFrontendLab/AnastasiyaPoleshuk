@@ -8,9 +8,9 @@ import { GetBooksAction } from '../actions/BooksActions';
 import { ErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
 
-export const GetBooksThunk = () => async function (dispatch: Dispatch) {
+export const GetBooksThunk = (jwt: string) => async function (dispatch: Dispatch) {
     dispatch(LoadingAction(true));
-    const response: IGetBooksResponse = await getBooks();
+    const response: IGetBooksResponse = await getBooks(jwt);
 
     if (response.status === StatusCodes.OK) {
         dispatch(GetBooksAction(response.data as IGetBooks));

@@ -6,7 +6,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 28px 32px;
-    position: absolute;
+    position: absolute !important;
     top: 64px;
     z-index: 40;
     background: $negative-bg-color;

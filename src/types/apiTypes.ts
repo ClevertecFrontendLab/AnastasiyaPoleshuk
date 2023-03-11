@@ -49,6 +49,35 @@ export interface ICategories {
    	id: number,
 }
 
+export interface IAuthRequest {
+    identifier: string,
+    password: string,
+}
+
+export interface IRegistrationRequest {
+    email: string,
+    username: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
+}
+
+export interface IResetPasswordRequest {
+    password: string,
+    passwordConfirmation: string,
+    code: string,
+}
+
+export interface IUserResponse {
+    jwt: string,
+    user: IGetUser,
+}
+
+export interface ISendEmailResponse {
+    ok: boolean,
+}
+
 // ============================================
 
 export interface IBooking {
@@ -92,4 +121,18 @@ export interface IBookCommentsUser {
     firstName: string,
     lastName: string,
     avatarUrl: string,
+}
+
+export interface IGetUser {
+    id: number,
+    username: string,
+    email: string,
+    provider: string,
+    confirmed: boolean,
+    blocked: boolean,
+    createdAt: string,
+    updatedAt: string,
+    firstName: string,
+    lastName: string,
+    phone: string,
 }

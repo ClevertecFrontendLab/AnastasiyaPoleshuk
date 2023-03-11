@@ -1,21 +1,21 @@
 import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { AppContext } from '../../context/AppContext';
+import { CONSTANTS } from '../../utils/constants';
+import { HeaderNav } from '../HeaderNav/HeaderNav';
 import { Menu } from '../NavigationMenu/Menu';
 
 import './MenuModal.scss';
 
 export const MenuModal = () => {
-    const { isModalOpen, closeModal } = useContext(AppContext);
+    const { isBurgerModalOpen, closeModal } = useContext(AppContext);
 
     return (
-        <section className={`menu-modal-overlay ${isModalOpen ? 'open-menu' : null}`} onClick={() => closeModal()}>
+        <section className={`menu-modal-overlay ${isBurgerModalOpen ? 'open-menu' : null}`} onClick={() => closeModal(CONSTANTS.BURGER_MODAL)}>
             <div className="menu-modal" onClick={(e) => e.stopPropagation()}>
                 <Menu isOpen={true} dataTestId='burger' />
                 <hr />
-                <NavLink to='profile' className="menu-model__profile">Профиль</NavLink>
-                <button type='button' className="menu-model__exit-btn">Выход</button>
+                <HeaderNav styleType='modal-nav__block' />
             </div>
         </section>
     );

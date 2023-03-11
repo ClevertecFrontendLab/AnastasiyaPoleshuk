@@ -8,9 +8,9 @@ import { CategoriesActions } from '../actions/CategoriesActions';
 import { ErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
 
-export const GetCategoriesThunk = () => async function (dispatch: Dispatch) {
+export const GetCategoriesThunk = (jwt: string) => async function (dispatch: Dispatch) {
     dispatch(LoadingAction(true));
-      const response: ICategoriesResponse = await getCategories();
+    const response: ICategoriesResponse = await getCategories(jwt);
 
     if (response.status === StatusCodes.OK) {
         dispatch(CategoriesActions(response.data as ICategories));

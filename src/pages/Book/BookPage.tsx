@@ -11,9 +11,10 @@ import { IStore } from '../../types/storeTypes';
 
 export const BookPage = () => {
     const dispatch = useDispatch();
-    const isLoadingState = useSelector((state: IStore) => state.isLoading);
-    const isErrorState = useSelector((state: IStore) => state.isError);
+    const isLoadingState = useSelector((state: IStore) => state.isLoading.isLoading);
+    const isErrorState = useSelector((state: IStore) => state.isError.isError);
     const book = useSelector((state: IStore) => state.books.book);
+    const jwt = useSelector((state: IStore) => state.user.user.user.jwt);
     const [isLoading, setIsLoading] = useState(isLoadingState);
     const [isError, setIsError] = useState(isErrorState);
     const { bookId } = useParams();
@@ -22,14 +23,14 @@ export const BookPage = () => {
 
 
     useEffect(() => {
-        dispatch(GetBookThunk(id) as unknown as AnyAction)
+        dispatch(GetBookThunk({ id, jwt }) as unknown as AnyAction)
             .then(() => {
                 setIsLoading(false);
             });
     }, [])
 
     useEffect(() => {
-        setIsError(!isError);
+        setIsError(isErrorState);
     }, [isErrorState])
 
     return (

@@ -17,7 +17,7 @@
 .book__container {
     margin: 42px 0;
 
-    @media (max-width: 320px) {
+    @media (max-width: 360px) {
         margin: 20px 0;
     }
 
@@ -33,7 +33,7 @@
             gap: 32px;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             align-items: center;
             justify-content: center;
         }
@@ -51,7 +51,7 @@
             position: relative;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             width: 188px;
             height: 260px;
             border-radius: 10px;
@@ -68,7 +68,7 @@
             padding: 83px 52px;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             padding: 106px 79px;
         }
     }
@@ -80,7 +80,7 @@
             width: 73%;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             width: 100%;
         }
     }
@@ -92,7 +92,7 @@
             @include h4;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include h5;
         }
     }
@@ -106,7 +106,7 @@
             @include subtitle-small;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include body-small;
         }
     }
@@ -120,7 +120,7 @@
             padding: 14px 74px;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include button-small;
             ;
             margin-top: 54px;
@@ -145,7 +145,7 @@
     .about-book__article {
         margin-top: 62px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             margin-top: 12px;
         }
     }
@@ -162,7 +162,7 @@
         @include body-large;
         margin-top: 16px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include body-small;
         }
     }
@@ -197,7 +197,7 @@
         @include h5;
         margin-left: 18px;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             display: block;
             @include body-small;
             margin-left: 0;
@@ -209,7 +209,7 @@
         margin-top: 62px;
         position: relative;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             margin-top: 24px;
         }
 
@@ -226,7 +226,7 @@
                 left: 0;
             }
 
-            @media (max-width: 320px) {
+            @media (max-width: 360px) {
                 margin: 0 0 32px 0;
             }
 
@@ -243,7 +243,7 @@
             }
 
             & table {
-                @media (max-width: 320px) {
+                @media (max-width: 360px) {
                     width: 100%;
                 }
             }
@@ -252,7 +252,7 @@
                 gap: 30px;
             }
 
-            @media (max-width: 320px) {
+            @media (max-width: 360px) {
                 flex-direction: column;
                 gap: 0;
             }
@@ -288,7 +288,7 @@
         margin-top: 62px;
         position: relative;
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             margin-top: 24px;
         }
     }
@@ -305,7 +305,7 @@
             padding: 14px 244px;
         }
 
-        @media (max-width: 320px) {
+        @media (max-width: 360px) {
             @include button-small;
             padding: 14px 78px;
             margin-top: 20px;
