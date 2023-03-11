@@ -36,18 +36,13 @@ export const ForgotPasswordForm = () => {
     };
 
     const validateEmail = (data: string) => {
-        console.log(/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(data));
-
         /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(data) ?
             null :
             setInputError('Введите корректный e-mail')
     };
 
-    const checkreQuired = (data: string) => {
+    const checkRequired = (data: string) => {
         data.trim() ? validateEmail(data) : setInputError('Поле не может быть пустым')
-
-        console.log(inputError);
-
     };
 
     return (
@@ -64,8 +59,8 @@ export const ForgotPasswordForm = () => {
                     placeholder="Email"
                     {...register('email', {
                         required: true,
-                        onBlur: (e) => checkreQuired(e.target.value),
-                        onChange: (e) => checkreQuired(e.target.value)
+                        onBlur: (e) => checkRequired(e.target.value),
+                        onChange: (e) => checkRequired(e.target.value)
                     })}
                 />
                 <p className={`form__error ${errors.email ? 'highlight-error' : ''}`} data-test-id='hint'>

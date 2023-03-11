@@ -1,55 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSearchParams } from 'react-router-dom';
 import { AnyAction } from 'redux';
-import { StatusCodes } from 'http-status-codes';
 
 import { ResetPasswordThunk } from '../../store/thunks/ResetPasswordThunk';
-import { SendEmailThunk } from '../../store/thunks/SendEmailThunk';
 import { IResetPasswordRequest } from '../../types/apiTypes';
-import { IStore } from '../../types/storeTypes';
 
 import './ResetPasswordForm.scss';
 
 export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordData: (data: IResetPasswordRequest) => void }) => {
     const dispatch = useDispatch();
-    const error = useSelector((state: IStore) => state.error.error.error);
     const [showPassword, setShowPassword] = useState(false);
+    const [showError, setShowError] = useState(true);
+    const [disabled, setDisabled] = useState(false);
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const [passwordError, setPasswordError] = useState({
         letters: false,
         numbers: false,
         length: false,
-        all: false,
+        ok: false,
+        message: '',
+        isHighlighting: false,
     });
     const {
         register,
         handleSubmit,
         reset,
-        setError,
-        clearErrors,
         formState: { errors },
     } = useForm<{ password: string, passwordConfirmation: string }>({
         mode: 'all'
     });
 
-    // useEffect(() => {
-    //     error.status !== StatusCodes.OK ?
-    //         setError('email', { type: error.name, message: error.message })
-    //         : null
-    // }, [error])
-
     const validatePassword = (value: string) => {
 
-        // if (!value.trim()) {
-        //     setPasswordError({
-        //         letters: false,
-        //         numbers: false,
-        //         length: false,
-        //         all: false,
-        //     })
-        // };
+        if (!value && passwordError.length && passwordError.letters && passwordError.numbers) {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                isHighlighting: false
+            }));
+
+            return;
+        }
+
+        if (!value) {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                message: 'Поле не может быть пустым',
+                isHighlighting: true
+            }))
+        }
+        else {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                message: '',
+                isHighlighting: false
+            }))
+        }
+
         if (value.length < 8) {
             setPasswordError(passwordError => ({
                 ...passwordError,
@@ -61,7 +71,8 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                 length: false
             }))
         };
-        if (!/[0-9]+$/.test(value)) {
+
+        if (!/\d+/.test(value)) {
             setPasswordError(passwordError => ({
                 ...passwordError,
                 numbers: true
@@ -72,7 +83,8 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                 numbers: false
             }))
         };
-        if (!/[A-Z]+$/.test(value)) {
+
+        if (!/[A-Z]/g.test(value)) {
             setPasswordError(passwordError => ({
                 ...passwordError,
                 letters: true
@@ -83,30 +95,65 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                 letters: false
             }))
         };
+
         if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)) {
             setPasswordError({
                 letters: false,
                 numbers: false,
                 length: false,
-                all: true,
+                ok: true,
+                message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                isHighlighting: false
             })
+        } else {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                ok: false,
+            }))
         };
 
     };
 
     const checkPasswords = (password: string, passwordConfirmation: string) => {
-        // dispatch(SendEmailThunk(data.email) as unknown as AnyAction)
+        if (!password.trim()) {
+            setPasswordErrorMessage('Поле не может быть пустым')
+        }
         if (password !== passwordConfirmation) {
-            setError('passwordConfirmation', { type: 'wrong password', message: 'different passwords' })
-            console.log('in err: ', !!errors.passwordConfirmation);
+            setPasswordErrorMessage('Пароли не совпадают');
         } else {
-            clearErrors('passwordConfirmation');
-            console.log('in else: ', !!errors.passwordConfirmation);
+            setPasswordErrorMessage('')
         }
 
-        // console.log(password, passwordConfirmation);
         return true;
-        // reset();
+    };
+
+    const checkEmptyField = (value: string) => {
+        setDisabled(false);
+
+        if (!value.trim()) {
+            setPasswordErrorMessage('Поле не может быть пустым')
+            setShowError(true)
+        }
+
+        if (passwordErrorMessage === 'Пароли не совпадают') {
+            setShowError(false)
+        }
+        console.log(passwordErrorMessage);
+
+        return true;
+    };
+
+    const checkField = (value: string) => {
+
+        if (!value.trim()) {
+            setPasswordErrorMessage('Поле не может быть пустым')
+        }
+
+        setShowError(true);
+
+        if (passwordErrorMessage) {
+            setDisabled(true)
+        }
     };
 
     const onSubmit: SubmitHandler<{ password: string, passwordConfirmation: string }> = (data) => {
@@ -118,7 +165,6 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
             ...data,
             code: searchParams.get('code') || ' ',
         })
-        console.log(data);
 
         reset();
     };
@@ -134,7 +180,7 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                         placeholder="Новый пароль"
                         className={`form__input ${errors.password ? 'form__highlight-error' : ''}`}
                         {...register('password', {
-                            required: 'Поле не может быть пустым',
+                            required: true,
                             onChange: (e) => validatePassword(e.target.value),
                             onBlur: (e) => validatePassword(e.target.value),
                         })}
@@ -142,13 +188,14 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                     />
                     <i className={`password-eye ${showPassword ? 'eye-open' : 'eye-close'}`} onClick={() => setShowPassword(!showPassword)} />
                     {
-                        passwordError.all && <i className={`password-ok ${passwordError.all ? 'ok' : ''}`} data-test-id='checkmark' />
+                        passwordError.ok && <i className={`password-ok ${passwordError.ok ? 'ok' : ''}`} data-test-id='checkmark' />
                     }
                 </label>
 
-                <p className={`form__input-info ${errors.password ? 'highlight-error' : ''}`} data-test-id='hint'>
+
+                <p className={`form__input-info ${passwordError.isHighlighting ? 'highlight-error' : ''}`} data-test-id='hint'>
                     {
-                        errors.password?.message ||
+                        passwordError.message ||
                         <React.Fragment>
                             Пароль
                             <span className={`${passwordError.length ? 'highlight-error' : ''}`}>&nbsp;не менее 8 символов</span>,
@@ -158,9 +205,7 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                             <span className={`${passwordError.numbers ? 'highlight-error' : ''}`}>&nbsp;цифрой</span>
                         </React.Fragment>
                     }
-
                 </p>
-
 
                 <label className='form__label'>
 
@@ -169,19 +214,27 @@ export const ResetPasswordForm = ({ getResetPasswordData }: { getResetPasswordDa
                         placeholder="Повторите пароль"
 
                         className={`form__input ${errors.passwordConfirmation ? 'form__highlight-error' : ''}`}
-                        // {...register('passwordConfirmation', { required: true })}
-                        {...register('passwordConfirmation', { required: 'Поле не может быть пустым', validate: (value, formValues) => checkPasswords(value, formValues.password) })}
+                        {
+                        ...register('passwordConfirmation', {
+                            required: true,
+                            validate: (value, formValues) => checkPasswords(value, formValues.password),
+                            onChange: (e) => checkEmptyField(e.target.value),
+                            onBlur: (e) => checkField(e.target.value)
+                        })}
                         name='passwordConfirmation'
                     />
                     <i className={`password-eye ${showPassword ? 'eye-open' : 'eye-close'}`} onClick={() => setShowPassword(!showPassword)} />
                 </label>
 
-                <p className={`form__input-info ${errors.passwordConfirmation ? 'highlight-error' : ''}`} data-test-id='hint'>
-                    {
-                        errors.passwordConfirmation?.message || 'Пароли не совпадают'
-                    }
-                </p>
-                <button type="submit" className="form-btn" disabled={errors.passwordConfirmation ? true : false} >сохранить изменения</button>
+                {
+                    showError && <p className={`form__input-info ${passwordErrorMessage ? 'highlight-error' : ''}`} data-test-id='hint'>
+                        {
+                            passwordErrorMessage || 'Пароли не совпадают'
+                        }
+                    </p>
+                }
+
+                <button type="submit" className="form-btn" disabled={disabled} >сохранить изменения</button>
             </form>
             <p className="reset-password-form__info">
                 После сохранения войдите в библиотеку, используя новый пароль

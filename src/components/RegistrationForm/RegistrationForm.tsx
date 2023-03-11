@@ -21,20 +21,23 @@ export const RegistrationForm = () => {
     const [inputError, setInputError] = useState({
         letters: false,
         numbers: false,
-        all: false,
+        ok: false,
+        message: '',
+        isHighlighting: false,
     });
+    const [phoneError, setPhoneError] = useState('');
     const [passwordError, setPasswordError] = useState({
         letters: false,
         numbers: false,
         length: false,
-        all: false,
+        ok: false,
+        message: '',
+        isHighlighting: false,
     });
     const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
-        setError,
-        clearErrors,
         reset,
         formState: { errors, isValid },
     } = useForm<IRegistrationRequest>({
@@ -67,64 +70,103 @@ export const RegistrationForm = () => {
     }
 
     const validateLogin = (value: string) => {
-        if (!value.trim()) {
-            setInputError({
-                letters: false,
-                numbers: false,
-                all: false,
-            })
-        };
-        if (/[0-9]+$/.test(value)) {
+
+        if (!value && inputError.letters && inputError.numbers) {
+            setInputError(inputError => ({
+                ...inputError,
+                message: 'Используйте для логина латинский алфавит и цифры',
+                isHighlighting: false
+            }));
+
+            return;
+        }
+
+        if (!value) {
+            setInputError(inputError => ({
+                ...inputError,
+                message: 'Поле не может быть пустым',
+                isHighlighting: true
+            }))
+        }
+        else {
+            setInputError(inputError => ({
+                ...inputError,
+                message: '',
+                isHighlighting: false
+            }))
+        }
+
+        if (!/\d+/.test(value)) {
+            setInputError(inputError => ({
+                ...inputError,
+                numbers: true
+            }))
+        } else {
             setInputError(inputError => ({
                 ...inputError,
                 numbers: false
             }))
         };
-        if (/[A-Za-z]+$/.test(value)) {
+
+        if (!/[A-Za-z]/g.test(value)) {
+            setInputError(inputError => ({
+                ...inputError,
+                letters: true
+            }))
+        } else {
             setInputError(inputError => ({
                 ...inputError,
                 letters: false
             }))
         };
-        if (!/[0-9]+$/.test(value)) {
-            setInputError(inputError => ({
-                ...inputError,
-                numbers: true
-            }))
-        };
-        if (!/[A-Za-z]+$/.test(value)) {
-            setInputError(inputError => ({
-                ...inputError,
-                letters: true
-            }))
-        };
+
         if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{0,}$/.test(value)) {
             setInputError({
                 letters: false,
                 numbers: false,
-                all: false,
+                ok: true,
+                message: 'Используйте для логина латинский алфавит и цифры',
+                isHighlighting: false
             });
+            setDisabled(false)
+        } else {
+            setInputError(inputError => ({
+                ...inputError,
+                ok: false,
+            }))
+            setDisabled(true)
+        };
 
-        };
-        if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{0,}$/.test(value)) {
-            setInputError({
-                letters: false,
-                numbers: false,
-                all: true,
-            });
-        };
+
     };
 
     const validatePassword = (value: string) => {
 
-        if (!value.trim()) {
-            setPasswordError({
-                letters: false,
-                numbers: false,
-                length: false,
-                all: false,
-            })
-        };
+        if (!value && passwordError.length && passwordError.letters && passwordError.numbers) {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                isHighlighting: false
+            }));
+
+            return;
+        }
+
+        if (!value) {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                message: 'Поле не может быть пустым',
+                isHighlighting: true
+            }))
+        }
+        else {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                message: '',
+                isHighlighting: false
+            }))
+        }
+
         if (value.length < 8) {
             setPasswordError(passwordError => ({
                 ...passwordError,
@@ -136,7 +178,8 @@ export const RegistrationForm = () => {
                 length: false
             }))
         };
-        if (!/[0-9]+$/.test(value)) {
+
+        if (!/\d+/.test(value)) {
             setPasswordError(passwordError => ({
                 ...passwordError,
                 numbers: true
@@ -147,7 +190,8 @@ export const RegistrationForm = () => {
                 numbers: false
             }))
         };
-        if (!/[A-Z]+$/.test(value)) {
+
+        if (!/[A-Z]/g.test(value)) {
             setPasswordError(passwordError => ({
                 ...passwordError,
                 letters: true
@@ -158,47 +202,64 @@ export const RegistrationForm = () => {
                 letters: false
             }))
         };
+
         if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(value)) {
             setPasswordError({
                 letters: false,
                 numbers: false,
                 length: false,
-                all: true,
+                ok: true,
+                message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                isHighlighting: false
             })
+            setDisabled(false)
+        } else {
+            setPasswordError(passwordError => ({
+                ...passwordError,
+                ok: false,
+            }))
+            setDisabled(true)
         };
+
     };
 
     const toggleEye = () => {
         setShowPassword(!showPassword)
     };
 
-    const setPhoneValue = (value: string) => {
-        setPhone(`+375 ${value}`)
+    const checkPhone = (value: string) => {
+        !value.trim() ? setPhoneError('Поле не может быть пустым') : setPhoneError('')
+
+        if (value.includes('x')) {
+            setPhoneError('В формате +375 (xx) xxx-xx-xx')
+        }
+
+
     };
 
-    const checkPhone = (value: string) => {
-        value.trim() ? null : setError('phone', { type: 'empty value', message: 'Поле не может быть пустым' });
+    const setPhoneValue = (value: string) => {
+        checkPhone(value)
+        setPhone(value);
+
     };
 
     const checkLogin = (value: string) => {
-        if (inputError.all) {
-            setDisabled(true)
-            setError('username', { type: 'wrong value', message: 'Используйте для логина латинский алфавит и цифры' });
 
-
-        } else {
-            setDisabled(false);
-            clearErrors('username');
+        if (!value) {
+            setInputError(inputError => ({
+                ...inputError,
+                message: 'Поле не может быть пустым',
+                isHighlighting: true
+            }))
+            return
         }
-    };
 
-    const checkPassword = (value: string) => {
-        if (passwordError.all) {
-            setDisabled(true)
-            setError('password', { type: 'wrong value', message: 'Пароль не менее 8 символов с заглавной буквой и цифрой' });
-        } else {
-            setDisabled(false);
-            clearErrors('password');
+        if (value && inputError.letters || inputError.numbers) {
+            setInputError(inputError => ({
+                ...inputError,
+                message: 'Используйте для логина латинский алфавит и цифры',
+                isHighlighting: true
+            }));
         }
     };
 
@@ -216,11 +277,12 @@ export const RegistrationForm = () => {
                         {...register('username', {
                             required: 'Поле не может быть пустым',
                             onChange: (e) => validateLogin(e.target.value),
+                            onBlur: (e) => checkLogin(e.target.value),
                         })}
                     />
-                    <p className={`form__input-info ${errors.username ? 'highlight-error' : ''}`} data-test-id='hint'>
+                    <p className={`form__input-info ${inputError.isHighlighting ? 'highlight-error' : ''}`} data-test-id='hint'>
                         {
-                            errors.username?.message ||
+                            inputError.message ||
                             <React.Fragment>
                                 Используйте для логина
                                 <span className={`${inputError.letters ? 'highlight-error' : ''}`}>&nbsp; латинский алфавит &nbsp;</span>
@@ -237,31 +299,30 @@ export const RegistrationForm = () => {
                             placeholder="Пароль"
                             className={`form__input ${errors.password ? 'form__highlight-error' : ''}`}
                             {...register('password', {
-                                required: 'Поле не может быть пустым',
+                                required: true,
                                 onChange: (e) => validatePassword(e.target.value),
-                                // onBlur: (e) => checkPassword(e.target.value)
+                                onBlur: (e) => validatePassword(e.target.value)
                             })}
                         />
                         <i className={`password-eye eye-open ${showPassword ? '' : 'hide-eye'}`} onClick={() => toggleEye()} data-test-id='eye-opened' />
                         <i className={`password-eye eye-close ${showPassword ? 'hide-eye' : ''}`} onClick={() => toggleEye()} data-test-id='eye-closed' />
                         {
-                            passwordError.all && <i className={`password-ok ${passwordError.all ? 'ok' : ''}`} data-test-id='checkmark' />
+                            passwordError.ok && <i className={`password-ok ${passwordError.ok ? 'ok' : ''}`} data-test-id='checkmark' />
                         }
                     </label>
 
-                    <p className={`form__input-info ${errors.password ? 'highlight-error' : ''}`} data-test-id='hint'>
+                    <p className={`form__input-info ${passwordError.isHighlighting ? 'highlight-error' : ''}`} data-test-id='hint'>
                         {
-                            errors.password?.message ||
+                            passwordError.message ||
                             <React.Fragment>
                                 Пароль
-                                <span className={`${passwordError.length ? 'highlight-error' : ''}`}>не менее 8 символов</span>,
+                                <span className={`${passwordError.length ? 'highlight-error' : ''}`}>&nbsp;не менее 8 символов</span>,
                                 с
                                 <span className={`${passwordError.letters ? 'highlight-error' : ''}`}>&nbsp;заглавной буквой&nbsp;</span>
                                 и
                                 <span className={`${passwordError.numbers ? 'highlight-error' : ''}`}>&nbsp;цифрой</span>
                             </React.Fragment>
                         }
-
                     </p>
                     <button
                         type="button"
@@ -300,18 +361,22 @@ export const RegistrationForm = () => {
                     </button>
                 </div>
                 <div className={`form__inputs-box ${stepCount !== 3 ? 'hide-box' : ''}`}>
-                    <MaskedInput
-                        className={`form__input ${errors.phone ? 'input-error' : null}`}
-                        name='phone'
-                        placeholderChar="x"
-                        mask={['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
-                        type='tel'
-                        onChange={(e) => setPhoneValue(e.target.value)}
-                        onBlur={(e) => checkPhone(e.target.value)}
-                    />
-                    <p className={`form__input-info ${errors.phone ? 'highlight-error' : 'hide-error'}`} data-test-id='hint'>
+                    {
+                        stepCount === 3 && <MaskedInput
+                            className={`form__input ${errors.phone ? 'input-error' : null}`}
+                            name='phone'
+                            placeholderChar="x"
+                            mask={['+', '3', '7', '5', ' ', '(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]}
+                            type='tel'
+                            showMask={false}
+                            onChange={(e) => setPhoneValue(e.target.value)}
+                            onBlur={(e) => checkPhone(e.target.value)}
+                        />
+                    }
+
+                    <p className={`form__input-info ${phoneError ? 'highlight-error' : ''}`} data-test-id='hint'>
                         {
-                            errors.phone?.message || 'В формате +375 (xx) xxx-xx-xx'
+                            phoneError || 'В формате +375 (xx) xxx-xx-xx'
                         }
                     </p>
                     < input
