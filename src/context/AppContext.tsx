@@ -5,6 +5,7 @@ import { CONSTANTS } from '../utils/constants';
 interface IAppContext {
     isBurgerModalOpen: boolean,
     isNavModalOpen: boolean,
+    isCommentModalOpen: boolean,
     isList: boolean,
     sortType: string,
     searchString: string,
@@ -18,6 +19,7 @@ interface IAppContext {
 export const AppContext = createContext<IAppContext>({
     isBurgerModalOpen: false,
     isNavModalOpen: false,
+    isCommentModalOpen: false,
     isList: false,
     sortType: 'descending',
     searchString: '',
@@ -32,6 +34,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
     const [isList, setIsList] = useState(false);
     const [isBurgerModalOpen, setIsBurgerModalOpen] = useState(false);
     const [isNavModalOpen, setIsNavModalOpen] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [sortType, setSortType] = useState('descending');
     const [searchString, setSearchString] = useState('');
 
@@ -40,6 +43,11 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         switch (type) {
             case CONSTANTS.BURGER_MODAL:
                 setIsBurgerModalOpen(true);
+                break
+            case CONSTANTS.COMMENT_MODAL:
+                console.log(isCommentModalOpen);
+
+                setIsCommentModalOpen(true);
                 // document.body.style.overflow = 'hidden';
                 break
             case CONSTANTS.NAV_MODAL:
@@ -53,6 +61,9 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         switch (type) {
             case CONSTANTS.BURGER_MODAL:
                 setIsBurgerModalOpen(false);
+                break
+            case CONSTANTS.COMMENT_MODAL:
+                setIsCommentModalOpen(false);
                 // document.body.style.overflow = 'visible';
                 break
             case CONSTANTS.NAV_MODAL:
@@ -84,6 +95,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
     const contextValue = useMemo(() => ({
         isBurgerModalOpen,
         isNavModalOpen,
+        isCommentModalOpen,
         isList,
         sortType,
         searchString,
@@ -92,7 +104,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         changeSearchString,
         openModal,
         closeModal,
-    }), [isList, isBurgerModalOpen, isNavModalOpen, sortType, searchString]);
+    }), [isList, isBurgerModalOpen, isNavModalOpen, sortType, searchString, isCommentModalOpen]);
 
     return (
         <AppContext.Provider value={contextValue}

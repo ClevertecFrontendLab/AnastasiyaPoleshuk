@@ -13,7 +13,7 @@ import './AuthorizationPage.scss';
 
 export const AuthorizationPage = () => {
     const dispatch = useDispatch();
-    const isAuthState = useSelector((state: IStore) => state.user.user.isAuth);
+    const isAuthState = useSelector((state: IStore) => state.isAuth.isAuth);
     const authData = useSelector((state: IStore) => state.authRequest.authRequest);
     const error = useSelector((state: IStore) => state.error.error.error);
     const isLoading = useSelector((state: IStore) => state.isLoading.isLoading);

@@ -78,6 +78,15 @@ export interface ISendEmailResponse {
     ok: boolean,
 }
 
+export interface ICommentsRequest {
+    data: ICommentsRequestData
+}
+
+export interface ICommentsResponse {
+    data: ICommentsData;
+    meta: object,
+}
+
 // ============================================
 
 export interface IBooking {
@@ -136,3 +145,22 @@ export interface IGetUser {
     lastName: string,
     phone: string,
 }
+
+export interface ICommentsData {
+    id: number,
+    attributes: {
+        rating: number,
+        text: string,
+        createdAt: string,
+        updatedAt: string,
+        publishedAt: string
+    }
+}
+
+export interface ICommentsRequestData {
+    rating: number,
+    text: string,
+    book: string,
+    user: string
+}
+

@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 
 import { BooksReducer } from './reducers/BooksReducer';
 import { CategoriesReducer } from './reducers/CategoriesReducer';
+import { CreateCommentsReducer } from './reducers/CreateCommentsReducer';
 import { ErrorReducer } from './reducers/ErrorReducer';
 import { LoadingReducer } from './reducers/LoadingReducer';
 import { SendEmailReducer } from './reducers/SendEmailReducer';
@@ -25,6 +26,8 @@ const rootReducer = combineReducers({
     SendEmailSuccess: SendEmailReducer,
     registrationRequest: UserReducer,
     isChangePasswordSuccess: UserReducer,
+    IsCommentsAction: CreateCommentsReducer,
+    comments: CreateCommentsReducer,
     authRequest: UserReducer,
 });
 

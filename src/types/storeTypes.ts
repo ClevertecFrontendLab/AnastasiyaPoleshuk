@@ -1,4 +1,4 @@
-import { IAuthRequest, ICategories, IError, IGetBook, IGetBooks, IRegistrationRequest, IUserResponse } from './apiTypes';
+import { IAuthRequest, ICategories, ICommentsResponse, IError, IGetBook, IGetBooks, IRegistrationRequest, IUserResponse } from './apiTypes';
 
 export interface IStore {
     books: {
@@ -12,11 +12,7 @@ export interface IStore {
         categories: ICategories[],
     },
     user: {
-        user: {
-            user: IUserResponse,
-            isAuth: boolean,
-            isRegistration: boolean,
-        },
+        user: IUserResponse,
     },
     isAuth: {
         isAuth: boolean,
@@ -42,6 +38,12 @@ export interface IStore {
     isChangePasswordSuccess: {
         isChangePasswordSuccess: boolean,
     },
+    isCommentsSuccess: {
+        isCommentsSuccess: boolean,
+    },
+    comments: {
+        comments: ICommentsResponse,
+    },
 }
 
 export interface IGetBooksResponse {
@@ -63,4 +65,5 @@ export interface ISetError {
     data: IError;
     isError: boolean;
 }
+
 

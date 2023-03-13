@@ -3,21 +3,21 @@ export const initialState = {
         books: [],
         book: {
             id: 0,
-            title: "",
+            title: '',
             rating: 0,
-            issueYear: "",
-            description: "",
-            publish: "",
-            pages: "",
-            cover: "",
-            weight: "",
-            format: "",
-            ISBN: "",
-            producer: "",
+            issueYear: '',
+            description: '',
+            publish: '',
+            pages: '',
+            cover: '',
+            weight: '',
+            format: '',
+            ISBN: '',
+            producer: '',
             authors: [],
             images: [
                 {
-                    url: ""
+                    url: ''
                 },
             ],
             categories: ['i', 'p'],
@@ -25,32 +25,32 @@ export const initialState = {
                 {
                     id: 0,
                     rating: 0,
-                    text: "",
-                    createdAt: "",
+                    text: '',
+                    createdAt: '',
                     user: {
                         commentUser: 0,
-                        firstName: "",
-                        lastName: "",
-                        avatarUrl: ""
+                        firstName: '',
+                        lastName: '',
+                        avatarUrl: ''
                     }
                 },
             ],
             booking: {
                 id: 0,
                 order: false,
-                dateOrder: "",
+                dateOrder: '',
                 customerId: 0,
-                customerFirstName: "",
-                customerLastName: ""
+                customerFirstName: '',
+                customerLastName: ''
             },
             delivery: {
                 id: 0,
                 handed: false,
-                dateHandedFrom: "",
-                dateHandedTo: "",
+                dateHandedFrom: '',
+                dateHandedTo: '',
                 recipientId: 0,
-                recipientFirstName: "",
-                recipientLastName: ""
+                recipientFirstName: '',
+                recipientLastName: ''
             },
             histories: [
                 {
@@ -100,11 +100,26 @@ export const initialState = {
         username: '',
         password: '',
     },
+    comments: {
+        data: {
+            id: 0,
+            attributes: {
+                rating: 0,
+                text: '',
+                createdAt: '',
+                updatedAt: '',
+                publishedAt: ''
+            }
+        },
+        meta: {}
+
+    },
     isAuth: false,
     isRegistration: false,
     isLoading: false,
     isError: false,
     SendEmailSuccess: false,
-    isChangePasswordSuccess: false
+    isChangePasswordSuccess: false,
+    isCommentsSuccess: false
 
 }

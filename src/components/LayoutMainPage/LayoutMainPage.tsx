@@ -22,7 +22,7 @@ export const LayoutMainPage = () => {
     const isAuth = useSelector((state: IStore) => state.isAuth.isAuth);
     const isErrorState = useSelector((state: IStore) => state.isError.isError);
     const categories = useSelector((state: IStore) => state.categories.categories);
-    const jwt = useSelector((state: IStore) => state.user.user.user.jwt);
+    const jwt = useSelector((state: IStore) => state.user.user.jwt);
     const [isLoading, setIsLoading] = useState(isLoadingState);
     const [isError, setIsError] = useState(isErrorState);
 
