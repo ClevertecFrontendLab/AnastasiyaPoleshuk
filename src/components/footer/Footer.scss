@@ -1,0 +1,65 @@
+@import '../../App.variables.scss';
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+
+    .footer__link {
+        @include h6;
+        color: $brand-color-light;
+    }
+
+    .footer__download-blok {
+        border-radius: 2px;
+        width: 240px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: $white-color;
+    }
+
+    .download-blok__title {
+        @include h6;
+        color: $brand-color-light;
+        padding: 12px 0 8px 0;
+    }
+
+    .download-blok__subtitle {
+        @include body-regular;
+        color: #8c8c8c;
+        padding-bottom: 12px;
+        border-bottom: 1px solid $selected-bg-color-light;
+    }
+
+    .download-blok__btns {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .download-blok__btn {
+        padding: 0;
+        width: 120px;
+
+        background: none;
+        @include body-regular;
+        position: relative;
+
+        &:nth-child(1)::before {
+            content: url(../../../public/assets/svg/android-icon.svg);
+            position: absolute;
+            left: 5px;
+            top: 2px;
+        }
+
+        &:nth-child(2)::before {
+            content: url(../../../public/assets/svg/apple-icon.svg);
+            position: absolute;
+            left: 5px;
+            top: 2px;
+        }
+    }
+}

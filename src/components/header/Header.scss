@@ -1,0 +1,65 @@
+@import '../../App.variables.scss';
+
+.header {
+    background: rgba(121, 156, 212, 0.1);
+    padding: 16px 24px;
+
+    .header__home-link {
+        display: block;
+        text-align: left;
+        color: $text-color;
+        @include body-regular;
+        transition: 0.3s;
+
+        &:hover {
+            color: $hover-color-light;
+        }
+
+        &:active {
+            border: none;
+            color: $click-color-light;
+        }
+    }
+
+    .header__info-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 14px;
+    }
+
+    .header__info-text {
+        @include h1;
+        margin: 0;
+    }
+
+    .header__info-settings-btn {
+        background: none;
+        border: none;
+        @include body-regular;
+        position: relative;
+        transition: 0.3s;
+
+        &::before {
+            content: url(../../../public/assets/svg/settings-icon.svg);
+            position: absolute;
+            left: -8px;
+            top: 9px;
+        }
+
+        &:hover {
+            color: $hover-color-light;
+        }
+
+        &:hover::before {
+            stroke: $hover-color-light;
+            fill: $hover-color-light;
+            color: $hover-color-light;
+        }
+
+        &:active {
+            border: none;
+            color: $click-color-light;
+        }
+    }
+}

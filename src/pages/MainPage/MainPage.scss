@@ -1,0 +1,106 @@
+@import '../../App.variables.scss';
+
+.main-page {
+    .main__section {
+        background-image: url(../../../public/assets/png/Main\ page_light.png);
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        padding: 24px 24px 42px 24px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .main__list {
+        border-radius: 2px;
+        width: 700px;
+        background-color: $white-color;
+        padding: 24px;
+        color: #003a8c;
+        @include h6;
+    }
+
+    .main__list ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .main__list-item {
+        list-style-type: none;
+    }
+
+    .main__article-last {
+        @include h4;
+        background-color: $white-color;
+        border-radius: 2px;
+        width: 700px;
+        margin: 24px 0;
+        padding: 24px;
+    }
+
+    .main__cards-block {
+        width: 750px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card {
+        border-radius: 2px;
+        width: 240px;
+        background-color: $white-color;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        &:nth-child(1)::before {
+            content: url(../../../public/assets/svg/main__workout-icon.svg);
+            display: block;
+            position: absolute;
+            left: 60px;
+            top: 64px;
+        }
+
+        &:nth-child(2)::before {
+            content: url(../../../public/assets/svg/main__celendar-icon.svg);
+            display: block;
+            position: absolute;
+            left: 70px;
+            top: 64px;
+        }
+
+        &:nth-child(3)::before {
+            content: url(../../../public/assets/svg/main__profile-icon.svg);
+            display: block;
+            position: absolute;
+            left: 70px;
+            top: 64px;
+        }
+    }
+
+    .card__title {
+        padding: 12px 0;
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid $selected-bg-color-light;
+        @include h6;
+    }
+
+    .card__link {
+        display: block;
+        margin: 20px 0;
+        width: 100%;
+        text-align: center;
+        @include body-regular;
+        color: $brand-color-light;
+        transition: 0.3s;
+
+        &:hover {
+            color: $hover-color-light;
+        }
+    }
+}
