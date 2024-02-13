@@ -1,7 +1,6 @@
 @import '../../App.variables.scss';
 
 .nav__menu {
-    height: 100vh;
     flex-grow: 1;
     transition: 0.3s;
     position: relative;
@@ -116,7 +115,7 @@
         }
 
         @media (max-width: 360px) {
-            margin-top: 1000px;
+            margin-top: 1888px;
         }
 
         & img {
@@ -152,7 +151,7 @@
 
     & img {
         margin-right: 25px;
-
+        margin-bottom: 0;
         @media (max-width: 360px) {
             display: none;
             margin: 0;

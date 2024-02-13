@@ -1,4 +1,4 @@
-import { AndroidOutlined, AppleOutlined } from '@ant-design/icons';
+import { AndroidFilled, AppleFilled } from '@ant-design/icons';
 import './Footer.scss';
 import { Button } from 'antd';
 
@@ -15,11 +15,11 @@ export const Footer = () => {
 
                 <div className='download-blok__btns'>
                     <button type='button' className='download-blok__btn'>
-                        <AndroidOutlined />
+                        <AndroidFilled />
                         <span>Android OS</span>
                     </button>
                     <button type='button' className='download-blok__btn'>
-                        <AppleOutlined />
+                        <AppleFilled />
                         <span>Apple IOS</span>
                     </button>
                 </div>

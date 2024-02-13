@@ -52,7 +52,7 @@ export const MainPage: React.FC = () => {
                         <div className='card'>
                             <h5 className='card__title'>Заполнить профить</h5>
                             <NavLink className='card__link' to='/'>
-                                Профить
+                                Профиль
                             </NavLink>
                         </div>
                     </div>

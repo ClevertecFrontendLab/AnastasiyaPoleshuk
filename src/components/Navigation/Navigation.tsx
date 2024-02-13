@@ -65,9 +65,9 @@ export const Navigation: React.FC = () => {
                 data-test-id={width <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
             >
                 {collapsed ? (
-                    <MenuUnfoldOutlined className='menu-btn__icon' />
+                    <MenuUnfoldOutlined className='menu-btn__icon' style={{ color: '#8C8C8C' }} />
                 ) : (
-                    <MenuFoldOutlined className='menu-btn__icon' />
+                    <MenuFoldOutlined className='menu-btn__icon' style={{ color: '#8C8C8C' }} />
                 )}
             </Button>
             <Menu

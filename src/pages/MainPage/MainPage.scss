@@ -164,6 +164,10 @@
         text-align: center;
         border-bottom: 1px solid $selected-bg-color-light;
         @include h6;
+
+        @media (max-width: 834px) {
+            margin: 0 24px;
+        }
     }
 
     .card__link {
