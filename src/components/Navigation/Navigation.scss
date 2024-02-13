@@ -12,10 +12,6 @@
     justify-content: space-between;
     align-items: center;
 
-    @media (max-width: 836px) {
-        // width: 836px;
-    }
-
     @media (max-width: 360px) {
         position: absolute;
         background: $white-color;
@@ -26,10 +22,6 @@
     & .not-collapsed__menu {
         width: 210px;
 
-        @media (max-width: 836px) {
-            // width: 836px;
-        }
-
         @media (max-width: 360px) {
             width: 105px;
             position: absolute;
@@ -38,10 +30,6 @@
 
     & .collapsed__menu {
         width: 65px;
-
-        @media (max-width: 836px) {
-            // width: 836px;
-        }
 
         @media (max-width: 360px) {
             width: 0;
@@ -74,8 +62,12 @@
         border-bottom: 20px solid transparent;
         border-right: none;
 
-        @media (max-width: 836px) {
-            // width: 836px;
+        &:focus {
+            outline: none;
+        }
+
+        &:active {
+            outline: none;
         }
 
         @media (max-width: 360px) {
@@ -129,20 +121,12 @@
     width: 210px;
     transition: 0.3;
 
-    @media (max-width: 836px) {
-        width: 836px;
-    }
-
     @media (max-width: 360px) {
         width: 105px;
     }
 
     &__collapsed {
         width: 65px;
-
-        @media (max-width: 836px) {
-            width: 836px;
-        }
 
         @media (max-width: 360px) {
             width: 0;
@@ -151,20 +135,12 @@
 }
 
 .ant-menu-item {
-    @media (max-width: 836px) {
-        width: 836px;
-    }
-
     @media (max-width: 360px) {
         padding: 0 !important;
     }
 
     & img {
         margin-right: 25px;
-
-        @media (max-width: 836px) {
-            width: 836px;
-        }
 
         @media (max-width: 360px) {
             display: none;

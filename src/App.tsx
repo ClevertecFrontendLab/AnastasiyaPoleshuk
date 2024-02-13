@@ -1,17 +1,15 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { MainPage } from './pages';
-import { Header } from '@components/header/Header';
 
 import './App.scss';
+import { Layout } from '@components/Layout/Layout';
 
 export const App = () => {
     return (
-        <div className='app'>
-            <HashRouter>
-                <Routes>
-                    <Route path='/' element={<MainPage />} />
-                </Routes>
-            </HashRouter>
-        </div>
+        <Routes>
+            <Route element={<Layout />}>
+                <Route path='/' element={<MainPage />} />
+            </Route>
+        </Routes>
     );
 };

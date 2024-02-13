@@ -49,6 +49,7 @@ const items: MenuItem[] = [
 
 export const Navigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const [width, setIsMobile] = useState(window.innerWidth);
 
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
@@ -57,7 +58,12 @@ export const Navigation: React.FC = () => {
     return (
         <div className={`nav__menu ${collapsed ? 'collapsed__menu' : 'not-collapsed__menu'}`}>
             {collapsed ? <LogoShortIcon /> : <LogoIcon />}
-            <Button type='text' onClick={toggleCollapsed} className='nav__menu-btn'>
+            <Button
+                type='text'
+                onClick={toggleCollapsed}
+                className='nav__menu-btn'
+                data-test-id={width <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
+            >
                 {collapsed ? (
                     <MenuUnfoldOutlined className='menu-btn__icon' />
                 ) : (

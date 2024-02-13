@@ -1,12 +1,12 @@
-import { NavLink } from 'react-router-dom';
 import './Footer.scss';
+import { Button } from 'antd';
 
 export const Footer = () => {
     return (
         <footer className='footer'>
-            <NavLink to='/' className='footer__link'>
+            <Button type='link' className='footer__link'>
                 Смотреть отзывы
-            </NavLink>
+            </Button>
 
             <div className='footer__download-blok'>
                 <h6 className='download-blok__title'>Скачать на телефон</h6>

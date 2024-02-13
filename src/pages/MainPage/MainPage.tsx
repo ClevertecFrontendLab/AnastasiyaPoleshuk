@@ -6,13 +6,11 @@ import { NavLink } from 'react-router-dom';
 import { Footer } from '@components/footer/Footer';
 
 export const MainPage: React.FC = () => {
-    const [count, setCount] = useState(0);
-
     return (
         <div className='main-page main'>
             <Header />
             <main className='main__section'>
-                <div>
+                <div className='main__articles-wrapp'>
                     <article className='main__list'>
                         С CleverFit ты сможешь:
                         <ul>

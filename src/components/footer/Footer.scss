@@ -5,9 +5,19 @@
     justify-content: space-between;
     align-items: end;
 
+    @media (max-width: 836px) {
+        margin-top: 200px;
+    }
+
+    @media (max-width: 360px) {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 24px;
+        margin-top: 24px;
+    }
+
     .footer__link {
         @include h6;
-        color: $brand-color-light;
     }
 
     .footer__download-blok {
@@ -18,12 +28,17 @@
         justify-content: center;
         align-items: center;
         background-color: $white-color;
+
+        @media (max-width: 360px) {
+            width: 330px;
+            justify-content: space-around;
+        }
     }
 
     .download-blok__title {
         @include h6;
         color: $brand-color-light;
-        padding: 12px 0 8px 0;
+        padding: 12px 0 8px;
     }
 
     .download-blok__subtitle {
@@ -38,6 +53,7 @@
         justify-content: space-around;
         align-items: center;
         padding: 20px 0;
+        width: 100%;
     }
 
     .download-blok__btn {
@@ -48,14 +64,14 @@
         @include body-regular;
         position: relative;
 
-        &:nth-child(1)::before {
+        &:nth-child(1):before {
             content: url(../../../public/assets/svg/android-icon.svg);
             position: absolute;
             left: 5px;
             top: 2px;
         }
 
-        &:nth-child(2)::before {
+        &:nth-child(2):before {
             content: url(../../../public/assets/svg/apple-icon.svg);
             position: absolute;
             left: 5px;

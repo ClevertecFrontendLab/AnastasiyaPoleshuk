@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import './Header.scss';
+import { SettingOutlined } from '@ant-design/icons';
 
 export const Header = () => {
     return (
@@ -12,8 +13,10 @@ export const Header = () => {
                     Приветствуем тебя в CleverFit — приложении, которое поможет тебе добиться своей
                     мечты!
                 </p>
-                <button type='button' className='header__info-settings-btn'>
-                    Настройки
+
+                <button className='header__info-settings-btn'>
+                    <SettingOutlined />
+                    <p>Настройки</p>
                 </button>
             </div>
         </header>

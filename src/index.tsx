@@ -7,6 +7,7 @@ import { store } from '@redux/configure-store';
 import 'normalize.css';
 import './index.scss';
 import { App } from './App';
+import { HashRouter } from 'react-router-dom';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -14,8 +15,9 @@ const root = createRoot(domNode);
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App />
-            {/* <div className=''>hhh</div> */}
+            <HashRouter>
+                <App />
+            </HashRouter>
         </Provider>
     </React.StrictMode>,
 );
