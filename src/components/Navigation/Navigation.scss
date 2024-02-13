@@ -9,11 +9,12 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 
     @media (max-width: 360px) {
         position: absolute;
+        z-index: 10;
         background: $white-color;
         left: 0;
         top: 0;
@@ -32,11 +33,12 @@
         width: 65px;
 
         @media (max-width: 360px) {
-            width: 0;
+            width: 1px;
         }
     }
 
     & img {
+        margin-bottom: 64px;
         @media (max-width: 360px) {
             width: 72px;
         }
@@ -54,12 +56,12 @@
         padding: 0;
 
         position: absolute;
-        right: -20px;
+        right: -18px;
         top: 50%;
         background: transparent;
         border-left: 20px solid $white-color;
-        border-top: 20px solid transparent;
-        border-bottom: 20px solid transparent;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
         border-right: none;
 
         &:focus {
@@ -84,7 +86,7 @@
 
         .menu-btn__icon {
             position: absolute;
-            top: 5px;
+            top: 14px;
             right: 2px;
             z-index: 5;
 
@@ -106,10 +108,19 @@
         gap: 25px;
 
         width: 100%;
-
+        margin-top: 550px;
         border-top: 1px solid $selected-bg-color-light;
 
+        @media (max-width: 834px) {
+            margin-top: 680px;
+        }
+
+        @media (max-width: 360px) {
+            margin-top: 1000px;
+        }
+
         & img {
+            margin: 0;
             @media (max-width: 360px) {
                 display: none;
             }
@@ -129,7 +140,7 @@
         width: 65px;
 
         @media (max-width: 360px) {
-            width: 0;
+            width: 1px;
         }
     }
 }

@@ -46,7 +46,7 @@ export const MainPage: React.FC = () => {
                         <div className='card'>
                             <h5 className='card__title'>Назначить календарь</h5>
                             <NavLink className='card__link' to='/'>
-                                Профиль
+                                Календарь
                             </NavLink>
                         </div>
                         <div className='card'>
