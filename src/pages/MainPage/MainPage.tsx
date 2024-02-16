@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import './MainPage.scss';
 import { Header } from '@components/header/Header';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Footer } from '@components/footer/Footer';
+import { IStore } from '../../types/storeTypes';
+import { useSelector } from 'react-redux';
 
 export const MainPage: React.FC = () => {
+    const { isAuth } = useSelector((state: IStore) => state.isAuth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isAuth) {
+            navigate('/auth/login');
+        } else {
+            navigate('/main');
+        }
+    }, [isAuth]);
+
     return (
         <div className='main-page main'>
             <Header />
