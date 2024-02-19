@@ -1,18 +1,11 @@
-import { IRequestError } from '../../types/apiTypes';
 import { IS_ERROR, ERROR } from '../actionTypes';
-import initialState from '../initialState';
 
-interface IAction {
-    type: string;
-    payload?: IRequestError | boolean;
-}
-
-export const ErrorReducer = (state = initialState as unknown as object, action: IAction) => {
+export const ErrorReducer = (state = { isError: false, requestError: {} }, action: any) => {
     switch (action.type) {
         case IS_ERROR:
             return {
                 ...state,
-                isError: true,
+                isError: action.payload,
             };
         case ERROR:
             return {

@@ -12,13 +12,11 @@ const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHisto
 export const store = configureStore({
     reducer: {
         router: routerReducer,
-        isAuth: UserReducer,
-        isRegisterSuccess: UserReducer,
-        token: UserReducer,
+        user: UserReducer,
         isLoading: LoadingReducer,
-        isError: ErrorReducer,
-        requestError: ErrorReducer,
+        error: ErrorReducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

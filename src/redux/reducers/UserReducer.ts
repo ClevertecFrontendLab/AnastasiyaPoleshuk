@@ -1,31 +1,27 @@
-import { ILoginResponse } from '../../types/apiTypes';
 import { AUTH_USER, IS_REGISTRATION_SUCCESS, IS_AUTH } from '../actionTypes';
-import initialState from '../initialState';
+import initialState, { IInitialState } from '../initialState';
 
 interface IAction {
     type: string;
-    payload?: ILoginResponse | boolean;
+    payload?: any;
 }
 
-export const UserReducer = (state = initialState, action: IAction) => {
+export const UserReducer = (state = initialState as IInitialState, action: IAction) => {
     switch (action.type) {
         case AUTH_USER:
             return {
                 ...state,
-                token: action.payload,
-                isError: false,
+                token: action.payload?.accessToken,
             };
         case IS_REGISTRATION_SUCCESS:
             return {
                 ...state,
                 isRegisterSuccess: action.payload,
-                isError: false,
             };
         case IS_AUTH:
             return {
                 ...state,
                 isAuth: action.payload,
-                isError: false,
             };
         default:
             return state;

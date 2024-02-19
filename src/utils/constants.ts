@@ -11,7 +11,7 @@ const CONSTANTS = {
                 CHANGE_PASSWORD__PATH: '/success-change-password',
             },
             ERROR: {
-                ERROR__PATH: '/error ',
+                ERROR__PATH: '/error',
                 USER_EXIT__PATH: '/error-user-exist',
                 LOGIN__PATH: '/error-login',
                 CHECK_EMAIL_NO_EXIST__PATH: '/error-check-email-no-exist',

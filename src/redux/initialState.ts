@@ -1,8 +1,11 @@
-const initialState = {
+export interface IInitialState {
+    isAuth: boolean;
+    isRegisterSuccess: boolean;
+    token: string;
+}
+const initialState: IInitialState = {
     isAuth: false,
     isRegisterSuccess: false,
-    isLoading: false,
-    isError: false,
     token: '',
 };
 
