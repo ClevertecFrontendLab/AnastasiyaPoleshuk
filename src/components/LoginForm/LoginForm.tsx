@@ -8,15 +8,25 @@ import { IAuthRequest } from '../../types/apiTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginUserThunk } from '@redux/thunks/LoginUserThunk';
 import { AnyAction } from '@reduxjs/toolkit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IStore } from '../../types/storeTypes';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
 
 export const LoginForm = () => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false);
     const { token } = useSelector((state: IStore) => state.token);
-    const dispatch = useDispatch();
+    const { isError } = useSelector((state: IStore) => state.isError);
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isError) {
+            navigate(
+                `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.LOGIN__PATH}`,
+            );
+        }
+    }, [isError]);
 
     const onFinish = (values: IAuthRequest) => {
         if (isValidPassword && isValidEmail) {
@@ -24,7 +34,7 @@ export const LoginForm = () => {
                 LoginUserThunk({
                     email: values.email,
                     password: values.password,
-                }) as unknown as AnyAction,
+                }),
             ).then(() => {
                 values.remember && localStorage.setItem('jwtToken', token as string);
                 navigate('/main');

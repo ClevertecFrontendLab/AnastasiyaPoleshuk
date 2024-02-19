@@ -1,3 +1,5 @@
+import { IRequestError } from './apiTypes';
+
 export interface IStore {
     isAuth: {
         isAuth: boolean;
@@ -11,5 +13,8 @@ export interface IStore {
     };
     token: {
         token: string;
+    };
+    requestError: {
+        requestError: IRequestError;
     };
 }

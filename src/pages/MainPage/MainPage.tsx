@@ -2,17 +2,26 @@ import React, { useEffect } from 'react';
 
 import './MainPage.scss';
 import { Header } from '@components/header/Header';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Footer } from '@components/footer/Footer';
 import { IStore } from '../../types/storeTypes';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { push } from 'redux-first-history';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 
 export const MainPage: React.FC = () => {
-    const { isAuth } = useSelector((state: IStore) => state.isAuth);
+    const isAuth = useAppSelector((state) => state);
+    // const { isAuth } = useSelector((state: IStore) => state./);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const location = useLocation();
 
     useEffect(() => {
+        console.log('isAuth: ', isAuth);
         if (!isAuth) {
+            // dispatch(push('/auth/login'));
+            // console.log(location);
+
             navigate('/auth/login');
         } else {
             navigate('/main');

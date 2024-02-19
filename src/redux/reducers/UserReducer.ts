@@ -7,7 +7,7 @@ interface IAction {
     payload?: ILoginResponse | boolean;
 }
 
-export const UserReducer = (state = initialState as unknown as object, action: IAction) => {
+export const UserReducer = (state = initialState, action: IAction) => {
     switch (action.type) {
         case AUTH_USER:
             return {

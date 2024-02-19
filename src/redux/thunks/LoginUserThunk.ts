@@ -6,9 +6,12 @@ import { IAuthRequest, IRequestError, ILoginResponse } from '../../types/apiType
 import { LoginAction, IsAuthAction } from '../actions/AuthActions';
 import { ErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
+import { AppDispatch } from '@redux/configure-store';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+// const dispatch = useAppDispatch();
 
 export const LoginUserThunk = (requestData: IAuthRequest) =>
-    async function (dispatch: Dispatch) {
+    async function (dispatch: AppDispatch) {
         dispatch(LoadingAction(true));
 
         const response: { data: ILoginResponse | IRequestError; status: number } = await authUser(

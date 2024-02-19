@@ -21,6 +21,7 @@ import { WorkoutIcon } from './Iconscomponents/WorkoutIcon';
 import { LogoIcon } from './Iconscomponents/LogoIcon';
 import { ExitIcon } from './Iconscomponents/ExitIcon';
 import { LogoShortIcon } from './Iconscomponents/LogoShortIcon';
+import { NavLink } from 'react-router-dom';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -79,7 +80,7 @@ export const Navigation: React.FC = () => {
                 items={items}
                 className={collapsed ? 'menu__collapsed' : 'menu'}
             ></Menu>
-            <div className='nav__button-exit'>
+            <NavLink to='/auth/login' className='nav__button-exit'>
                 {collapsed ? (
                     <ExitIcon />
                 ) : (
@@ -88,7 +89,7 @@ export const Navigation: React.FC = () => {
                         <span>Выход</span>
                     </>
                 )}
-            </div>
+            </NavLink>
         </div>
     );
 };
