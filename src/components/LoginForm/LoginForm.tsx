@@ -1,32 +1,26 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 
 import './LoginForm.scss';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import CONSTANTS from '@utils/constants';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { IAuthRequest } from '../../types/apiTypes';
-import { useDispatch, useSelector } from 'react-redux';
 import { LoginUserThunk } from '@redux/thunks/LoginUserThunk';
-import { AnyAction } from '@reduxjs/toolkit';
 import { useEffect, useState } from 'react';
-import { IStore } from '../../types/storeTypes';
-import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
-
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 export const LoginForm = () => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false);
-    const { token } = useSelector((state: IStore) => state.token);
-    const { isError } = useSelector((state: IStore) => state.isError);
+    const [rememberUser, setRememberUser] = useState(false);
+    const { token } = useAppSelector((state) => state.user);
+    const { isAuth } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
-        if (isError) {
-            navigate(
-                `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.LOGIN__PATH}`,
-            );
+        if (isAuth && rememberUser) {
+            localStorage.setItem('jwtToken', token as string);
         }
-    }, [isError]);
+    }, [isAuth]);
 
     const onFinish = (values: IAuthRequest) => {
         if (isValidPassword && isValidEmail) {
@@ -35,11 +29,10 @@ export const LoginForm = () => {
                     email: values.email,
                     password: values.password,
                 }),
-            ).then(() => {
-                values.remember && localStorage.setItem('jwtToken', token as string);
-                navigate('/main');
-            });
+            );
         }
+
+        setRememberUser(values.remember as boolean);
     };
 
     const CheckPassword = (data: string) => {

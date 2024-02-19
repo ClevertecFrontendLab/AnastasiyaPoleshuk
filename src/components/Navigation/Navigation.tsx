@@ -22,6 +22,10 @@ import { LogoIcon } from './Iconscomponents/LogoIcon';
 import { ExitIcon } from './Iconscomponents/ExitIcon';
 import { LogoShortIcon } from './Iconscomponents/LogoShortIcon';
 import { NavLink } from 'react-router-dom';
+import CONSTANTS from '@utils/constants';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+import { LoginAction, IsAuthAction } from '@redux/actions/AuthActions';
+import { ILoginResponse } from '../../types/apiTypes';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -51,9 +55,16 @@ const items: MenuItem[] = [
 export const Navigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [width, setIsMobile] = useState(window.innerWidth);
+    const dispatch = useAppDispatch();
 
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
+    };
+
+    const logOut = () => {
+        dispatch(LoginAction({ accessToken: '' } as ILoginResponse));
+        dispatch(IsAuthAction(false));
+        localStorage.removeItem('jwtToken');
     };
 
     return (
@@ -80,7 +91,11 @@ export const Navigation: React.FC = () => {
                 items={items}
                 className={collapsed ? 'menu__collapsed' : 'menu'}
             ></Menu>
-            <NavLink to='/auth/login' className='nav__button-exit'>
+            <NavLink
+                to={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`}
+                className='nav__button-exit'
+                onClick={logOut}
+            >
                 {collapsed ? (
                     <ExitIcon />
                 ) : (
