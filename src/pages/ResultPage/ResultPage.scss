@@ -16,6 +16,14 @@
         height: 100vh;
         backdrop-filter: blur(10px);
         background: rgba(121, 156, 212, 0.5);
+
+        @media (max-width: 834px) {
+            width: 834px;
+        }
+
+        @media (max-width: 360px) {
+            width: 360px;
+        }
     }
 
     @media (max-width: 834px) {
@@ -30,8 +38,6 @@
         border-radius: 2px;
         padding: 64px 32px;
         width: 539px;
-        // height: 345px;
-
         position: absolute;
         left: 50%;
         top: 50%;
@@ -42,5 +48,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+
+        @media (max-width: 360px) {
+            width: 300px;
+        }
     }
 }

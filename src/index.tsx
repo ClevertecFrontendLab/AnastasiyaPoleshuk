@@ -16,11 +16,9 @@ const root = createRoot(domNode);
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            {/* <HistoryRouter history={history}> */}
-            <HashRouter>
+            <HistoryRouter history={history}>
                 <App />
-            </HashRouter>
-            {/* </HistoryRouter> */}
+            </HistoryRouter>
         </Provider>
     </React.StrictMode>,
 );

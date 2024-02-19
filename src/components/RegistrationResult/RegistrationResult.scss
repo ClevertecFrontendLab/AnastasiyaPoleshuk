@@ -1,10 +1,10 @@
 @import '../../App.variables.scss';
 
-.loginFail__res {
+.registration__res {
     width: 368px;
     padding: 0;
 
-    .loginFail__res_btn {
+    .registration__res_btn {
         width: 100%;
         height: 40px;
         border-radius: 2px;
@@ -19,5 +19,4 @@
 
 .ant-result-title {
     @include h3;
-    position: relative;
 }

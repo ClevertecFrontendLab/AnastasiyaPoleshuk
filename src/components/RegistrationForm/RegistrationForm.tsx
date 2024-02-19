@@ -1,10 +1,11 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import './RegistrationForm.scss';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { RegisterUserThunk } from '@redux/thunks/RegisterUserThunk';
-import { RegisterAction } from '@redux/actions/AuthActions';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+import CONSTANTS from '@utils/constants';
+import { push } from 'redux-first-history';
 
 interface IRegistrationData {
     email: string;
@@ -18,18 +19,22 @@ export const RegistrationForm = () => {
     const [isPasswordsMatch, setIsVPasswordsMatch] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
     const [password, setPassword] = useState('');
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const onFinish = (registrationData: IRegistrationData) => {
         if (isPasswordsMatch) {
-            console.log('registrationData: ', registrationData);
-
             dispatch(
                 RegisterUserThunk({
                     email: registrationData.email,
                     password: registrationData.password,
-                }) as unknown as ReturnType<typeof RegisterAction>,
-            );
+                }),
+            ).then(() => {
+                dispatch(
+                    push(
+                        `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.SUCCESS.SUCCESS__PATH}`,
+                    ),
+                );
+            });
         }
     };
 
