@@ -3,7 +3,7 @@ import StatusCodes from 'http-status-codes';
 
 import { registerUser } from '../../api/registerUser';
 import { IAuthRequest, IRequestError } from '../../types/apiTypes';
-import { IsAuthAction, RegisterAction } from '../actions/AuthActions';
+import { RegisterAction } from '../actions/AuthActions';
 import { ErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
 
@@ -16,10 +16,8 @@ export const RegisterUserThunk = (requestData: IAuthRequest) =>
 
         if (response.status === StatusCodes.CREATED) {
             dispatch(RegisterAction(true));
-            dispatch(IsAuthAction(true));
         } else {
             dispatch(ErrorAction(response.data as IRequestError));
-            dispatch(IsAuthAction(false));
             dispatch(RegisterAction(false));
         }
         dispatch(LoadingAction(false));

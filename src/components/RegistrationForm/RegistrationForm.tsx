@@ -1,9 +1,9 @@
 import { Button, Form, Input } from 'antd';
 import './RegistrationForm.scss';
 import { GooglePlusOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RegisterUserThunk } from '@redux/thunks/RegisterUserThunk';
-import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
 
@@ -19,7 +19,18 @@ export const RegistrationForm = () => {
     const [isPasswordsMatch, setIsVPasswordsMatch] = useState(true);
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
     const [password, setPassword] = useState('');
+    const { isRegisterSuccess } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (isRegisterSuccess) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.SUCCESS.SUCCESS__PATH}`,
+                ),
+            );
+        }
+    }, [isRegisterSuccess]);
 
     const onFinish = (registrationData: IRegistrationData) => {
         if (isPasswordsMatch) {
@@ -28,13 +39,7 @@ export const RegistrationForm = () => {
                     email: registrationData.email,
                     password: registrationData.password,
                 }),
-            ).then(() => {
-                dispatch(
-                    push(
-                        `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.SUCCESS.SUCCESS__PATH}`,
-                    ),
-                );
-            });
+            );
         }
     };
 

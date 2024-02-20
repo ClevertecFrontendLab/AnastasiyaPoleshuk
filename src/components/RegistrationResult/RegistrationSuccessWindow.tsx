@@ -1,20 +1,11 @@
 import { Result, Button } from 'antd';
 import './RegistrationResult.scss';
 import CONSTANTS from '@utils/constants';
-import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
 import { push } from 'redux-first-history';
-import { isErrorAction } from '@redux/actions/ErrorAction';
-import { useEffect } from 'react';
 
 export const RegistrationSuccessWindow = () => {
     const dispatch = useAppDispatch();
-    const { isError } = useAppSelector((state) => state.error);
-
-    useEffect(() => {
-        if (!isError) {
-            dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
-        }
-    }, [isError]);
 
     return (
         <Result
@@ -25,8 +16,9 @@ export const RegistrationSuccessWindow = () => {
             extra={[
                 <Button
                     type='primary'
-                    onClick={() => dispatch(isErrorAction(false))}
+                    onClick={() => dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`))}
                     className='registration__res_btn'
+                    data-test-id='registration-enter-button'
                 >
                     Войти
                 </Button>,

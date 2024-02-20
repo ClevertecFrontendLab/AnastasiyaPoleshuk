@@ -3,7 +3,7 @@ const CONSTANTS = {
     ROUTER__PATH: {
         AUTH__PATH: '/auth',
         MAIN__PATH: '/main',
-        CHANGE_PASSWORD__PATH: '/auth/change-password',
+        CHANGE_PASSWORD__PATH: '/change-password',
         RESULT: {
             RESULT: '/result',
             SUCCESS: {

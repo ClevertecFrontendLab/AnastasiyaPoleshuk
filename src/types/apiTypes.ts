@@ -13,3 +13,23 @@ export interface IRequestError {
     error: string;
     message: string;
 }
+
+export interface ICheckEmailResponse {
+    email: string;
+    message: string;
+}
+
+export interface IConfirmEmailRequest {
+    email: string;
+    code: string;
+}
+
+export interface IConfirmEmailResponse {
+    email: string;
+    message: string;
+}
+
+export interface IChangePasswordRequest {
+    password: string;
+    confirmPassword: string;
+}

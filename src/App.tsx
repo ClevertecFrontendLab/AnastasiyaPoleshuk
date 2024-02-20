@@ -12,6 +12,8 @@ import { LoginFailWindow } from '@components/LoginFailWindow/LoginFailWindow';
 import { RegistrationFailWindow } from '@components/RegistrationResult/RegistrationFailWindow';
 import { RegistrationFailEmailWindow } from '@components/RegistrationResult/RegistrationFailEmailWindow';
 import { RegistrationSuccessWindow } from '@components/RegistrationResult/RegistrationSuccessWindow';
+import { ConfirmEmailForm } from '@components/ConfirmEmailForm/ConfirmEmailForm';
+import { ChangePasswordForm } from '@components/ChangePasswordForm/ChangePasswordForm';
 
 export const App = () => {
     return (
@@ -25,6 +27,14 @@ export const App = () => {
                 <Route
                     path={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`}
                     element={<RegistrationForm />}
+                />
+                <Route
+                    path={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}/confirm-email`}
+                    element={<ConfirmEmailForm />}
+                />
+                <Route
+                    path={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}${CONSTANTS.ROUTER__PATH.CHANGE_PASSWORD__PATH}`}
+                    element={<ChangePasswordForm />}
                 />
             </Route>
 

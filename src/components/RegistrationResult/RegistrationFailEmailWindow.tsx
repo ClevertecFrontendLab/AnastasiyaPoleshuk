@@ -28,6 +28,7 @@ export const RegistrationFailEmailWindow = () => {
                     type='primary'
                     onClick={() => dispatch(isErrorAction(false))}
                     className='registration__res_btn'
+                    data-test-id='registration-back-button'
                 >
                     Назад к регистрации
                 </Button>,

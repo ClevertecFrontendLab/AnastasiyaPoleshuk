@@ -1,4 +1,3 @@
-import { Dispatch } from 'redux';
 import StatusCodes from 'http-status-codes';
 
 import { authUser } from '../../api/loginUser';
@@ -7,8 +6,6 @@ import { LoginAction, IsAuthAction } from '../actions/AuthActions';
 import { ErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
 import { AppDispatch } from '@redux/configure-store';
-import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
-// const dispatch = useAppDispatch();
 
 export const LoginUserThunk = (requestData: IAuthRequest) =>
     async function (dispatch: AppDispatch) {

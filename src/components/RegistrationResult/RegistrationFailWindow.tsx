@@ -20,14 +20,14 @@ export const RegistrationFailWindow = () => {
         <Result
             className='registration__res'
             status='error'
-            title='Данные не сохранились
-            '
+            title='Данные не сохранились'
             subTitle='Что-то пошло не так и ваша регистрация не завершилась. Попробуйте ещё раз.'
             extra={[
                 <Button
                     type='primary'
                     onClick={() => dispatch(isErrorAction(false))}
                     className='registration__res_btn'
+                    data-test-id='registration-retry-button'
                 >
                     Повторить
                 </Button>,
