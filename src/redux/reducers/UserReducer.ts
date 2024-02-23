@@ -5,6 +5,7 @@ import {
     CHECK_EMAIL,
     CONFIRM_EMAIL,
     CHANGE_PASSWORD,
+    IS_CHECK_EMAIL_SUCCESS,
 } from '../actionTypes';
 import initialState, { IInitialState } from '../initialState';
 
@@ -35,6 +36,11 @@ export const UserReducer = (state = initialState as IInitialState, action: IActi
                 ...state,
                 email: action.payload.email,
                 isCheckEmailSuccess: true,
+            };
+        case IS_CHECK_EMAIL_SUCCESS:
+            return {
+                ...state,
+                isCheckEmailSuccess: action.payload,
             };
         case CONFIRM_EMAIL:
             return {

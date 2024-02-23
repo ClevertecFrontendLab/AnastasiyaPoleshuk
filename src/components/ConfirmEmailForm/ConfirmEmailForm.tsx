@@ -11,14 +11,14 @@ export const ConfirmEmailForm = () => {
     const [formError, setFormError] = useState(false);
     const { email } = useAppSelector((state) => state.user);
     const { IsConfirmEmailSuccess } = useAppSelector((state) => state.user);
-    const IsError = useAppSelector((state) => state.error.isError);
+    const { isError } = useAppSelector((state) => state.error);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (!IsConfirmEmailSuccess && IsError) {
+        if (!IsConfirmEmailSuccess && isError) {
             setFormError(true);
         }
-        if (IsConfirmEmailSuccess && !IsError) {
+        if (IsConfirmEmailSuccess && !isError) {
             setFormError(false);
             dispatch(
                 push(
@@ -26,7 +26,7 @@ export const ConfirmEmailForm = () => {
                 ),
             );
         }
-    }, [IsError]);
+    }, [IsConfirmEmailSuccess, isError]);
 
     const checkCode = (code: string) => {
         dispatch(
@@ -57,7 +57,7 @@ export const ConfirmEmailForm = () => {
                                 formError ? 'verification-input__error' : ''
                             }`,
                         }}
-                        data-test-id='verification-input'
+                        inputProps={{ ['data-test-id']: 'verification-input' }}
                     />
                     <p className='confirm-email__text'>Не пришло письмо? Проверьте папку Спам.</p>
                 </>

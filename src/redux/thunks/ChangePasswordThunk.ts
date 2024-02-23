@@ -14,7 +14,7 @@ export const ChangePasswordThunk = (request: IChangePasswordRequest) =>
         const response: { data: { message: string } | IRequestError; status: number } =
             await changePassword(request);
 
-        if (response.status === StatusCodes.OK) {
+        if (response.status === StatusCodes.CREATED) {
             dispatch(ChangePasswordAction(request as IChangePasswordRequest));
         } else {
             dispatch(ErrorAction(response.data as IRequestError));

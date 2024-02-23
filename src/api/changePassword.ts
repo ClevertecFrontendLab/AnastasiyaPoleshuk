@@ -8,6 +8,7 @@ export const changePassword = async (request: IChangePasswordRequest) => {
         const { data, status } = await api.post<{ message: string }>(
             'auth/change-password',
             request,
+            { withCredentials: true },
         );
 
         return { data, status };

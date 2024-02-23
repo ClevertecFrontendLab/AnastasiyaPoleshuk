@@ -6,6 +6,7 @@ import {
     IS_REGISTRATION_SUCCESS,
     CONFIRM_EMAIL,
     CHANGE_PASSWORD,
+    IS_CHECK_EMAIL_SUCCESS,
 } from '../actionTypes';
 
 export const IsAuthAction = (payload: boolean) => ({ type: IS_AUTH, payload });
@@ -15,6 +16,11 @@ export const LoginAction = (payload: ILoginResponse) => ({ type: AUTH_USER, payl
 export const RegisterAction = (payload: boolean) => ({ type: IS_REGISTRATION_SUCCESS, payload });
 
 export const CheckEmailAction = (payload: ICheckEmailResponse) => ({ type: CHECK_EMAIL, payload });
+
+export const IsCheckEmailSuccessAction = (payload: boolean) => ({
+    type: IS_CHECK_EMAIL_SUCCESS,
+    payload,
+});
 
 export const ConfirmEmailAction = (payload: boolean) => ({ type: CONFIRM_EMAIL, payload });
 

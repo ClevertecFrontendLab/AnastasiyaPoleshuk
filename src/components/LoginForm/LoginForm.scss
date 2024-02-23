@@ -19,6 +19,16 @@
         & a {
             margin-bottom: 24px;
         }
+
+        .login-forgot-button {
+            border: none;
+            outline: none;
+
+            &:hover {
+                border: none;
+                outline: none;
+            }
+        }
     }
 
     .form__button {

@@ -19,6 +19,12 @@ export const AuthPage = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        if (router.location?.pathname === CONSTANTS.ROUTER__PATH.AUTH__PATH) {
+            setIsLoginForm(true);
+        } else {
+            setIsLoginForm(false);
+        }
+
         const token = localStorage.getItem('jwtToken');
         if (token) {
             dispatch(LoginAction({ accessToken: token } as ILoginResponse));
@@ -81,23 +87,29 @@ export const AuthPage = () => {
     return (
         <div className='auth-page'>
             <div className='auth__box'>
-                <img src={logo} alt='logo' className='auth__logo' />
-                <div className='auth__btn-box'>
-                    <NavLink
-                        to={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`}
-                        className={`auth__btn ${isLoginForm ? ' auth__btn-active' : ''}`}
-                        onClick={() => setIsLoginForm(true)}
-                    >
-                        Вход
-                    </NavLink>
-                    <NavLink
-                        to={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`}
-                        className={`auth__btn ${!isLoginForm ? ' auth__btn-active' : ''}`}
-                        onClick={() => setIsLoginForm(false)}
-                    >
-                        Регистрация
-                    </NavLink>
-                </div>
+                {(router.location?.pathname === '/auth' ||
+                    router.location?.pathname === '/auth/registration') && (
+                    <>
+                        <img src={logo} alt='logo' className='auth__logo' />
+                        <div className='auth__btn-box'>
+                            <NavLink
+                                to={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`}
+                                className={`auth__btn ${isLoginForm ? ' auth__btn-active' : ''}`}
+                                onClick={() => setIsLoginForm(true)}
+                            >
+                                Вход
+                            </NavLink>
+                            <NavLink
+                                to={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`}
+                                className={`auth__btn ${!isLoginForm ? ' auth__btn-active' : ''}`}
+                                onClick={() => setIsLoginForm(false)}
+                            >
+                                Регистрация
+                            </NavLink>
+                        </div>
+                    </>
+                )}
+
                 <Outlet />
             </div>
             {isLoading && <Loader />}

@@ -10,6 +10,8 @@
         border-radius: 2px;
         padding: 4px 0;
         margin-top: 24px;
+
+        @include body-regular;
     }
 
     @media (max-width: 360px) {

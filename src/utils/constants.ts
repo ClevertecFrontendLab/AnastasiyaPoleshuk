@@ -20,6 +20,7 @@ const CONSTANTS = {
             },
         },
     },
+    CHECK_EMAIL_ERROR_MESSAGE: 'Email не найден',
 };
 
 export default CONSTANTS;

@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { HealthMonitorThunk } from '@redux/thunks/HealthMonitorThunk';
 import { CheckEmailThunk } from '@redux/thunks/CheckEmailThunk';
 import { push } from 'redux-first-history';
+import { StatusCodes } from 'http-status-codes';
 export const LoginForm = () => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false);
@@ -19,7 +20,8 @@ export const LoginForm = () => {
     const { isAuth } = useAppSelector((state) => state.user);
     const { isCheckEmailSuccess } = useAppSelector((state) => state.user);
     const { isHealth } = useAppSelector((state) => state.isHealth);
-    const { isError } = useAppSelector((state) => state.error);
+    const { isError, requestError } = useAppSelector((state) => state.error);
+    const router = useAppSelector((state) => state.router);
 
     const dispatch = useAppDispatch();
 
@@ -27,11 +29,27 @@ export const LoginForm = () => {
         if (isCheckEmailSuccess) {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}/confirm-email`));
         }
-
-        if (!isCheckEmailSuccess && isError) {
-            //! dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}/confirm-email`));
-        }
     }, [isCheckEmailSuccess]);
+
+    useEffect(() => {
+        if (
+            isError &&
+            requestError.statusCode === StatusCodes.NOT_FOUND &&
+            requestError.message === CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE
+        ) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHECK_EMAIL_NO_EXIST__PATH}`,
+                ),
+            );
+        } else if (isError && requestError.message !== CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHECK_EMAIL__PATH}`,
+                ),
+            );
+        }
+    }, [isError]);
 
     useEffect(() => {
         if (isAuth && rememberUser) {
@@ -40,13 +58,17 @@ export const LoginForm = () => {
     }, [isAuth]);
 
     useEffect(() => {
-        if (isHealth) {
+        const previousLocation = router.previousLocations
+            ? router.previousLocations[1].location?.pathname
+            : undefined;
+
+        if (isHealth && previousLocation === '/auth') {
             dispatch(CheckEmailThunk({ email }));
         }
     }, [isHealth]);
 
     const onClickForgotPassword = () => {
-        dispatch(HealthMonitorThunk());
+        isValidEmail && email ? dispatch(HealthMonitorThunk()) : null;
     };
 
     const onFinish = (values: IAuthRequest) => {
@@ -92,8 +114,6 @@ export const LoginForm = () => {
                     data-test-id='login-email'
                     onChange={(e) => {
                         CheckEmail(e.target.value);
-                    }}
-                    onBlur={(e) => {
                         setEmail(e.target.value);
                     }}
                 />
@@ -115,10 +135,9 @@ export const LoginForm = () => {
                     </Checkbox>
                 </Form.Item>
                 <Button
-                    className='form__item'
+                    className='form__item login-forgot-button'
                     type='link'
                     data-test-id='login-forgot-button'
-                    disabled={isValidEmail ? false : true}
                     onClick={onClickForgotPassword}
                 >
                     Забыли пароль?
