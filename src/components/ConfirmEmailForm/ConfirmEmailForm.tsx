@@ -12,7 +12,17 @@ export const ConfirmEmailForm = () => {
     const { email } = useAppSelector((state) => state.user);
     const { IsConfirmEmailSuccess } = useAppSelector((state) => state.user);
     const { isError } = useAppSelector((state) => state.error);
+    const router = useAppSelector((state) => state.router);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const previousLocation = router.previousLocations
+            ? router.previousLocations[1].location?.pathname
+            : undefined;
+        if (previousLocation !== CONSTANTS.ROUTER__PATH.AUTH__PATH) {
+            dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
+        }
+    }, []);
 
     useEffect(() => {
         if (!IsConfirmEmailSuccess && isError) {

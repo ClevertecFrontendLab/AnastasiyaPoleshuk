@@ -23,6 +23,8 @@ export const ChangePasswordForm = () => {
             : undefined;
         if (previousLocation === CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHANGE_PASSWORD__PATH) {
             dispatch(ChangePasswordThunk(changePassword));
+        } else if (previousLocation !== `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/confirm-email`) {
+            dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
         }
     }, []);
 

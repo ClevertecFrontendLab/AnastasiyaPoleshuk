@@ -8,14 +8,14 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { push } from 'redux-first-history';
 import { IsAuthAction, LoginAction } from '@redux/actions/AuthActions';
 import { ILoginResponse } from '../../types/apiTypes';
+import { StatusCodes } from 'http-status-codes';
 
 export const AuthPage = () => {
     const [isLoginForm, setIsLoginForm] = useState(true);
     const { isLoading } = useAppSelector((state) => state.isLoading);
     const { isAuth } = useAppSelector((state) => state.user);
     const router = useAppSelector((state) => state.router);
-    const { isError } = useAppSelector((state) => state.error);
-    const { requestError } = useAppSelector((state) => state.error);
+    const { isError, requestError } = useAppSelector((state) => state.error);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -40,47 +40,25 @@ export const AuthPage = () => {
     }, [isAuth]);
 
     useEffect(() => {
-        if (isError) {
-            switch (requestError.statusCode) {
-                case 401:
-                    dispatch(
-                        push(
-                            `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.LOGIN__PATH}`,
-                        ),
-                    );
-                    break;
-                case 400:
-                    dispatch(
-                        push(
-                            `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.ERROR__PATH}`,
-                        ),
-                    );
-                    break;
-                case 409:
-                    dispatch(
-                        push(
-                            `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.USER_EXIT__PATH}`,
-                        ),
-                    );
-                    break;
-                case 429:
-                    dispatch(
-                        push(
-                            `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.ERROR__PATH}`,
-                        ),
-                    );
-                    break;
-                case 500:
-                    dispatch(
-                        push(
-                            `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.ERROR__PATH}`,
-                        ),
-                    );
-                    break;
-
-                default:
-                    break;
-            }
+        const previousLocation = router.previousLocations
+            ? router.previousLocations[1].location?.pathname
+            : undefined;
+        if (
+            requestError.statusCode === StatusCodes.CONFLICT &&
+            previousLocation === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`
+        ) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.USER_EXIT__PATH}`,
+                ),
+            );
+        }
+        if (isError && previousLocation === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.ERROR__PATH}`,
+                ),
+            );
         }
     }, [isError]);
 

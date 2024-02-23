@@ -4,11 +4,20 @@ import CONSTANTS from '@utils/constants';
 import { Button, Result } from 'antd';
 import { push } from 'redux-first-history';
 import './CheckPasswordResult.scss';
+import { useEffect } from 'react';
 
 export const CheckEmailFail = () => {
     const router = useAppSelector((state) => state.router);
-
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const previousLocation = router.previousLocations
+            ? router.previousLocations[1].location?.pathname
+            : undefined;
+        if (previousLocation !== CONSTANTS.ROUTER__PATH.AUTH__PATH) {
+            dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
+        }
+    }, []);
 
     const retry = () => {
         dispatch(isErrorAction(false));

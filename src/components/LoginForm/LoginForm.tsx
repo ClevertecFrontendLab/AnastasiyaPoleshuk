@@ -22,7 +22,6 @@ export const LoginForm = () => {
     const { isHealth } = useAppSelector((state) => state.isHealth);
     const { isError, requestError } = useAppSelector((state) => state.error);
     const router = useAppSelector((state) => state.router);
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -62,13 +61,17 @@ export const LoginForm = () => {
             ? router.previousLocations[1].location?.pathname
             : undefined;
 
-        if (isHealth && previousLocation === '/auth') {
+        if (isHealth && previousLocation === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}`) {
             dispatch(CheckEmailThunk({ email }));
         }
     }, [isHealth]);
 
     const onClickForgotPassword = () => {
         isValidEmail && email ? dispatch(HealthMonitorThunk()) : null;
+
+        if (isHealth) {
+            dispatch(CheckEmailThunk({ email }));
+        }
     };
 
     const onFinish = (values: IAuthRequest) => {
@@ -87,6 +90,7 @@ export const LoginForm = () => {
     const CheckEmail = (email: string) => {
         if (/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(email)) {
             setIsValidEmail(true);
+            setEmail(email);
         } else {
             setIsValidEmail(false);
         }
@@ -114,7 +118,6 @@ export const LoginForm = () => {
                     data-test-id='login-email'
                     onChange={(e) => {
                         CheckEmail(e.target.value);
-                        setEmail(e.target.value);
                     }}
                 />
             </Form.Item>

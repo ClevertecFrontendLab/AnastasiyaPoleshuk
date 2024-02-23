@@ -14,7 +14,7 @@ export const ConfirmEmailThunk = (request: IConfirmEmailRequest) =>
         const response: { data: IConfirmEmailResponse | IRequestError; status: number } =
             await confirmEmail(request);
 
-        if (response.status === StatusCodes.OK) {
+        if (response.status === StatusCodes.OK || response.status === StatusCodes.CREATED) {
             dispatch(ConfirmEmailAction(true));
         } else {
             dispatch(ErrorAction(response.data as IRequestError));

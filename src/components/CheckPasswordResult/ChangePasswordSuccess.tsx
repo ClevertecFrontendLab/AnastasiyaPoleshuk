@@ -1,15 +1,32 @@
-import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import CONSTANTS from '@utils/constants';
 import { Button, Result } from 'antd';
 import { push } from 'redux-first-history';
 import './CheckPasswordResult.scss';
 import { IsCheckEmailSuccessAction } from '@redux/actions/AuthActions';
+import { useEffect } from 'react';
+import { isErrorAction } from '@redux/actions/ErrorAction';
 
 export const ChangePasswordSuccess = () => {
+    const router = useAppSelector((state) => state.router);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const previousLocation = router.previousLocations
+            ? router.previousLocations[1].location?.pathname
+            : undefined;
+
+        if (
+            previousLocation !==
+            `${CONSTANTS.ROUTER__PATH.AUTH__PATH}${CONSTANTS.ROUTER__PATH.CHANGE_PASSWORD__PATH}`
+        ) {
+            dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
+        }
+    }, []);
 
     const redirect = () => {
         dispatch(IsCheckEmailSuccessAction(false));
+        dispatch(isErrorAction(false));
         dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
     };
 
