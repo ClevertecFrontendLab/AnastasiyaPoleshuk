@@ -2,7 +2,7 @@ import { Button, Form, Input } from 'antd';
 import './RegistrationForm.scss';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { RegisterUserThunk } from '@redux/thunks/RegisterUserThunk';
+import { RegisterUserThunk } from '../../redux/thunk/userThunks';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';

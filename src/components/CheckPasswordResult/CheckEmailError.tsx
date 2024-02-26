@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { isErrorAction } from '@redux/actions/ErrorAction';
-import { CheckEmailThunk } from '@redux/thunks/CheckEmailThunk';
+import { checkEmailErrorState } from '@redux/slices/ChangePasswordSlice';
+import { CheckEmailThunk } from '@redux/thunk/changePasswordThunks';
 import CONSTANTS from '@utils/constants';
 import { Button, Result } from 'antd';
 import { useEffect } from 'react';
 import { push } from 'redux-first-history';
 
-export const HealthMonitorFail = () => {
-    const { email } = useAppSelector((state) => state.user);
+export const CheckEmailError = () => {
+    const { email } = useAppSelector((state) => state.changePassword);
     const router = useAppSelector((state) => state.router);
     const dispatch = useAppDispatch();
 
@@ -22,7 +22,7 @@ export const HealthMonitorFail = () => {
 
     const back = () => {
         dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
-        dispatch(isErrorAction(false));
+        dispatch(checkEmailErrorState(false));
         dispatch(CheckEmailThunk({ email }));
     };
 

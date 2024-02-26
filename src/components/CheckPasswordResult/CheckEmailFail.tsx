@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { isErrorAction } from '@redux/actions/ErrorAction';
 import CONSTANTS from '@utils/constants';
 import { Button, Result } from 'antd';
 import { push } from 'redux-first-history';
 import './CheckPasswordResult.scss';
 import { useEffect } from 'react';
+import { checkEmailErrorState } from '@redux/slices/ChangePasswordSlice';
 
 export const CheckEmailFail = () => {
     const router = useAppSelector((state) => state.router);
@@ -20,7 +20,7 @@ export const CheckEmailFail = () => {
     }, []);
 
     const retry = () => {
-        dispatch(isErrorAction(false));
+        dispatch(checkEmailErrorState(false));
         dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
     };
 

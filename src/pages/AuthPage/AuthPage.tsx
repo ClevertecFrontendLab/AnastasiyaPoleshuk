@@ -6,16 +6,13 @@ import CONSTANTS from '@utils/constants';
 import { Loader } from '@components/Loader/Loader';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { push } from 'redux-first-history';
-import { IsAuthAction, LoginAction } from '@redux/actions/AuthActions';
-import { ILoginResponse } from '../../types/apiTypes';
 import { StatusCodes } from 'http-status-codes';
+import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 
 export const AuthPage = () => {
     const [isLoginForm, setIsLoginForm] = useState(true);
-    const { isLoading } = useAppSelector((state) => state.isLoading);
-    const { isAuth } = useAppSelector((state) => state.user);
+    const { isAuth, isRegisterError, error, isLoading } = useAppSelector((state) => state.user);
     const router = useAppSelector((state) => state.router);
-    const { isError, requestError } = useAppSelector((state) => state.error);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -27,8 +24,8 @@ export const AuthPage = () => {
 
         const token = localStorage.getItem('jwtToken');
         if (token) {
-            dispatch(LoginAction({ accessToken: token } as ILoginResponse));
-            dispatch(IsAuthAction(true));
+            dispatch(setToken(token));
+            dispatch(changeAuthState(true));
             dispatch(push('/main'));
         }
     }, []);
@@ -41,8 +38,8 @@ export const AuthPage = () => {
 
     useEffect(() => {
         if (
-            isError &&
-            requestError.statusCode === StatusCodes.CONFLICT &&
+            isRegisterError &&
+            error.statusCode === StatusCodes.CONFLICT &&
             router.location?.pathname === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`
         ) {
             dispatch(
@@ -51,7 +48,7 @@ export const AuthPage = () => {
                 ),
             );
         } else if (
-            isError &&
+            isRegisterError &&
             router.location?.pathname === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`
         ) {
             dispatch(
@@ -60,7 +57,7 @@ export const AuthPage = () => {
                 ),
             );
         }
-    }, [isError]);
+    }, [isRegisterError]);
 
     return (
         <div className='auth-page'>

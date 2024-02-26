@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { isErrorAction } from '@redux/actions/ErrorAction';
 import CONSTANTS from '@utils/constants';
 import { Button, Result } from 'antd';
 import { push } from 'redux-first-history';
 import './CheckPasswordResult.scss';
 import { useEffect } from 'react';
+import { changePasswordErrorState } from '../../redux/slices/ChangePasswordSlice';
 
 export const ChangePasswordFail = () => {
     const router = useAppSelector((state) => state.router);
@@ -24,7 +24,7 @@ export const ChangePasswordFail = () => {
     }, []);
 
     const retryRequest = () => {
-        dispatch(isErrorAction(false));
+        dispatch(changePasswordErrorState(false));
         dispatch(
             push(
                 `${CONSTANTS.ROUTER__PATH.AUTH__PATH}${CONSTANTS.ROUTER__PATH.CHANGE_PASSWORD__PATH}`,

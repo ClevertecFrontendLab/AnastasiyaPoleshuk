@@ -15,7 +15,7 @@ import { RegistrationSuccessWindow } from '@components/RegistrationResult/Regist
 import { ConfirmEmailForm } from '@components/ConfirmEmailForm/ConfirmEmailForm';
 import { ChangePasswordForm } from '@components/ChangePasswordForm/ChangePasswordForm';
 import { CheckEmailFail } from '@components/CheckPasswordResult/CheckEmailFail';
-import { HealthMonitorFail } from '@components/CheckPasswordResult/HealthMonitorFail';
+import { CheckEmailError } from '@components/CheckPasswordResult/CheckEmailError';
 import { ChangePasswordFail } from '@components/CheckPasswordResult/ChangePasswordFail';
 import { ChangePasswordSuccess } from '@components/CheckPasswordResult/ChangePasswordSuccess';
 
@@ -69,7 +69,7 @@ export const App = () => {
                 />
                 <Route
                     path={`${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHECK_EMAIL__PATH}`}
-                    element={<HealthMonitorFail />}
+                    element={<CheckEmailError />}
                 />
                 <Route
                     path={`${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHANGE_PASSWORD__PATH}`}

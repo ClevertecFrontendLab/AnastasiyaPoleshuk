@@ -3,9 +3,11 @@ import CONSTANTS from '@utils/constants';
 import { Button, Result } from 'antd';
 import { push } from 'redux-first-history';
 import './CheckPasswordResult.scss';
-import { IsCheckEmailSuccessAction } from '@redux/actions/AuthActions';
 import { useEffect } from 'react';
-import { isErrorAction } from '@redux/actions/ErrorAction';
+import {
+    changePasswordErrorState,
+    checkEmailSuccessState,
+} from '../../redux/slices/ChangePasswordSlice';
 
 export const ChangePasswordSuccess = () => {
     const router = useAppSelector((state) => state.router);
@@ -25,8 +27,8 @@ export const ChangePasswordSuccess = () => {
     }, []);
 
     const redirect = () => {
-        dispatch(IsCheckEmailSuccessAction(false));
-        dispatch(isErrorAction(false));
+        dispatch(checkEmailSuccessState(false));
+        dispatch(changePasswordErrorState(false));
         dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
     };
 

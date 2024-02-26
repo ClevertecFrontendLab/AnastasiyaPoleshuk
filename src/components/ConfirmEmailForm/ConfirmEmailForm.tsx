@@ -2,7 +2,7 @@ import { Result } from 'antd';
 import './ConfirmEmailForm.scss';
 import VerificationInput from 'react-verification-input';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { ConfirmEmailThunk } from '@redux/thunks/ConfirmEmailThunk';
+import { ConfirmEmailThunk } from '@redux/thunk/changePasswordThunks';
 import { useEffect, useState } from 'react';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
@@ -10,9 +10,10 @@ import { push } from 'redux-first-history';
 export const ConfirmEmailForm = () => {
     const [formError, setFormError] = useState(false);
     const [confirmCode, setConfirmCode] = useState('');
-    const { email } = useAppSelector((state) => state.user);
-    const { IsConfirmEmailSuccess } = useAppSelector((state) => state.user);
-    const { isError } = useAppSelector((state) => state.error);
+    const { email } = useAppSelector((state) => state.changePassword);
+    const { isConfirmEmailError, isConfirmEmailSuccess } = useAppSelector(
+        (state) => state.changePassword,
+    );
     const router = useAppSelector((state) => state.router);
     const dispatch = useAppDispatch();
 
@@ -26,11 +27,11 @@ export const ConfirmEmailForm = () => {
     }, []);
 
     useEffect(() => {
-        if (!IsConfirmEmailSuccess && isError) {
+        if (isConfirmEmailError) {
             setConfirmCode('');
             setFormError(true);
         }
-        if (IsConfirmEmailSuccess && !isError) {
+        if (isConfirmEmailSuccess) {
             setFormError(false);
             dispatch(
                 push(
@@ -38,7 +39,7 @@ export const ConfirmEmailForm = () => {
                 ),
             );
         }
-    }, [IsConfirmEmailSuccess, isError]);
+    }, [isConfirmEmailSuccess, isConfirmEmailError]);
 
     const checkCode = (code: string) => {
         dispatch(

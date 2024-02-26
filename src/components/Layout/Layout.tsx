@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 
 export const Layout = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const { isLoading: isLoadingState } = useAppSelector((state) => state.isLoading);
+    const { isLoading: isLoadingUserState } = useAppSelector((state) => state.user);
+    const { isLoading: isLoadingState } = useAppSelector((state) => state.changePassword);
 
     useEffect(() => {
-        setIsLoading(isLoadingState);
+        setIsLoading(isLoadingState || isLoadingUserState);
     }, [isLoadingState]);
 
     return (

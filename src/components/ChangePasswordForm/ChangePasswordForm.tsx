@@ -3,7 +3,7 @@ import './ChangePasswordForm.scss';
 import { useAppSelector, useAppDispatch } from '@hooks/typed-react-redux-hooks';
 import { useEffect, useState } from 'react';
 import { IChangePasswordRequest } from '../../types/apiTypes';
-import { ChangePasswordThunk } from '@redux/thunks/ChangePasswordThunk';
+import { ChangePasswordThunk } from '@redux/thunk/changePasswordThunks';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
 
@@ -12,8 +12,9 @@ export const ChangePasswordForm = () => {
     const [isPasswordsMatch, setIsVPasswordsMatch] = useState(true);
     const [changePassword, setChangePassword] = useState({ password: '', confirmPassword: '' });
     const [password, setPassword] = useState('');
-    const { IsChangePasswordSuccess } = useAppSelector((state) => state.user);
-    const { isError } = useAppSelector((state) => state.error);
+    const { isChangePasswordSuccess, isChangePasswordError } = useAppSelector(
+        (state) => state.changePassword,
+    );
     const router = useAppSelector((state) => state.router);
     const dispatch = useAppDispatch();
 
@@ -32,21 +33,21 @@ export const ChangePasswordForm = () => {
     }, []);
 
     useEffect(() => {
-        if (IsChangePasswordSuccess) {
+        if (isChangePasswordSuccess) {
             dispatch(
                 push(
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.SUCCESS.CHANGE_PASSWORD__PATH}`,
                 ),
             );
         }
-        if (isError && !IsChangePasswordSuccess) {
+        if (isChangePasswordError) {
             dispatch(
                 push(
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHANGE_PASSWORD__PATH}`,
                 ),
             );
         }
-    }, [IsChangePasswordSuccess, isError]);
+    }, [isChangePasswordSuccess, isChangePasswordError]);
 
     const onFinish = (passwordData: IChangePasswordRequest) => {
         if (isPasswordsMatch) {

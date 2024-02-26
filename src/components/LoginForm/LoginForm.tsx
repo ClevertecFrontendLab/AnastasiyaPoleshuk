@@ -4,23 +4,23 @@ import './LoginForm.scss';
 import CONSTANTS from '@utils/constants';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { IAuthRequest } from '../../types/apiTypes';
-import { LoginUserThunk } from '@redux/thunks/LoginUserThunk';
+import { LoginUserThunk } from '@redux/thunk/userThunks';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { CheckEmailThunk } from '@redux/thunks/CheckEmailThunk';
+import { CheckEmailThunk } from '@redux/thunk/changePasswordThunks';
 import { push } from 'redux-first-history';
 import { StatusCodes } from 'http-status-codes';
 export const LoginForm = () => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false);
     const [rememberUser, setRememberUser] = useState(false);
-    const [loginWay, setLoginWay] = useState(false);
     const [email, setEmail] = useState('');
-    const { token } = useAppSelector((state) => state.user);
-    const { isAuth } = useAppSelector((state) => state.user);
-    const { isCheckEmailSuccess } = useAppSelector((state) => state.user);
-    const { isError, requestError } = useAppSelector((state) => state.error);
-    const router = useAppSelector((state) => state.router);
+    const { isCheckEmailSuccess, isCheckEmailError, error } = useAppSelector(
+        (state) => state.changePassword,
+    );
+
+    const { isAuth, isError: isErrorLogin, accessToken } = useAppSelector((state) => state.user);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -30,45 +30,49 @@ export const LoginForm = () => {
     }, [isCheckEmailSuccess]);
 
     useEffect(() => {
+        if (isErrorLogin) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.LOGIN__PATH}`,
+                ),
+            );
+        }
+    }, [isErrorLogin]);
+
+    useEffect(() => {
         if (
-            isError &&
-            requestError.statusCode === StatusCodes.NOT_FOUND &&
-            requestError.message === CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE
+            isCheckEmailError &&
+            error.statusCode === StatusCodes.NOT_FOUND &&
+            error.message === CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE
         ) {
             dispatch(
                 push(
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHECK_EMAIL_NO_EXIST__PATH}`,
                 ),
             );
-        } else if (isError && loginWay) {
-            dispatch(
-                push(
-                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.LOGIN__PATH}`,
-                ),
-            );
-        } else if (isError && requestError.message !== CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE) {
+        } else if (isCheckEmailError && error.message !== CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE) {
             dispatch(
                 push(
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHECK_EMAIL__PATH}`,
                 ),
             );
         }
-    }, [isError]);
+    }, [isCheckEmailError]);
 
     useEffect(() => {
-        if (isAuth && rememberUser) {
-            localStorage.setItem('jwtToken', token as string);
+        if (isAuth) {
+            dispatch(push('/main'));
+
+            rememberUser && localStorage.setItem('jwtToken', accessToken as string);
         }
     }, [isAuth]);
 
     const onClickForgotPassword = () => {
-        setLoginWay(false);
         isValidEmail && email ? dispatch(CheckEmailThunk({ email })) : null;
     };
 
     const onFinish = (values: IAuthRequest) => {
         if (isValidPassword && isValidEmail) {
-            setLoginWay(true);
             dispatch(
                 LoginUserThunk({
                     email: values.email,
