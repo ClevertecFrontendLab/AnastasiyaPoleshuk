@@ -45,7 +45,7 @@
         width: 100%;
         text-align: center;
         @include body-regular;
-        color: #8c8c8c;
+        color: $gray-color;
         padding-bottom: 12px;
         border-bottom: 1px solid $selected-bg-color-light;
     }

@@ -1,15 +1,5 @@
 import './Navigation.scss';
-import logo from '../../../public/assets/svg/logo.svg';
-
-import {
-    AppstoreOutlined,
-    ContainerOutlined,
-    DesktopOutlined,
-    MailOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    PieChartOutlined,
-} from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Menu } from 'antd';
 import React, { useState } from 'react';
@@ -21,6 +11,10 @@ import { WorkoutIcon } from './Iconscomponents/WorkoutIcon';
 import { LogoIcon } from './Iconscomponents/LogoIcon';
 import { ExitIcon } from './Iconscomponents/ExitIcon';
 import { LogoShortIcon } from './Iconscomponents/LogoShortIcon';
+import { NavLink } from 'react-router-dom';
+import CONSTANTS from '@utils/constants';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -50,9 +44,16 @@ const items: MenuItem[] = [
 export const Navigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [width, setIsMobile] = useState(window.innerWidth);
+    const dispatch = useAppDispatch();
 
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
+    };
+
+    const logOut = () => {
+        dispatch(setToken(''));
+        dispatch(changeAuthState(false));
+        localStorage.removeItem('jwtToken');
     };
 
     return (
@@ -79,7 +80,11 @@ export const Navigation: React.FC = () => {
                 items={items}
                 className={collapsed ? 'menu__collapsed' : 'menu'}
             ></Menu>
-            <div className='nav__button-exit'>
+            <NavLink
+                to={`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`}
+                className='nav__button-exit'
+                onClick={logOut}
+            >
                 {collapsed ? (
                     <ExitIcon />
                 ) : (
@@ -88,7 +93,7 @@ export const Navigation: React.FC = () => {
                         <span>Выход</span>
                     </>
                 )}
-            </div>
+            </NavLink>
         </div>
     );
 };

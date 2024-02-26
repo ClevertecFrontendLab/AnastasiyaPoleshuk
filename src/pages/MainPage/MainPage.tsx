@@ -1,11 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import './MainPage.scss';
 import { Header } from '@components/header/Header';
 import { NavLink } from 'react-router-dom';
 import { Footer } from '@components/footer/Footer';
+import { push } from 'redux-first-history';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
+import CONSTANTS from '@utils/constants';
+import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 
 export const MainPage: React.FC = () => {
+    const { isAuth } = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            dispatch(setToken(token));
+            dispatch(changeAuthState(true));
+            dispatch(push('/main'));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!isAuth) {
+            dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
+        } else {
+            dispatch(push('/main'));
+        }
+    }, [isAuth]);
+
     return (
         <div className='main-page main'>
             <Header />
