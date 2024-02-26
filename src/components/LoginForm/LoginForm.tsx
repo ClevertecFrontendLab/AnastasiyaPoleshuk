@@ -155,7 +155,7 @@ export const LoginForm = () => {
                 </Button>
             </Form.Item>
             <Button className='form__button'>
-                <GooglePlusOutlined />
+                <GooglePlusOutlined className='form__button-icon' />
                 Регистрация через Google
             </Button>
         </Form>
