@@ -17,7 +17,15 @@ export const RegisterUserThunk = (requestData: IAuthRequest) =>
         if (response.status === StatusCodes.CREATED) {
             dispatch(RegisterAction(true));
         } else {
-            dispatch(ErrorAction(response.data as IRequestError));
+            const errorObject = response.data.error
+                ? response.data
+                : {
+                      statusCode: response.status,
+                      error: '',
+                      message: '',
+                  };
+
+            dispatch(ErrorAction(errorObject as IRequestError));
             dispatch(RegisterAction(false));
         }
         dispatch(LoadingAction(false));

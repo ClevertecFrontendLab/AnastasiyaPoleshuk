@@ -14,7 +14,11 @@ export const ChangePasswordFail = () => {
         const previousLocation = router.previousLocations
             ? router.previousLocations[1].location?.pathname
             : undefined;
-        if (previousLocation !== CONSTANTS.ROUTER__PATH.CHANGE_PASSWORD__PATH) {
+
+        if (
+            previousLocation !==
+            `${CONSTANTS.ROUTER__PATH.AUTH__PATH}${CONSTANTS.ROUTER__PATH.CHANGE_PASSWORD__PATH}`
+        ) {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
         }
     }, []);

@@ -17,7 +17,14 @@ export const CheckEmailThunk = (request: { email: string }) =>
         if (response.status === StatusCodes.OK) {
             dispatch(CheckEmailAction(response.data as ICheckEmailResponse));
         } else {
-            dispatch(ErrorAction(response.data as IRequestError));
+            const errorObject = response.data.error
+                ? response.data
+                : {
+                      statusCode: response.status,
+                      error: '',
+                      message: response.data.message,
+                  };
+            dispatch(ErrorAction(errorObject as IRequestError));
         }
         dispatch(LoadingAction(false));
     };

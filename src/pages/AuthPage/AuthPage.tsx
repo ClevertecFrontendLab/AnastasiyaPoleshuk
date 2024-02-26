@@ -40,20 +40,20 @@ export const AuthPage = () => {
     }, [isAuth]);
 
     useEffect(() => {
-        const previousLocation = router.previousLocations
-            ? router.previousLocations[1].location?.pathname
-            : undefined;
         if (
+            isError &&
             requestError.statusCode === StatusCodes.CONFLICT &&
-            previousLocation === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`
+            router.location?.pathname === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`
         ) {
             dispatch(
                 push(
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.USER_EXIT__PATH}`,
                 ),
             );
-        }
-        if (isError && previousLocation === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`) {
+        } else if (
+            isError &&
+            router.location?.pathname === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/registration`
+        ) {
             dispatch(
                 push(
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.ERROR__PATH}`,

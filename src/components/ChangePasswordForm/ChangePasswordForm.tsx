@@ -21,7 +21,10 @@ export const ChangePasswordForm = () => {
         const previousLocation = router.previousLocations
             ? router.previousLocations[1].location?.pathname
             : undefined;
-        if (previousLocation === CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHANGE_PASSWORD__PATH) {
+        if (
+            previousLocation ===
+            `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHANGE_PASSWORD__PATH}`
+        ) {
             dispatch(ChangePasswordThunk(changePassword));
         } else if (previousLocation !== `${CONSTANTS.ROUTER__PATH.AUTH__PATH}/confirm-email`) {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));

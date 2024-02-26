@@ -17,7 +17,15 @@ export const ChangePasswordThunk = (request: IChangePasswordRequest) =>
         if (response.status === StatusCodes.CREATED) {
             dispatch(ChangePasswordAction(request as IChangePasswordRequest));
         } else {
-            dispatch(ErrorAction(response.data as IRequestError));
+            const errorObject = response.data.error
+                ? response.data
+                : {
+                      statusCode: response.status,
+                      error: '',
+                      message: '',
+                  };
+
+            dispatch(ErrorAction(errorObject as IRequestError));
         }
         dispatch(LoadingAction(false));
     };

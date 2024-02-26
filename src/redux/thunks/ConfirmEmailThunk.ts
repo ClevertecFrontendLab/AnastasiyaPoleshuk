@@ -1,7 +1,7 @@
 import StatusCodes from 'http-status-codes';
 
 import { IConfirmEmailRequest, IConfirmEmailResponse, IRequestError } from '../../types/apiTypes';
-import { ErrorAction } from '../actions/ErrorAction';
+import { ErrorAction, isErrorAction } from '../actions/ErrorAction';
 import { LoadingAction } from '../actions/LoadingAction';
 import { AppDispatch } from '@redux/configure-store';
 import { ConfirmEmailAction } from '@redux/actions/AuthActions';
@@ -16,6 +16,7 @@ export const ConfirmEmailThunk = (request: IConfirmEmailRequest) =>
 
         if (response.status === StatusCodes.OK || response.status === StatusCodes.CREATED) {
             dispatch(ConfirmEmailAction(true));
+            dispatch(isErrorAction(false));
         } else {
             dispatch(ErrorAction(response.data as IRequestError));
             dispatch(ConfirmEmailAction(false));

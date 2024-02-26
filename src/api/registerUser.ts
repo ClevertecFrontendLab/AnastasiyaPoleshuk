@@ -9,7 +9,6 @@ export const registerUser = async (request: IAuthRequest) => {
             email: request.email,
             password: request.password,
         });
-
         return { data, status };
     } catch (error) {
         if (axios.isAxiosError(error)) {

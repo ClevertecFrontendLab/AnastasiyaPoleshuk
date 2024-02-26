@@ -9,6 +9,7 @@ import { push } from 'redux-first-history';
 
 export const ConfirmEmailForm = () => {
     const [formError, setFormError] = useState(false);
+    const [confirmCode, setConfirmCode] = useState('');
     const { email } = useAppSelector((state) => state.user);
     const { IsConfirmEmailSuccess } = useAppSelector((state) => state.user);
     const { isError } = useAppSelector((state) => state.error);
@@ -26,6 +27,7 @@ export const ConfirmEmailForm = () => {
 
     useEffect(() => {
         if (!IsConfirmEmailSuccess && isError) {
+            setConfirmCode('');
             setFormError(true);
         }
         if (IsConfirmEmailSuccess && !isError) {
@@ -62,10 +64,13 @@ export const ConfirmEmailForm = () => {
                         placeholder=''
                         autoFocus={true}
                         onComplete={(codeString) => checkCode(codeString)}
+                        onChange={(codeString) => setConfirmCode(codeString)}
+                        value={confirmCode}
                         classNames={{
                             character: `verification-input ${
                                 formError ? 'verification-input__error' : ''
                             }`,
+                            characterInactive: 'verification-input__inactive',
                         }}
                         inputProps={{ ['data-test-id']: 'verification-input' }}
                     />

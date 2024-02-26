@@ -7,7 +7,6 @@ import { IAuthRequest } from '../../types/apiTypes';
 import { LoginUserThunk } from '@redux/thunks/LoginUserThunk';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { HealthMonitorThunk } from '@redux/thunks/HealthMonitorThunk';
 import { CheckEmailThunk } from '@redux/thunks/CheckEmailThunk';
 import { push } from 'redux-first-history';
 import { StatusCodes } from 'http-status-codes';
@@ -15,11 +14,11 @@ export const LoginForm = () => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false);
     const [rememberUser, setRememberUser] = useState(false);
+    const [loginWay, setLoginWay] = useState(false);
     const [email, setEmail] = useState('');
     const { token } = useAppSelector((state) => state.user);
     const { isAuth } = useAppSelector((state) => state.user);
     const { isCheckEmailSuccess } = useAppSelector((state) => state.user);
-    const { isHealth } = useAppSelector((state) => state.isHealth);
     const { isError, requestError } = useAppSelector((state) => state.error);
     const router = useAppSelector((state) => state.router);
     const dispatch = useAppDispatch();
@@ -41,6 +40,12 @@ export const LoginForm = () => {
                     `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.CHECK_EMAIL_NO_EXIST__PATH}`,
                 ),
             );
+        } else if (isError && loginWay) {
+            dispatch(
+                push(
+                    `${CONSTANTS.ROUTER__PATH.RESULT.RESULT}${CONSTANTS.ROUTER__PATH.RESULT.ERROR.LOGIN__PATH}`,
+                ),
+            );
         } else if (isError && requestError.message !== CONSTANTS.CHECK_EMAIL_ERROR_MESSAGE) {
             dispatch(
                 push(
@@ -56,26 +61,14 @@ export const LoginForm = () => {
         }
     }, [isAuth]);
 
-    useEffect(() => {
-        const previousLocation = router.previousLocations
-            ? router.previousLocations[1].location?.pathname
-            : undefined;
-
-        if (isHealth && previousLocation === `${CONSTANTS.ROUTER__PATH.AUTH__PATH}`) {
-            dispatch(CheckEmailThunk({ email }));
-        }
-    }, [isHealth]);
-
     const onClickForgotPassword = () => {
-        isValidEmail && email ? dispatch(HealthMonitorThunk()) : null;
-
-        if (isHealth) {
-            dispatch(CheckEmailThunk({ email }));
-        }
+        setLoginWay(false);
+        isValidEmail && email ? dispatch(CheckEmailThunk({ email })) : null;
     };
 
     const onFinish = (values: IAuthRequest) => {
         if (isValidPassword && isValidEmail) {
+            setLoginWay(true);
             dispatch(
                 LoginUserThunk({
                     email: values.email,
