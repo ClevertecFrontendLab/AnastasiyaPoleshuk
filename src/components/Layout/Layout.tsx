@@ -1,6 +1,5 @@
 import { GetFeedbacksFail } from '@components/FeedbacksResult/GetFeedbacksFail';
 import { Loader } from '@components/Loader/Loader';
-import { ModalWindow } from '@components/Modal/Modal';
 import { Navigation } from '@components/Navigation/Navigation';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { AppContext } from '../../context/AppContext';
@@ -36,11 +35,7 @@ export const Layout = () => {
             <Navigation />
             <Outlet />
             {isLoading && <Loader />}
-            {isFeedbacksFailModalOpen && (
-                <ModalWindow>
-                    <GetFeedbacksFail />
-                </ModalWindow>
-            )}
+            <GetFeedbacksFail isFeedbacksFailModalOpen={isFeedbacksFailModalOpen} />
         </div>
     );
 };
