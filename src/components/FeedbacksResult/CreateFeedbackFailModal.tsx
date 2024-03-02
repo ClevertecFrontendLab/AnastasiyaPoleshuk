@@ -16,8 +16,14 @@ export const CreateFeedbackFailModal = ({
     const dispatch = useAppDispatch();
 
     const onOk = () => {
-        closeModal(CONSTANTS.CREATE_FEEDBACK_ERROR_MODAL);
         openModal(CONSTANTS.CREATE_FEEDBACK_MODAL);
+        dispatch(changeCreateFeedbackErrorState(false));
+        dispatch(cleanError());
+        closeModal(CONSTANTS.CREATE_FEEDBACK_ERROR_MODAL);
+    };
+
+    const cancel = () => {
+        closeModal(CONSTANTS.CREATE_FEEDBACK_ERROR_MODAL);
         dispatch(changeCreateFeedbackErrorState(false));
         dispatch(cleanError());
     };
@@ -25,7 +31,6 @@ export const CreateFeedbackFailModal = ({
     return (
         <Modal
             open={isCreateFeedbackErrorModalOpen}
-            onCancel={() => closeModal(CONSTANTS.CREATE_FEEDBACK_MODAL)}
             className='create-feedback modal-component'
             closeIcon={null}
             footer={null}
@@ -36,7 +41,7 @@ export const CreateFeedbackFailModal = ({
                 subTitle='Что-то пошло не так. Попробуйте ещё раз.'
                 className='result-component'
                 extra={[
-                    <div className='result-button'>
+                    <div className='result-buttons'>
                         <Button
                             type='primary'
                             onClick={onOk}
@@ -45,10 +50,7 @@ export const CreateFeedbackFailModal = ({
                         >
                             Написать отзыв
                         </Button>
-                        <Button
-                            onClick={() => closeModal(CONSTANTS.CREATE_FEEDBACK_ERROR_MODAL)}
-                            className='button'
-                        >
+                        <Button onClick={cancel} className='button'>
                             Закрыть
                         </Button>
                         <p className='extra-info'>Данные не сохранились</p>

@@ -22,7 +22,6 @@ import { CreateFeedbackFailModal } from '@components/FeedbacksResult/CreateFeedb
 //TODO: стили modalwindow от antd
 //TODO: разобраться какого черта свежий коммент не сверху(связанно с отсутствием апдейта состояния массива и его отсортированной версии)
 //TODO: авторизация гугл
-//TODO: тесты
 
 export const FeedBackPage = () => {
     const {

@@ -25,7 +25,7 @@ export const GetFeedbacksFail = () => {
             subTitle={'Произошла ошибка, попробуйте ещё раз.'}
             className='component-padding'
             extra={
-                <Button type='primary' className='result__btn' onClick={close}>
+                <Button type='primary' className='result-fail-button' onClick={close}>
                     Назад
                 </Button>
             }

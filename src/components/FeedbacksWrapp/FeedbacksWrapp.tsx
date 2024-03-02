@@ -30,13 +30,12 @@ export const FeedbacksWrapp = () => {
     return (
         <div className='feedbacks-wrapp'>
             <div className={`feedbacks ${isCollapsed ? 'collapsed' : 'not-collapsed'}`}>
-                {feedbacksArr &&
-                    feedbacksArr.map((feedback: IFeedbacks) => (
-                        <FeedbackItem
-                            itemData={feedback}
-                            key={feedback.id ? feedback.id : feedback.createdAt}
-                        />
-                    ))}
+                {feedbacksArr.map((feedback: IFeedbacks) => (
+                    <FeedbackItem
+                        itemData={feedback}
+                        key={feedback.id ? feedback.id : feedback.createdAt}
+                    />
+                ))}
             </div>
 
             <div className='feedbacks-wrapp__btn-wrapp'>
@@ -62,7 +61,11 @@ export const FeedbacksWrapp = () => {
 
 function setDefaultFeedbacksArr(feedbacks: IFeedbacks[]) {
     const defaultArr = [];
-    for (let i = 0; i < 4; i++) {
+    const length =
+        feedbacks.length > CONSTANTS.DEFAULT__FEEDBACKS_COUNT
+            ? CONSTANTS.DEFAULT__FEEDBACKS_COUNT
+            : feedbacks.length;
+    for (let i = 0; i < length; i++) {
         defaultArr.push(feedbacks[i]);
     }
     return defaultArr;
