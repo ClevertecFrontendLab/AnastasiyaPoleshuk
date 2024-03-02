@@ -18,6 +18,9 @@
 
     .footer__link {
         @include h6;
+
+        outline: none;
+        border: none;
     }
 
     .footer__download-blok {

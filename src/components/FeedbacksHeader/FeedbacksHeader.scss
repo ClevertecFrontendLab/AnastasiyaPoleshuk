@@ -1,0 +1,23 @@
+@import '../../App.variables.scss';
+
+.feedbacks__header {
+    width: 100%;
+    padding: 16px 24px;
+    background-color: $primary-color-light-1;
+
+    position: sticky;
+    top: 0;
+
+    .feedbacks__header-btn {
+        height: auto;
+        color: $gray-color;
+        border: none;
+        outline: none;
+        padding: 0;
+
+        &:hover {
+            border: none;
+            outline: none;
+        }
+    }
+}

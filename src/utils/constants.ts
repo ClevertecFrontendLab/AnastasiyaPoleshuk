@@ -4,6 +4,7 @@ const CONSTANTS = {
         AUTH__PATH: '/auth',
         MAIN__PATH: '/main',
         CHANGE_PASSWORD__PATH: '/change-password',
+        FEEDBACKS__PATH: '/feedbacks',
         RESULT: {
             RESULT: '/result',
             SUCCESS: {
@@ -22,6 +23,10 @@ const CONSTANTS = {
     },
     CHECK_EMAIL_ERROR_MESSAGE: 'Email не найден',
     LOGIN_ERROR_MESSAGE: 'Неверные логин или пароль.',
+    GET_FEEDBACKS_FAIL_MODAL: 'toggle feedbacks fail modal window',
+    CREATE_FEEDBACK_MODAL: 'create feedback modal window',
+    CREATE_FEEDBACK_SUCCESS_MODAL: 'create feedback success modal window',
+    CREATE_FEEDBACK_ERROR_MODAL: 'create feedback error modal window',
 };
 
 export default CONSTANTS;

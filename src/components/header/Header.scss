@@ -1,7 +1,7 @@
 @import '../../App.variables.scss';
 
 .header {
-    background: rgba(121, 156, 212, 0.1);
+    background: $primary-color-light-1;
     padding: 16px 24px;
 
     .header__home-link {

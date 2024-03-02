@@ -1,23 +1,33 @@
+import { GetFeedbacksFail } from '@components/FeedbacksResult/GetFeedbacksFail';
 import { Loader } from '@components/Loader/Loader';
+import { ModalWindow } from '@components/Modal/Modal';
 import { Navigation } from '@components/Navigation/Navigation';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { MainPage } from '@pages/MainPage';
-import { useEffect, useState } from 'react';
+import { AppContext } from '../../context/AppContext';
+import { useContext, useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
 export const Layout = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const { isLoading: isLoadingUserState } = useAppSelector((state) => state.user);
-    const { isLoading: isLoadingState } = useAppSelector((state) => state.changePassword);
+    const { isLoading: isLoadingUser } = useAppSelector((state) => state.user);
+    const { isLoading: isLoadingChangePAssword } = useAppSelector((state) => state.changePassword);
+    const { isLoading: isLoadingFeedback } = useAppSelector((state) => state.feedbacks);
+    const { isFeedbacksFailModalOpen } = useContext(AppContext);
 
     useEffect(() => {
-        setIsLoading(isLoadingState || isLoadingUserState);
-    }, [isLoadingState]);
+        setIsLoading(isLoadingUser || isLoadingChangePAssword || isLoadingFeedback);
+    }, [isLoadingUser, isLoadingChangePAssword, isLoadingFeedback]);
 
     return (
         <div className='app'>
             <Navigation />
-            <MainPage />
+            <Outlet />
             {isLoading && <Loader />}
+            {isFeedbacksFailModalOpen && (
+                <ModalWindow>
+                    <GetFeedbacksFail />
+                </ModalWindow>
+            )}
         </div>
     );
 };

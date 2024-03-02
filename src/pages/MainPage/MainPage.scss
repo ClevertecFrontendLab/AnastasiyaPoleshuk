@@ -178,9 +178,13 @@
         @include body-regular;
         color: $brand-color-light;
         transition: 0.3s;
+        outline: none;
+        border: none;
 
         &:hover {
             color: $hover-color-light;
+            border: none;
+            outline: none;
         }
     }
 }

@@ -8,6 +8,7 @@ import { push } from 'redux-first-history';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import CONSTANTS from '@utils/constants';
 import { changeAuthState, setToken } from '@redux/slices/UserSlice';
+import { Button } from 'antd';
 
 export const MainPage: React.FC = () => {
     const { isAuth } = useAppSelector((state) => state.user);
@@ -75,9 +76,9 @@ export const MainPage: React.FC = () => {
                         </div>
                         <div className='card'>
                             <h5 className='card__title'>Заполнить профить</h5>
-                            <NavLink className='card__link' to='/'>
+                            <Button type='link' className='card__link'>
                                 Профиль
-                            </NavLink>
+                            </Button>
                         </div>
                     </div>
                 </div>

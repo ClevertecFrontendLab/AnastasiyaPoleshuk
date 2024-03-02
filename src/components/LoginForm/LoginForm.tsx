@@ -80,8 +80,6 @@ export const LoginForm = () => {
                 }),
             );
         }
-
-        setRememberUser(values.remember as boolean);
     };
 
     const CheckEmail = (email: string) => {
@@ -130,7 +128,13 @@ export const LoginForm = () => {
 
             <div className='form__items-box'>
                 <Form.Item name='remember' valuePropName='checked'>
-                    <Checkbox className='form__item' data-test-id='login-remember'>
+                    <Checkbox
+                        className='form__item'
+                        defaultChecked={rememberUser}
+                        checked={rememberUser}
+                        onClick={() => setRememberUser(!rememberUser)}
+                        data-test-id='login-remember'
+                    >
                         Запомнить меня
                     </Checkbox>
                 </Form.Item>

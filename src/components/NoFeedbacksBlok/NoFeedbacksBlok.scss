@@ -1,0 +1,39 @@
+@import '../../App.variables.scss';
+
+.no-feedbacks {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    &__card {
+        width: 100%;
+        background-color: $white-color;
+        border-radius: 2px;
+        padding: 56px 0;
+    }
+
+    &__card-title {
+        @include h3;
+        color: $primary-color-light-9;
+
+        padding-bottom: 48px;
+        text-align: center;
+    }
+
+    &__card-subtitle {
+        @include body-regular;
+        text-align: center;
+        color: $gray-color;
+    }
+
+    &__btn {
+        border: 1px solid $brand-color-light;
+        border-radius: 2px;
+        padding: 4px 15px;
+    }
+}

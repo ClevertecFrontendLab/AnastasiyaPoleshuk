@@ -1,0 +1,53 @@
+@import '../../App.variables.scss';
+
+.component-padding {
+    padding: 64px 150px;
+}
+
+.modal-component {
+    border-radius: 2px !important;
+    @media (max-width: 360px) {
+        padding: 0;
+    }
+}
+
+.result-component {
+    padding: 32px 16px;
+
+    @media (max-width: 360px) {
+        padding: 0;
+    }
+}
+
+.result-button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.button {
+    width: 180px;
+    height: 40px;
+    border-radius: 2px;
+
+    &:first-child {
+        margin-right: 8px;
+    }
+
+    @media (max-width: 360px) {
+        width: 48%;
+    }
+}
+
+.extra-info {
+    width: 100%;
+    text-align: center;
+    @include h3;
+    margin-top: 50px;
+
+    @media (max-width: 360px) {
+        display: none;
+        margin-top: 0px;
+    }
+}

@@ -42,7 +42,7 @@ const items: MenuItem[] = [
 ];
 
 export const Navigation: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(window.innerWidth <= 360 ? true : false);
     const [width, setIsMobile] = useState(window.innerWidth);
     const dispatch = useAppDispatch();
 

@@ -33,3 +33,17 @@ export interface IChangePasswordRequest {
     password: string;
     confirmPassword: string;
 }
+
+export interface IFeedbacks {
+    id?: string;
+    fullName: string | null;
+    imageSrc: string | null;
+    message?: string;
+    rating: number;
+    createdAt: string;
+}
+
+export interface ICreateFeedbackRequest {
+    message: string;
+    rating: number;
+}
