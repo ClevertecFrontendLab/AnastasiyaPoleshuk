@@ -19,8 +19,6 @@ import { setToken, changeAuthState } from '@redux/slices/UserSlice';
 import { StatusCodes } from 'http-status-codes';
 import { CreateFeedbackFailModal } from '@components/FeedbacksResult/CreateFeedbackFailModal';
 
-//TODO: разобраться какого черта свежий коммент не сверху(связанно с отсутствием апдейта состояния массива и его отсортированной версии)
-
 export const FeedBackPage = () => {
     const {
         feedbacks,
