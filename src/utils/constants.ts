@@ -28,6 +28,8 @@ const CONSTANTS = {
     CREATE_FEEDBACK_SUCCESS_MODAL: 'create feedback success modal window',
     CREATE_FEEDBACK_ERROR_MODAL: 'create feedback error modal window',
     DEFAULT__FEEDBACKS_COUNT: 4,
+    DATE_FORMAT: 'DD.MM.YYYY',
+    RESULT_STATUS_TYPE_500: '500',
 };
 
 export default CONSTANTS;

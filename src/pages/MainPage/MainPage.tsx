@@ -19,7 +19,7 @@ export const MainPage: React.FC = () => {
         if (token) {
             dispatch(setToken(token));
             dispatch(changeAuthState(true));
-            dispatch(push('/main'));
+            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
         }
     }, []);
 
@@ -27,7 +27,7 @@ export const MainPage: React.FC = () => {
         if (!isAuth) {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
         } else {
-            dispatch(push('/main'));
+            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
         }
     }, [isAuth]);
 

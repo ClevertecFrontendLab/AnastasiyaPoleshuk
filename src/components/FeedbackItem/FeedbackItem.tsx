@@ -3,6 +3,7 @@ import { Avatar, Rate } from 'antd';
 import { IFeedbacks } from '../../types/apiTypes';
 import './FeedbackItem.scss';
 import moment from 'moment';
+import CONSTANTS from '@utils/constants';
 
 export const FeedbackItem = ({ itemData }: { itemData: IFeedbacks; key: string }) => {
     return (
@@ -37,7 +38,7 @@ export const FeedbackItem = ({ itemData }: { itemData: IFeedbacks; key: string }
                         }}
                     />
                     <span className='card__date'>
-                        {moment(itemData.createdAt).locale('ru').format('DD.MM.YYYY')}
+                        {moment(itemData.createdAt).locale('ru').format(CONSTANTS.DATE_FORMAT)}
                     </span>
                 </div>
                 <h4 className='card__info-message'>{itemData.message}</h4>

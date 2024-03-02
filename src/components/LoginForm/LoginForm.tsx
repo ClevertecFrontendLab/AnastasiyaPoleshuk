@@ -61,7 +61,7 @@ export const LoginForm = () => {
 
     useEffect(() => {
         if (isAuth) {
-            dispatch(push('/main'));
+            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
 
             rememberUser && localStorage.setItem('jwtToken', accessToken as string);
         }
@@ -163,7 +163,6 @@ export const LoginForm = () => {
                 </Button>
             </Form.Item>
             <Button className='form__button' onClick={loginUseGoogle}>
-                {/* <Button className='form__button' onClick={() => dispatch(LoginGoogleThunk())}> */}
                 <GooglePlusOutlined className='form__button-icon' />
                 Регистрация через Google
             </Button>

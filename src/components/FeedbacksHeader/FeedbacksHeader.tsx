@@ -19,7 +19,7 @@ export const FeedbacksHeader = () => {
                         Главная
                     </Button>
                 </Breadcrumb.Item>
-                <Breadcrumb.Item>Отзывы Пользователей</Breadcrumb.Item>
+                <Breadcrumb.Item>Отзывы пользователей</Breadcrumb.Item>
             </Breadcrumb>
         </header>
     );

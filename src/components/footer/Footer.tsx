@@ -11,15 +11,17 @@ export const Footer = () => {
 
     const dispatch = useAppDispatch();
 
+    const checkFeedback = () => {
+        dispatch(GetFeedbacksThunk(accessToken));
+        dispatch(push(`${CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH}`));
+    };
+
     return (
         <footer className='footer'>
             <Button
                 type='link'
                 className='footer__link'
-                onClick={() => {
-                    dispatch(GetFeedbacksThunk(accessToken));
-                    dispatch(push(`${CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH}`));
-                }}
+                onClick={checkFeedback}
                 data-test-id='see-reviews'
             >
                 Смотреть отзывы

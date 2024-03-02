@@ -4,7 +4,6 @@ import './FeedbacksResult.scss';
 import { useContext } from 'react';
 import CONSTANTS from '@utils/constants';
 import { AppContext } from '../../context/AppContext';
-import { useAppDispatch } from '@hooks/index';
 
 export const CreateFeedbackSuccessModal = ({
     isCreateFeedbackSuccessModalOpen,
@@ -12,7 +11,6 @@ export const CreateFeedbackSuccessModal = ({
     isCreateFeedbackSuccessModalOpen: boolean;
 }) => {
     const { closeModal } = useContext(AppContext);
-    const dispatch = useAppDispatch();
 
     const onOk = () => {
         closeModal(CONSTANTS.CREATE_FEEDBACK_SUCCESS_MODAL);

@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 import { push } from 'redux-first-history';
+import CONSTANTS from '@utils/constants';
 
 export const Layout = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +27,7 @@ export const Layout = () => {
             localStorage.setItem('jwtToken', queryParams.get('accessToken') as string);
             dispatch(changeAuthState(true));
             dispatch(setToken(queryParams.get('accessToken') as string));
-            dispatch(push('/main'));
+            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
         }
     }, []);
 
