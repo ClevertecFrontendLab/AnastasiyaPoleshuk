@@ -62,7 +62,7 @@
 
     .card__date {
         @include body-small;
-        color: #bfbfbf;
+        color: $gray-color-light;
     }
 
     .card__info-message {
@@ -73,5 +73,5 @@
 }
 
 .anticon-star svg {
-    fill: #faad14;
+    fill: $gold-color-6;
 }

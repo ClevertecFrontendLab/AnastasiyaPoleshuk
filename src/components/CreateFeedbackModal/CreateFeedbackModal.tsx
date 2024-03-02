@@ -42,15 +42,17 @@ export const CreateFeedbackModal = ({
             }
             className='create-feedback'
         >
-            <Rate
-                className='create-feedback__rate'
-                character={({ value, index }) => {
-                    return value && index < value ? <StarFilled /> : <StarOutlined />;
-                }}
-                defaultValue={3}
-                onChange={(value) => setRating(value)}
-            />
-            <TextArea autoSize={{ minRows: 2 }} onChange={(e) => setMessage(e.target.value)} />
+            <div className='create-feeedback__modal-content'>
+                <Rate
+                    className='create-feedback__rate'
+                    character={({ value, index }) => {
+                        return value && index < value ? <StarFilled /> : <StarOutlined />;
+                    }}
+                    defaultValue={3}
+                    onChange={(value) => setRating(value)}
+                />
+                <TextArea autoSize={{ minRows: 2 }} onChange={(e) => setMessage(e.target.value)} />
+            </div>
         </Modal>
     );
 };

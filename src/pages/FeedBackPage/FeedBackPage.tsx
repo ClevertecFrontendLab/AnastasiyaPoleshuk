@@ -19,16 +19,13 @@ import { setToken, changeAuthState } from '@redux/slices/UserSlice';
 import { StatusCodes } from 'http-status-codes';
 import { CreateFeedbackFailModal } from '@components/FeedbacksResult/CreateFeedbackFailModal';
 
-//TODO: стили modalwindow от antd
 //TODO: разобраться какого черта свежий коммент не сверху(связанно с отсутствием апдейта состояния массива и его отсортированной версии)
-//TODO: авторизация гугл
 
 export const FeedBackPage = () => {
     const {
         feedbacks,
         isCreateFeedbackError,
         isCreateFeedbackSuccess,
-        isGetFeedbacksSuccess,
         isGetFeedbacksError,
         error,
     } = useAppSelector((state) => state.feedbacks);
