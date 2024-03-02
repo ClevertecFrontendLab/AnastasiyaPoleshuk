@@ -1,0 +1,17 @@
+@import '../../App.variables.scss';
+
+.create-feedback {
+    border-radius: 2px;
+    width: 539px;
+    height: 247px;
+
+    .create-feedback__rate {
+        margin-bottom: 16px;
+    }
+
+    .create-feedback__btn {
+        border: 1px;
+        border-radius: 2px;
+        padding: 4px 15px;
+    }
+}
