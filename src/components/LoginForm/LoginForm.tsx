@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { CheckEmailThunk } from '@redux/thunk/changePasswordThunks';
 import { push } from 'redux-first-history';
 import { StatusCodes } from 'http-status-codes';
+
 export const LoginForm = () => {
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(false);
@@ -18,7 +19,6 @@ export const LoginForm = () => {
     const { isCheckEmailSuccess, isCheckEmailError, error } = useAppSelector(
         (state) => state.changePassword,
     );
-
     const { isAuth, isError: isErrorLogin, accessToken } = useAppSelector((state) => state.user);
 
     const dispatch = useAppDispatch();
@@ -66,6 +66,10 @@ export const LoginForm = () => {
             rememberUser && localStorage.setItem('jwtToken', accessToken as string);
         }
     }, [isAuth]);
+
+    const loginUseGoogle = () => {
+        window.location.href = `${CONSTANTS.URL}auth/google`;
+    };
 
     const onClickForgotPassword = () => {
         isValidEmail && email ? dispatch(CheckEmailThunk({ email })) : null;
@@ -158,7 +162,8 @@ export const LoginForm = () => {
                     Войти
                 </Button>
             </Form.Item>
-            <Button className='form__button'>
+            <Button className='form__button' onClick={loginUseGoogle}>
+                {/* <Button className='form__button' onClick={() => dispatch(LoginGoogleThunk())}> */}
                 <GooglePlusOutlined className='form__button-icon' />
                 Регистрация через Google
             </Button>
