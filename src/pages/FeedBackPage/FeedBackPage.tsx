@@ -70,7 +70,7 @@ export const FeedBackPage = () => {
     }, [isCreateFeedbackSuccess]);
 
     return (
-        <div className='feedback'>
+        <div className={`feedback ${feedbacks.length ? 'feedbacks__wrapp' : 'no-feedbacks'}`}>
             <FeedbacksHeader />
             {feedbacks.length ? <FeedbacksWrapp /> : <NoFeedbacksBlok />}
             <CreateFeedbackModal isCreateFeedbackModalOpen={isCreateFeedbackModalOpen} />

@@ -12,6 +12,10 @@
         border: 1px solid var($selected-bg-color-light);
         border-radius: 2px;
         height: 40px;
+
+        & input {
+            height: auto;
+        }
     }
 
     .form__items-box {

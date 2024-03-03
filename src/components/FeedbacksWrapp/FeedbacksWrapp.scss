@@ -3,7 +3,7 @@
 .feedbacks-wrapp {
     align-self: flex-start;
 
-    width: 100%;
+    width: 96%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -26,6 +26,7 @@
         justify-content: flex-start;
         align-items: flex-start;
         gap: 20px;
+        overflow-x: hidden;
 
         box-sizing: border-box;
         @media (max-width: 360px) {
@@ -34,15 +35,11 @@
     }
 
     .collapsed {
-        overflow: hidden;
+        overflow-y: hidden;
     }
 
     .not-collapsed {
-        overflow: scroll;
-    }
-
-    .collapsed {
-        overflow: hidden;
+        overflow-y: scroll;
     }
 
     &__btn-wrapp {
