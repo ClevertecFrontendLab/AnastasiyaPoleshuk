@@ -53,7 +53,6 @@ export const CreateFeedbackFailModal = ({
                         <Button onClick={cancel} className='button'>
                             Закрыть
                         </Button>
-                        <p className='extra-info'>Данные не сохранились</p>
                     </div>,
                 ]}
             />

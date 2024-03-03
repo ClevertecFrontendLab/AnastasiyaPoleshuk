@@ -12,7 +12,7 @@ import { LogoIcon } from './Iconscomponents/LogoIcon';
 import { ExitIcon } from './Iconscomponents/ExitIcon';
 import { LogoShortIcon } from './Iconscomponents/LogoShortIcon';
 import CONSTANTS from '@utils/constants';
-import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 import { push } from 'redux-first-history';
 
@@ -44,6 +44,8 @@ const items: MenuItem[] = [
 export const Navigation: React.FC = () => {
     const [collapsed, setCollapsed] = useState(window.innerWidth <= 360);
     const [width, setIsMobile] = useState(window.innerWidth);
+    const router = useAppSelector((state) => state.router);
+
     const dispatch = useAppDispatch();
 
     const toggleCollapsed = () => {
@@ -81,7 +83,15 @@ export const Navigation: React.FC = () => {
                 items={items}
                 className={collapsed ? 'menu__collapsed' : 'menu'}
             ></Menu>
-            <Button type='link' className='nav__button-exit' onClick={logOut}>
+            <Button
+                type='link'
+                className={`nav__button-exit ${
+                    router.location?.pathname === CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH
+                        ? 'nav__button-exit-feedbacks'
+                        : null
+                }`}
+                onClick={logOut}
+            >
                 {collapsed ? (
                     <ExitIcon />
                 ) : (

@@ -2,7 +2,11 @@
 
 .header {
     background: $primary-color-light-1;
-    padding: 16px 24px;
+    padding: 16px 24px 20px 24px;
+
+    @media (max-width: 360px) {
+        width: 329px;
+    }
 
     .header__home-link {
         display: block;
@@ -52,6 +56,7 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
+        margin: -10px 0 0 0;
 
         &:hover {
             color: $hover-color-light;

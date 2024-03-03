@@ -58,8 +58,8 @@ export const MainPage: React.FC = () => {
                         </ul>
                     </article>
                     <article className='main__article-last'>
-                        CleverFit — это не просто приложение, а твой личный помощник в мире фитнеса.
-                        Не откладывай на завтра — начни тренироваться уже сегодня!
+                        CleverFit — это не просто приложение, а твой личный помощник <br /> в мире
+                        фитнеса. Не откладывай на завтра — начни тренироваться уже сегодня!
                     </article>
                     <div className='main__cards-block'>
                         <div className='card'>

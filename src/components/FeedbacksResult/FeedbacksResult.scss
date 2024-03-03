@@ -52,15 +52,3 @@
         width: 48%;
     }
 }
-
-.extra-info {
-    width: 100%;
-    text-align: center;
-    @include h3;
-    margin-top: 50px;
-
-    @media (max-width: 360px) {
-        display: none;
-        margin-top: 0px;
-    }
-}
