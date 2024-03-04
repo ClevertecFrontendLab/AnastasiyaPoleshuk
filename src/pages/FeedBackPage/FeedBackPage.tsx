@@ -3,7 +3,7 @@ import './FeedBackPage.scss';
 import { NoFeedbacksBlok } from '@components/NoFeedbacksBlok/NoFeedbacksBlok';
 import { FeedbacksWrapp } from '@components/FeedbacksWrapp/FeedbacksWrapp';
 import { FeedbacksHeader } from '@components/FeedbacksHeader/FeedbacksHeader';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { CreateFeedbackModal } from '@components/CreateFeedbackModal/CreateFeedbackModal';
 import CONSTANTS from '@utils/constants';
@@ -34,6 +34,7 @@ export const FeedBackPage = () => {
         isCreateFeedbackErrorModalOpen,
         openModal,
     } = useContext(AppContext);
+    const [isFeedbacks, setIsFeedbacks] = useState(!!feedbacks.length);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -41,6 +42,10 @@ export const FeedBackPage = () => {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
         }
     }, []);
+
+    useEffect(() => {
+        setIsFeedbacks(!!feedbacks.length);
+    }, [feedbacks]);
 
     useEffect(() => {
         if (isGetFeedbacksError && error.statusCode === StatusCodes.FORBIDDEN) {
@@ -70,9 +75,9 @@ export const FeedBackPage = () => {
     }, [isCreateFeedbackSuccess]);
 
     return (
-        <div className={`feedback ${!feedbacks.length ? 'feedbacks__wrapp' : 'no-feedbacks'}`}>
+        <div className={`feedback ${isFeedbacks ? 'feedbacks__wrapp' : 'no-feedbacks'}`}>
             <FeedbacksHeader />
-            {feedbacks.length ? <FeedbacksWrapp /> : <NoFeedbacksBlok />}
+            {isFeedbacks ? <FeedbacksWrapp /> : <NoFeedbacksBlok />}
             <CreateFeedbackModal isCreateFeedbackModalOpen={isCreateFeedbackModalOpen} />
             <CreateFeedbackSuccessModal
                 isCreateFeedbackSuccessModalOpen={isCreateFeedbackSuccessModalOpen}

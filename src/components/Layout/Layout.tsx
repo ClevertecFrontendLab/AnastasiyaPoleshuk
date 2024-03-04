@@ -10,17 +10,12 @@ import { push } from 'redux-first-history';
 import CONSTANTS from '@utils/constants';
 
 export const Layout = () => {
-    const [isLoading, setIsLoading] = useState(true);
     const [queryParams, setQueryParams] = useSearchParams();
     const { isLoading: isLoadingUser } = useAppSelector((state) => state.user);
-    const { isLoading: isLoadingChangePAssword } = useAppSelector((state) => state.changePassword);
+    const { isLoading: isLoadingChangePassword } = useAppSelector((state) => state.changePassword);
     const { isLoading: isLoadingFeedback } = useAppSelector((state) => state.feedbacks);
     const { isFeedbacksFailModalOpen } = useContext(AppContext);
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        setIsLoading(isLoadingUser || isLoadingChangePAssword || isLoadingFeedback);
-    }, [isLoadingUser, isLoadingChangePAssword, isLoadingFeedback]);
 
     useEffect(() => {
         if (queryParams.get('accessToken')) {
@@ -35,7 +30,7 @@ export const Layout = () => {
         <div className='app'>
             <Navigation />
             <Outlet />
-            {isLoading && <Loader />}
+            {(isLoadingUser || isLoadingChangePassword || isLoadingFeedback) && <Loader />}
             <GetFeedbacksFail isFeedbacksFailModalOpen={isFeedbacksFailModalOpen} />
         </div>
     );

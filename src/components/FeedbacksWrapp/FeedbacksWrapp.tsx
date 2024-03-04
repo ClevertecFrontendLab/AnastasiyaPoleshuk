@@ -50,6 +50,7 @@ export const FeedbacksWrapp = () => {
                 <Button
                     type='link'
                     onClick={() => setIsCollapsed(!isCollapsed)}
+                    className='feedbacks-wrapp__btn'
                     data-test-id='all-reviews-button'
                 >
                     {isCollapsed ? 'Развернуть все отзывы' : 'Свернуть все отзывы'}

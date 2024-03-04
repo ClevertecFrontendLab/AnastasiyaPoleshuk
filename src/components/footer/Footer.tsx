@@ -5,15 +5,22 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { GetFeedbacksThunk } from '@redux/thunk/feedbacksThunk';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
+import { useEffect } from 'react';
 
 export const Footer = () => {
     const { accessToken } = useAppSelector((state) => state.user);
+    const { isLoading } = useAppSelector((state) => state.feedbacks);
 
     const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        if (isLoading) {
+            dispatch(push(`${CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH}`));
+        }
+    }, [isLoading]);
+
     const checkFeedback = () => {
         dispatch(GetFeedbacksThunk(accessToken));
-        dispatch(push(`${CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH}`));
     };
 
     return (

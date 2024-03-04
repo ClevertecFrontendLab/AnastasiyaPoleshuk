@@ -56,11 +56,13 @@
     }
 
     &__btn {
-        border: 1px solid $brand-color-light;
         border-radius: 2px;
         padding: 4px 15px;
+        width: 142px;
+        height: 40px;
 
         &:first-child {
+            border: 1px solid $brand-color-light;
             @media (max-width: 360px) {
                 margin-bottom: 16px;
                 padding: 11px 15px;
@@ -71,6 +73,7 @@
         &:last-child:hover {
             border: none;
             outline: none;
+            @include h6;
         }
 
         @media (max-width: 360px) {

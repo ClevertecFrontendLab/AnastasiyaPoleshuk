@@ -1,14 +1,15 @@
 @import '../../App.variables.scss';
 
 .nav__menu {
+    height: 100%;
+
     flex-grow: 1;
     transition: 0.3s;
     position: relative;
-    padding-top: 42px;
 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 
     @media (max-width: 360px) {
@@ -24,6 +25,13 @@
         @media (max-width: 360px) {
             width: 72px;
         }
+    }
+
+    &-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 42px;
     }
 
     .logo-short-icon {
@@ -87,25 +95,22 @@
 
     .nav__button-exit {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         gap: 25px;
 
         width: 100%;
-        margin: 613px 0px 0 -119px;
         border-top: 1px solid $selected-bg-color-light;
-        color: $text-color;
+        border-radius: 0;
+        align-self: flex-start;
+        padding-left: 16px;
 
-        border: none;
+        color: $text-color;
         outline: none;
 
-        @media (max-width: 834px) {
-            margin-top: 680px;
-        }
-
-        @media (max-width: 360px) {
-            margin-top: 980px;
-            margin-left: -50px;
+        &:hover {
+            border: none;
+            outline: none;
         }
 
         & img {
@@ -115,16 +120,8 @@
             }
         }
 
-        & span {
+        &_text {
             margin-left: 25px;
-        }
-
-        &-feedbacks {
-            margin: 510px 0px 0 -119px;
-
-            @media (max-width: 360px) {
-                margin: 435px 0px 0 -46px;
-            }
         }
     }
 }
@@ -145,22 +142,6 @@
     @media (max-width: 360px) {
         width: 1px;
         left: 0px;
-    }
-
-    .nav__button-exit {
-        margin: 600px 0px 0 0px;
-
-        @media (max-width: 360px) {
-            margin: 435px 0px 0 -46px;
-        }
-
-        &-feedbacks {
-            margin: 490px 0px 0 0px;
-
-            @media (max-width: 360px) {
-                margin: 435px 0px 0 -46px;
-            }
-        }
     }
 }
 

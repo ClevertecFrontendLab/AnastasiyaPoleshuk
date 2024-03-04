@@ -15,7 +15,7 @@ export const CreateFeedbackModal = ({
 }: {
     isCreateFeedbackModalOpen: boolean;
 }) => {
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(CONSTANTS.RATE_DEFAULT_VALUE);
     const [message, setMessage] = useState('');
     const { closeModal } = useContext(AppContext);
     const dispatch = useAppDispatch();
@@ -48,7 +48,7 @@ export const CreateFeedbackModal = ({
                     character={({ value, index }) => {
                         return value && index < value ? <StarFilled /> : <StarOutlined />;
                     }}
-                    defaultValue={3}
+                    defaultValue={CONSTANTS.RATE_DEFAULT_VALUE}
                     onChange={(value) => setRating(value)}
                 />
                 <TextArea autoSize={{ minRows: 2 }} onChange={(e) => setMessage(e.target.value)} />
