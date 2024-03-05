@@ -3,7 +3,7 @@ import { Loader } from '@components/Loader/Loader';
 import { Navigation } from '@components/Navigation/Navigation';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { AppContext } from '../../context/AppContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 import { push } from 'redux-first-history';

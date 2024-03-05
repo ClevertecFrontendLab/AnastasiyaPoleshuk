@@ -6,6 +6,7 @@ import { GetFeedbacksThunk } from '@redux/thunk/feedbacksThunk';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
 import { useEffect } from 'react';
+import { changeCreateFeedbackSuccessState } from '@redux/slices/FeedbacksSlice';
 
 export const Footer = () => {
     const { accessToken } = useAppSelector((state) => state.user);
@@ -15,6 +16,7 @@ export const Footer = () => {
 
     useEffect(() => {
         if (isLoading) {
+            dispatch(changeCreateFeedbackSuccessState(false));
             dispatch(push(`${CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH}`));
         }
     }, [isLoading]);

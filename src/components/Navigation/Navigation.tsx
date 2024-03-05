@@ -88,15 +88,7 @@ export const Navigation: React.FC = () => {
                     className={collapsed ? 'menu__collapsed' : 'menu'}
                 />
             </div>
-            <Button
-                type='link'
-                className={`nav__button-exit ${
-                    router.location?.pathname === CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH
-                        ? 'nav__button-exit-feedbacks'
-                        : null
-                }`}
-                onClick={logOut}
-            >
+            <Button type='link' className='nav__button-exit' onClick={logOut}>
                 {collapsed ? (
                     <ExitIcon />
                 ) : (

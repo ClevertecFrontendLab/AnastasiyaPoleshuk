@@ -19,7 +19,6 @@ export const MainPage: React.FC = () => {
         if (token) {
             dispatch(setToken(token));
             dispatch(changeAuthState(true));
-            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
         }
     }, []);
 

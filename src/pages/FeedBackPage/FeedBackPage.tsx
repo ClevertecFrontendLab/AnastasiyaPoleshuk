@@ -26,6 +26,7 @@ export const FeedBackPage = () => {
         isCreateFeedbackSuccess,
         isGetFeedbacksError,
         error,
+        isLoading,
     } = useAppSelector((state) => state.feedbacks);
     const { isAuth, accessToken } = useAppSelector((state) => state.user);
     const {
@@ -34,7 +35,7 @@ export const FeedBackPage = () => {
         isCreateFeedbackErrorModalOpen,
         openModal,
     } = useContext(AppContext);
-    const [isFeedbacks, setIsFeedbacks] = useState(!!feedbacks.length);
+    const [isFeedbacks, setIsFeedbacks] = useState(true);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -44,8 +45,10 @@ export const FeedBackPage = () => {
     }, []);
 
     useEffect(() => {
-        setIsFeedbacks(!!feedbacks.length);
-    }, [feedbacks]);
+        if (!isLoading) {
+            setIsFeedbacks(!!feedbacks.length);
+        }
+    }, [isLoading]);
 
     useEffect(() => {
         if (isGetFeedbacksError && error.statusCode === StatusCodes.FORBIDDEN) {
