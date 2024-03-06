@@ -1,0 +1,89 @@
+@import '../../App.variables.scss';
+
+.feedback-card {
+    border-radius: 2px;
+    padding: 16px;
+    width: 98%;
+    height: fit-content;
+
+    background-color: $white-color;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    @media (max-width: 360px) {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .card__info {
+        width: 20%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: 833px) {
+            margin-right: 24px;
+        }
+
+        @media (max-width: 360px) {
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            gap: 16px;
+            margin: 0;
+            margin-bottom: 12px;
+        }
+    }
+
+    .card__info-img {
+        margin-right: 80px;
+    }
+
+    .card__info-username {
+        @include h6;
+        width: min-content;
+        margin-top: 12px;
+        text-align: center;
+    }
+
+    .card__rating {
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        @media (max-width: 360px) {
+            overflow: visible;
+        }
+    }
+
+    .rating-info {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 16px;
+
+        padding-bottom: 12px;
+    }
+
+    .card__date {
+        @include body-small;
+        color: $gray-color-light;
+    }
+
+    .card__info-message {
+        @include body-regular;
+        color: $gray-color;
+        word-break: break-all;
+    }
+}
+
+.anticon-star svg {
+    fill: $gold-color-6;
+}

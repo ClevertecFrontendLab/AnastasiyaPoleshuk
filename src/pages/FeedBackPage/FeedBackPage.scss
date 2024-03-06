@@ -1,0 +1,22 @@
+@import '../../App.variables.scss';
+
+.feedback {
+    background-image: url(../../../public/assets/png/Main\ page_light.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.feedbacks__wrapp {
+    justify-content: flex-start;
+}
+
+.no-feedbacks {
+    justify-content: center;
+}
