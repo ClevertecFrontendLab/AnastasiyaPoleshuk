@@ -42,7 +42,7 @@ export const CreateFeedbackModal = ({
             }
             className='create-feedback'
         >
-            <div className='create-feeedback__modal-content'>
+            <div className='create-feedback__modal-content'>
                 <Rate
                     className='create-feedback__rate'
                     character={({ value, index }) => {
