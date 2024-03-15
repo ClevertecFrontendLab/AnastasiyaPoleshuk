@@ -59,20 +59,56 @@ export const CalendarCreateTrainingModal = ({
         }
     }, [exercisesData]);
 
-    const options = trainingsListData.map((item) => {
-        if (!trainingsData.length) {
-            return {
-                value: item.name,
-                label: item.name,
-            };
-        } else if (trainingsData.some((trainingObj) => trainingObj.name !== item.name)) {
-            return {
-                value: item.name,
-                label: item.name,
-            };
-        }
-        return [];
-    });
+    // const options = trainingsListData.map((item) => {
+    //     // console.log(item.name, trainingsData);
+
+    //     if (!trainingsData.length) {
+    //         console.log('never');
+
+    //         return {
+    //             value: item.name,
+    //             label: item.name,
+    //         };
+    //     }
+
+    //     const filtredData = trainingsData.map((training) => {
+    //         if (training.name !== item.name) {
+    //             console.log(training.name !== item.name, training.name, item.name);
+    //             return {
+    //                 value: item.name,
+    //                 label: item.name,
+    //             };
+    //         }
+    //         // return [];
+    //     });
+
+    //     console.log(filtredData);
+    //     return filtredData;
+
+    //     // return trainingsData.map((training) => {
+    //     //     if (training.name !== item.name) {
+    //     //         console.log(training.name !== item.name, training.name, item.name);
+    //     //         return {
+    //     //             value: item.name,
+    //     //             label: item.name,
+    //     //         };
+    //     //     }
+    //     //     // return [];
+    //     // });
+    // });
+
+    const options = (
+        trainingsListData: IGetTrainingListResponse[],
+        trainingsData: IGetTrainingsResponse[],
+    ) => {
+        const namesSet = new Set(trainingsData.map((obj) => obj.name));
+
+        // Фильтрация первого массива, удаляем объекты с именами, которые есть в множестве имен второго массива
+        const filteredArr = trainingsListData.filter((obj) => !namesSet.has(obj.name));
+        console.log(filteredArr, trainingsData);
+
+        return filteredArr;
+    };
 
     const close = () => {
         closeModal(CONSTANTS.ADD_TRAINING_MODAL);
@@ -95,6 +131,7 @@ export const CalendarCreateTrainingModal = ({
         };
 
         dispatch(CreateTrainingThunk(request));
+        close();
     };
 
     return (
@@ -110,7 +147,7 @@ export const CalendarCreateTrainingModal = ({
                         style={{ width: '92%' }}
                         variant={'borderless'}
                         onChange={addTraining}
-                        options={options}
+                        options={options(trainingsListData, trainingsData)}
                         data-test-id='modal-create-exercise-select'
                     />
                 </header>

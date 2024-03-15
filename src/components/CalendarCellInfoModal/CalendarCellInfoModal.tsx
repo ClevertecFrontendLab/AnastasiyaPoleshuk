@@ -7,6 +7,7 @@ import { CalendarCreateTrainingModal } from './CalendarCreateTrainingModal';
 import { AppContext } from '../../context/AppContext';
 import { push } from 'redux-first-history';
 import { IGetTrainingsResponse } from '../../types/apiTypes';
+import { CloseOutlined } from '@ant-design/icons';
 
 interface IProps {
     date: string;
@@ -25,7 +26,7 @@ export const CalendarCellInfoModal = ({
     modalPosition,
     setOpen,
 }: IProps) => {
-    const { trainingList } = useAppSelector((state) => state.calendar);
+    const { trainingList, trainingInfo } = useAppSelector((state) => state.calendar);
     const { isAddTrainingModalOpen, openModal, closeModal } = useContext(AppContext);
     const dispatch = useAppDispatch();
 
