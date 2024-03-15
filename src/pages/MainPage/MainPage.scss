@@ -160,12 +160,6 @@
             }
         }
 
-        &:last-child {
-            .card__link {
-                margin: 13px 0 13px 30px;
-            }
-        }
-
         @media (max-width: 360px) {
             width: 330px;
         }
@@ -187,7 +181,8 @@
 
     .card__link {
         display: block;
-        margin: 20px 0 20px 15px;
+        margin: 13px 0 13px 30px;
+
         width: 100%;
         text-align: center;
         @include body-regular;

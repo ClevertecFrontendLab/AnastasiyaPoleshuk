@@ -68,7 +68,6 @@ export interface IGetTrainingListResponse {
 export interface ICreateTrainingRequest {
     name: string;
     date: string;
-    isImplementation: false;
-    parameters: ITrainingParameters;
+    isImplementation: boolean;
     exercises: ITrainingExercises[];
 }

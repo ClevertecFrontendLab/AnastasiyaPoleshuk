@@ -4,20 +4,20 @@ import './CalendarPage.scss';
 import { CalengarWrapp } from '@components/CalengarWrapp/CalengarWrapp';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { setToken, changeAuthState } from '@redux/slices/UserSlice';
-import { useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
 import { GetTrainingInfoThunk, GetTrainingListThunk } from '@redux/thunk/TrainingThunk';
 import { GetTrainingsListFail } from '@components/ErrorModals/GetTrainingsListFail';
 import { AppContext } from '../../context/AppContext';
 import { changeGetTrainingListErrorState } from '@redux/slices/CalendarSlice';
-import { CreateFeedbackSuccessModal } from '@components/FeedbacksResult/CreateFeedbackSuccessModal';
+import { IGetTrainingsResponse } from '../../types/apiTypes';
 
 export const CalendarPage = () => {
+    const [trainings, setTrainings] = useState<IGetTrainingsResponse[]>([]);
     const { isAuth, accessToken } = useAppSelector((state) => state.user);
-    const { isRepeatRequestNeeded, setStateOfRepeatRequest, isCreateFeedbackSuccessModalOpen } =
-        useContext(AppContext);
-    const { isGetTrainingInfoSuccess, isGetTrainingListError } = useAppSelector(
+    const { isRepeatRequestNeeded, setStateOfRepeatRequest } = useContext(AppContext);
+    const { isGetTrainingInfoSuccess, isGetTrainingListError, trainingInfo } = useAppSelector(
         (state) => state.calendar,
     );
     const dispatch = useAppDispatch();
@@ -35,6 +35,12 @@ export const CalendarPage = () => {
             dispatch(changeAuthState(true));
         }
     }, []);
+
+    useEffect(() => {
+        if (isGetTrainingInfoSuccess) {
+            setTrainings(trainingInfo);
+        }
+    }, [trainingInfo]);
 
     useEffect(() => {
         if (isRepeatRequestNeeded) {
@@ -59,7 +65,7 @@ export const CalendarPage = () => {
     return (
         <div className='calendar__page'>
             <Header />
-            <CalengarWrapp />
+            <CalengarWrapp trainings={trainings} />
         </div>
     );
 };

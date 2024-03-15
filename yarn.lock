@@ -4022,6 +4022,11 @@ joi@^17.11.0:
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
 
+js-guid@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/js-guid/-/js-guid-1.0.2.tgz#93eab7501befadf901ecd4b39df7e818e43959de"
+  integrity sha512-KoNZaQlt+A0TsREG+uv0SqPoday/Jnv2wT0bd5MAI2ySv2vZLtZQzj5FP2ZmuQKicFsOgZYsXqzla8ESdk2P5w==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
