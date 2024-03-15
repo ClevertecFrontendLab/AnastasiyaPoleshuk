@@ -44,6 +44,8 @@ export const CalendarCellInfoModal = ({
                 style={{ position: 'absolute', ...modalPosition }}
                 width={CONSTANTS.CREATE_TRAINING_MODAL_WIDTH}
                 className='modal__title'
+                data-test-id='menu-button-calendar'
+                closeIcon={<CloseOutlined data-test-id='modal-create-training-button-close' />}
                 footer={
                     <>
                         <Divider />
