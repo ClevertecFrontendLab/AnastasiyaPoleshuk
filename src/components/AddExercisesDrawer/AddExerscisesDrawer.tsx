@@ -43,14 +43,14 @@ export const AddExercisesDrawer = ({
     const { saveExercisesData, exercisesData } = useContext(AppContext);
     const [exerciseFields, setExerciseFields] = useState<IExercises[]>(exercisesData);
 
-    const onFinish = (values: IFormValues) => {};
+    // const onFinish = (values: IFormValues) => {};
 
     const onValuesChange = (changedValues: IExercises, allValues: IFormValues) => {
         if (allValues.exercises.length) {
             const exercises = allValues.exercises.map((item) => {
                 if (item.name) {
                     return {
-                        _id: `${Guid.newGuid()}`,
+                        // _id: `${Guid.newGuid()}`,
                         name: item.name,
                         replays: item.replays || 1,
                         weight: item.weight || 0,
@@ -66,6 +66,7 @@ export const AddExercisesDrawer = ({
 
     const closeDrawer = () => {
         exerciseFields.length ? saveExercisesData(exerciseFields as ITrainingExercises[]) : null;
+        // console.log(exerciseFields);
 
         onClose(CONSTANTS.DRAWER);
     };
@@ -101,7 +102,7 @@ export const AddExercisesDrawer = ({
             </article>
             <Form
                 name='add-exercises__form'
-                onFinish={onFinish}
+                // onFinish={onFinish}
                 onValuesChange={onValuesChange}
                 autoComplete='off'
                 className='add-exercises__form'
