@@ -2,7 +2,7 @@ import './Navigation.scss';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CalendarIcon } from './Iconscomponents/CalendarIcon';
 import { ProfileIcon } from './Iconscomponents/ProfileIcon';
@@ -17,6 +17,7 @@ import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 import { push } from 'redux-first-history';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { GetTrainingInfoThunk } from '@redux/thunk/TrainingThunk';
+import { useResize } from '@hooks/useResize';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -44,9 +45,13 @@ const items: MenuItem[] = [
 ];
 
 export const Navigation: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(window.innerWidth <= 360);
-    const [width, setIsMobile] = useState(window.innerWidth);
+    const { width: windowWidth, isScreenSm } = useResize();
+    const [collapsed, setCollapsed] = useState(isScreenSm);
     const { accessToken } = useAppSelector((state) => state.user);
+
+    useEffect(() => {
+        setCollapsed(isScreenSm);
+    }, []);
 
     const dispatch = useAppDispatch();
 
@@ -80,7 +85,7 @@ export const Navigation: React.FC = () => {
                     type='text'
                     onClick={toggleCollapsed}
                     className='nav__menu-btn'
-                    data-test-id={width <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
+                    data-test-id={windowWidth <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
                 >
                     {collapsed ? (
                         <MenuUnfoldOutlined

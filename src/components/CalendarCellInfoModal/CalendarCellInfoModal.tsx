@@ -1,37 +1,199 @@
-import { Button, Divider, Modal } from 'antd';
+import { Badge, BadgeProps, Button, Divider, Empty, Modal } from 'antd';
 import './CalendarCellInfoModal.scss';
 import { useContext, useEffect } from 'react';
 import CONSTANTS from '@utils/constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { CalendarCreateTrainingModal } from './CalendarCreateTrainingModal';
 import { AppContext } from '../../context/AppContext';
-import { push } from 'redux-first-history';
-import { IGetTrainingsResponse } from '../../types/apiTypes';
-import { CloseOutlined } from '@ant-design/icons';
+import { IGetTrainingListResponse, IGetTrainingsResponse } from '../../types/apiTypes';
+import { CloseOutlined, EditOutlined } from '@ant-design/icons';
+import moment, { Moment } from 'moment';
+import { updateTrainingsState } from '@redux/slices/CalendarSlice';
 
 interface IProps {
     date: string;
     isModalOpen: boolean;
-    JSXContent: JSX.Element;
     trainingsData: IGetTrainingsResponse[];
     modalPosition: { left: string; top: string };
+    isAddTrainingDisabled: boolean;
     setOpen: (isModalOpen: boolean) => void;
 }
+
+const getStatus = (key: string) => {
+    switch (key) {
+        case CONSTANTS.TRAINING_TYPE.BACK:
+            return CONSTANTS.TRAINING_COLOR.BACK;
+        case CONSTANTS.TRAINING_TYPE.CHEST:
+            return CONSTANTS.TRAINING_COLOR.CHEST;
+        case CONSTANTS.TRAINING_TYPE.HANDS:
+            return CONSTANTS.TRAINING_COLOR.HANDS;
+        case CONSTANTS.TRAINING_TYPE.LEGS:
+            return CONSTANTS.TRAINING_COLOR.LEGS;
+        case CONSTANTS.TRAINING_TYPE.STRENGTH:
+            return CONSTANTS.TRAINING_COLOR.STRENGTH;
+        default:
+            break;
+    }
+};
+
+const getTrainingsData = (
+    trainingsData: IGetTrainingsResponse[],
+    date: Moment,
+    trainingList: IGetTrainingListResponse[],
+    isUpdateTrainingSuccess: boolean,
+) => {
+    const isImplementationArr: boolean[] = [];
+    const currentDayTrainingsList = trainingsData.map((training) => {
+        if (!training.date) {
+            return;
+        }
+
+        const dt = moment(training.date);
+        const trainings = [];
+
+        if (date.date() == +dt.format('DD')) {
+            const currentTraining = trainingList.find(
+                (listItem) => listItem.name === training.name,
+            );
+            if (currentTraining) {
+                trainings.push(currentTraining as IGetTrainingListResponse);
+                if (isUpdateTrainingSuccess && date.date() <= moment().date()) {
+                    isImplementationArr.push(true);
+                } else {
+                    isImplementationArr.push(false);
+                }
+            }
+            return currentTraining;
+        }
+        return;
+    });
+
+    if (currentDayTrainingsList?.length) {
+        return {
+            currentTrainingsList: currentDayTrainingsList.filter(Boolean),
+            isImplementationArr,
+        };
+    }
+    return {
+        currentTrainingsList: [],
+        isImplementationArr,
+    };
+};
 
 export const CalendarCellInfoModal = ({
     date,
     isModalOpen,
     trainingsData,
-    JSXContent,
     modalPosition,
+    isAddTrainingDisabled,
     setOpen,
 }: IProps) => {
-    const { trainingList, trainingInfo } = useAppSelector((state) => state.calendar);
-    const { isAddTrainingModalOpen, openModal, closeModal } = useContext(AppContext);
+    const { trainingList, isUpdateTrainingSuccess } = useAppSelector((state) => state.calendar);
+    const { saveExercisesData, saveCurrentExerciseName, openModal, exercisesDataToUpdate } =
+        useContext(AppContext);
     const dispatch = useAppDispatch();
 
-    const redirect = () => {
-        dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
+    useEffect(() => {
+        if (isUpdateTrainingSuccess) {
+            dispatch(updateTrainingsState(exercisesDataToUpdate));
+        }
+    }, [isUpdateTrainingSuccess]);
+
+    const setButtonText = () => {
+        if (moment(date, 'DD.MM.YYYY').day() >= moment().day()) {
+            return 'Создать тренировку';
+        } else if (trainingsData.length) {
+            return 'Добавить тренировку';
+        } else {
+            return 'Создать тренировку';
+        }
+    };
+
+    const buttonDisabledCheck = () => {
+        if (trainingsData.length === trainingList.length) {
+            return true;
+        }
+        if (isAddTrainingDisabled) {
+            return true;
+        }
+        return false;
+    };
+
+    const openCreateTrainingModal = () => {
+        setOpen(false);
+
+        setTimeout(() => {
+            saveExercisesData([]);
+            saveCurrentExerciseName('');
+            openModal(CONSTANTS.ADD_TRAINING_MODAL);
+        }, 100);
+    };
+
+    const editExercisesButtonClick = (date: Moment, exerciseName: string) => {
+        setOpen(false);
+
+        setTimeout(() => {
+            const exercisesToEdit =
+                trainingsData.find((item) => item.name.trim() === exerciseName)?.exercises || [];
+            saveExercisesData(exercisesToEdit);
+            saveCurrentExerciseName(exerciseName);
+            openModal(CONSTANTS.ADD_TRAINING_MODAL);
+        }, 100);
+    };
+
+    const createTrainingsList = () => {
+        const { currentTrainingsList, isImplementationArr } = getTrainingsData(
+            trainingsData,
+            moment(date, 'DD.MM.YYYY'),
+            trainingList,
+            isUpdateTrainingSuccess,
+        );
+
+        return (
+            <ul className='events'>
+                {currentTrainingsList.length ? (
+                    currentTrainingsList.map((item, index) => (
+                        <li
+                            key={item?.key}
+                            className={`trainings__list-item ${
+                                isImplementationArr[index] ? 'trainings__list-item__disabled' : ''
+                            }`}
+                        >
+                            <Badge
+                                color={getStatus(item ? item.key : '') as BadgeProps['color']}
+                                text={item?.name}
+                            />
+
+                            <Button
+                                type='default'
+                                className='edit-training__button'
+                                data-test-id={`modal-update-training-edit-button${index}`}
+                                disabled={isImplementationArr[index]}
+                                onClick={() =>
+                                    editExercisesButtonClick(
+                                        moment(date, 'DD.MM.YYYY'),
+                                        item ? item.name : '',
+                                    )
+                                }
+                            >
+                                <EditOutlined style={{ color: '#2f54eb' }} />
+                            </Button>
+                        </li>
+                    ))
+                ) : (
+                    <>
+                        <p className='modal__no-content_text'>Нет активных тренировок</p>
+                        <Empty
+                            image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+                            imageStyle={{
+                                height: 32,
+                                margin: '16px 0',
+                            }}
+                            description={''}
+                        />
+                    </>
+                )}
+            </ul>
+        );
     };
 
     return (
@@ -39,13 +201,12 @@ export const CalendarCellInfoModal = ({
             <Modal
                 title={`Тренировки на ${date}`}
                 mask={false}
-                // maskClosable={false}
                 open={isModalOpen}
                 onCancel={() => setOpen(false)}
                 style={{ position: 'absolute', ...modalPosition }}
-                width={CONSTANTS.CREATE_TRAINING_MODAL_WIDTH}
-                className='modal__title'
-                data-test-id='menu-button-calendar'
+                destroyOnClose={true}
+                className='modal__create-training'
+                data-test-id='modal-create-training'
                 closeIcon={<CloseOutlined data-test-id='modal-create-training-button-close' />}
                 footer={
                     <>
@@ -53,27 +214,18 @@ export const CalendarCellInfoModal = ({
                         <Button
                             type='primary'
                             className='button__primary'
-                            disabled={trainingsData.length === trainingList.length}
-                            //? onClick={() => CreateTrainingFail(redirect)}
-                            onClick={() => openModal(CONSTANTS.ADD_TRAINING_MODAL)}
+                            disabled={buttonDisabledCheck()}
+                            onClick={() => {
+                                openCreateTrainingModal();
+                            }}
                         >
-                            {trainingsData.length > 0
-                                ? 'Добавить Тренировку'
-                                : 'Создать Тренировку'}
+                            {setButtonText()}
                         </Button>
                     </>
                 }
             >
-                {JSXContent}
+                {createTrainingsList()}
             </Modal>
-            <CalendarCreateTrainingModal
-                date={date}
-                isModalOpen={isAddTrainingModalOpen}
-                trainingsListData={trainingList}
-                trainingsData={trainingsData}
-                modalPosition={modalPosition}
-                closeModal={closeModal}
-            />
         </>
     );
 };

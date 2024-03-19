@@ -13,7 +13,9 @@ import moment from 'moment';
 import { CalendarCellInfoModal } from '@components/CalendarCellInfoModal/CalendarCellInfoModal';
 import { AppContext } from '../../context/AppContext';
 import { AddExercisesDrawer } from '@components/AddExercisesDrawer/AddExerscisesDrawer';
-import { EditOutlined } from '@ant-design/icons';
+import { CreateTrainingFail } from '@components/ErrorModals/CreateTrainingFail';
+import { useResize } from '@hooks/useResize';
+import { CalendarCreateTrainingModal } from '@components/CalendarCellInfoModal/CalendarCreateTrainingModal';
 
 const getListData = (
     value: Moment,
@@ -43,7 +45,6 @@ const getListData = (
     }
     return [];
 };
-
 const getCurrentDayTrainings = (day: Moment, allTrainingsArr: IGetTrainingsResponse[]) => {
     return allTrainingsArr.filter((item) => moment(item.date).format('DD') === day.format('DD'));
 };
@@ -91,18 +92,21 @@ const getStatus = (key: string) => {
 
 export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[] }) => {
     const {
-        isGetTrainingListError,
+        isCreateTrainingSuccess,
         isGetTrainingListSuccess,
+        isCreateTrainingError,
+        isUpdateTrainingError,
         trainingList,
         trainingInfo,
-        isCreateTrainingSuccess,
     } = useAppSelector((state) => state.calendar);
     const [cellData, setCellData] = useState(<></>);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [isModalRender, setIsModalRender] = useState(false);
     const [modalPosition, setModalPosition] = useState({ top: '0', left: '0' });
     const [selectedDate, setSelectedDate] = useState<Moment>(moment());
-    const { addExercisesData, isDrawerOpen, closeModal, openModal } = useContext(AppContext);
+    const { width: windowWidth, isScreenSm } = useResize();
+    const { addExercisesData, isDrawerOpen, isAddTrainingModalOpen, closeModal } =
+        useContext(AppContext);
 
     useEffect(() => {
         isGetTrainingListSuccess ? setIsModalRender(true) : null;
@@ -111,27 +115,40 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
     useEffect(() => {
         if (isCreateTrainingSuccess) {
             getCurrentDayTrainings(selectedDate, trainingInfo);
-            const modalBodyData = dateCellRender(selectedDate, true);
+            const modalBodyData = dateCellRender(selectedDate);
 
             setCellData(modalBodyData as JSX.Element);
         }
     }, [trainingInfo]);
 
+    useEffect(() => {
+        if (isCreateTrainingError || isUpdateTrainingError) {
+            CreateTrainingFail(() => setIsOpenModal(false));
+        }
+    }, [isCreateTrainingError, isUpdateTrainingError]);
+
     const getModalPosition = (dateElement: Element | null) => {
         if (!dateElement) return { top: '0', left: '0' };
 
         const cellRect = dateElement.getBoundingClientRect();
-        const rightThreshold = Math.round(window.innerWidth - Math.round(cellRect.left));
+        const rightThreshold = Math.round(windowWidth - Math.round(cellRect.left));
         const modalWidth = 520;
 
-        return {
-            top: `${cellRect.top - 4}px`,
-            left: `${
-                rightThreshold < modalWidth
-                    ? cellRect.right - CONSTANTS.CREATE_TRAINING_MODAL_WIDTH
-                    : cellRect.left
-            }px`,
-        };
+        if (!isScreenSm) {
+            return {
+                top: `${cellRect.top - 4}px`,
+                left: `${
+                    rightThreshold < modalWidth
+                        ? cellRect.right - CONSTANTS.CREATE_TRAINING_MODAL_WIDTH + 14
+                        : cellRect.left
+                }px`,
+            };
+        } else {
+            return {
+                top: '32%',
+                left: 24,
+            };
+        }
     };
 
     const onSelect = (value: Moment) => {
@@ -154,9 +171,7 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
         }
 
         const newPosition = getModalPosition(dateElement);
-        const modalBodyData = dateCellRender(value, true);
-
-        //todo допилить disabled для кнопки в модалке
+        const modalBodyData = dateCellRender(value);
 
         setModalPosition(newPosition);
         setSelectedDate(value ? value : moment());
@@ -180,8 +195,8 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
         setIsOpenModal(true);
     };
 
-    const dateCellRender = (value: Moment, isModalData: boolean) => {
-        if (isGetTrainingListSuccess || isModalData) {
+    const dateCellRender = (value: Moment) => {
+        if (isGetTrainingListSuccess) {
             const listData = getListData(
                 value,
                 trainings,
@@ -197,16 +212,6 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
                                       color={getStatus(item.key) as BadgeProps['color']}
                                       text={item.name}
                                   />
-
-                                  {isModalData ? (
-                                      <EditOutlined
-                                          style={{ color: '#2f54eb' }}
-                                          onClick={() => openModal(CONSTANTS.DRAWER)}
-                                          data-test-id={`modal-update-training-edit-button${index}`}
-                                      />
-                                  ) : (
-                                      ''
-                                  )}
                               </li>
                           ))
                         : ''}
@@ -218,23 +223,43 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
     return (
         <>
             <div className='calendar__wrapp'>
-                <Calendar
-                    locale={calendarLocale}
-                    cellRender={(value: Moment) => dateCellRender(value, false)}
-                    onSelect={onSelect}
-                    style={{ background: 'transperant' }}
-                    className='calendar'
-                ></Calendar>
+                {windowWidth <= 361 ? (
+                    <Calendar
+                        locale={calendarLocale}
+                        onSelect={onSelect}
+                        className='calendar'
+                        fullscreen={false}
+                        styles={{ header: { display: 'flex', alignItems: 'baseline' } }}
+                    ></Calendar>
+                ) : (
+                    <Calendar
+                        locale={calendarLocale}
+                        cellRender={(value: Moment) => dateCellRender(value)}
+                        onSelect={onSelect}
+                        style={{ background: 'transperant' }}
+                        className='calendar'
+                        fullscreen={true}
+                    ></Calendar>
+                )}
                 {isModalRender && (
                     <CalendarCellInfoModal
                         date={selectedDate.format('DD.MM.YYYY')}
                         trainingsData={getCurrentDayTrainings(selectedDate, trainingInfo)}
-                        JSXContent={cellData}
                         modalPosition={modalPosition}
                         isModalOpen={isOpenModal}
+                        isAddTrainingDisabled={selectedDate < moment()}
                         setOpen={setIsOpenModal}
                     />
                 )}
+                <CalendarCreateTrainingModal
+                    date={selectedDate.format('DD.MM.YYYY')}
+                    isModalOpen={isAddTrainingModalOpen}
+                    trainingsListData={trainingList}
+                    trainingsData={getCurrentDayTrainings(selectedDate, trainingInfo)}
+                    modalPosition={modalPosition}
+                    closeModal={closeModal}
+                    openInfoModal={setIsOpenModal}
+                />
             </div>
             <AddExercisesDrawer
                 isOpen={isDrawerOpen}
@@ -246,7 +271,6 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
                             ?.key || '',
                     ) || ''
                 }
-                trainingData={getCurrentDayTrainings(selectedDate, trainingInfo)}
                 onClose={closeModal}
             />
         </>

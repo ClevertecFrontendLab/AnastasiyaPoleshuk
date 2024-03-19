@@ -23,9 +23,9 @@ export const GetRequestFail = ({
         <Modal
             open={isOpen}
             className='modal-component'
+            data-test-id='modal-no-review'
             closeIcon={null}
             footer={null}
-            data-test-id='modal-no-review'
         >
             <Result
                 status={CONSTANTS.RESULT_STATUS_TYPE_500}

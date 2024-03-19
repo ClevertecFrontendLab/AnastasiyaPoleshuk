@@ -20,8 +20,30 @@
     margin: 12px 0;
 }
 
+.modal__create-training {
+    width: 270px !important;
+
+    @media (max-width: 360px) {
+        width: 312px !important;
+    }
+}
+
 .training__item {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.trainings__list-item__disabled {
+    color: $gray-color;
+}
+
+.edit-training__button {
+    border: none;
+    outline: none;
+
+    &:hover {
+        border: none;
+        outline: none;
+    }
 }

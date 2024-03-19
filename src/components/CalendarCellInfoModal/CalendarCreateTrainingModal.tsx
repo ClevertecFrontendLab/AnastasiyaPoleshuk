@@ -7,7 +7,7 @@ import { IGetTrainingListResponse, IGetTrainingsResponse } from '../../types/api
 import { AppContext } from '../../context/AppContext';
 import moment from 'moment';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
-import { CreateTrainingThunk } from '@redux/thunk/TrainingThunk';
+import { CreateTrainingThunk, UpdateTrainingThunk } from '@redux/thunk/TrainingThunk';
 
 interface IProps {
     date: string;
@@ -16,14 +16,8 @@ interface IProps {
     trainingsData: IGetTrainingsResponse[];
     modalPosition: { left: string; top: string };
     closeModal: (type: string) => void;
+    openInfoModal: (data: boolean) => void;
 }
-
-const getTimePeriod = (time: string) => {
-    if (moment(time, 'DD.MM.YYYY') > moment()) {
-        return false;
-    }
-    return true;
-};
 
 export const CalendarCreateTrainingModal = ({
     date,
@@ -32,70 +26,60 @@ export const CalendarCreateTrainingModal = ({
     trainingsData,
     modalPosition,
     closeModal,
+    openInfoModal,
 }: IProps) => {
+    const {
+        openModal,
+        updateAddExercisesData,
+        saveExercisesData,
+        saveExercisesDataToUpdate,
+        exercisesData,
+        currentExerciseName,
+        addExercisesData,
+    } = useContext(AppContext);
     const [exercises, setExercises] = useState<JSX.Element[]>([]);
     const [saveButtonDisabled, setSaveButtonDisabled] = useState(true);
     const [disabled, setDisabled] = useState(true);
-    const { openModal, updateAddExercisesData, exercisesData, addExercisesData } =
-        useContext(AppContext);
+    const [isExerciseChanged, setIsExerciseChanged] = useState(false);
+
+    const [selectedExerciseName, setSelectedExerciseName] = useState('');
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        setSelectedExerciseName(
+            currentExerciseName ? currentExerciseName : 'Выбор типа тренировки',
+        );
+        setDisabled(currentExerciseName ? false : true);
+
+        updateAddExercisesData({ name: currentExerciseName, date: date });
+    }, [currentExerciseName]);
 
     useEffect(() => {
         if (exercisesData.length) {
             setExercises(
-                exercisesData.map((exercise) => (
+                exercisesData.map((exercise, index) => (
                     <div className='training__item'>
                         <span>{exercise.name}</span>
 
                         <EditOutlined
+                            data-test-id={`modal-update-training-edit-button${index}`}
                             style={{ color: '#2f54eb' }}
-                            onClick={() => openModal(CONSTANTS.DRAWER)}
+                            onClick={() => openDrawer()}
                         />
                     </div>
                 )),
             );
 
             setSaveButtonDisabled(false);
+        } else {
+            setExercises([]);
         }
     }, [exercisesData]);
 
-    // const options = trainingsListData.map((item) => {
-    //     // console.log(item.name, trainingsData);
-
-    //     if (!trainingsData.length) {
-    //         console.log('never');
-
-    //         return {
-    //             value: item.name,
-    //             label: item.name,
-    //         };
-    //     }
-
-    //     const filtredData = trainingsData.map((training) => {
-    //         if (training.name !== item.name) {
-    //             console.log(training.name !== item.name, training.name, item.name);
-    //             return {
-    //                 value: item.name,
-    //                 label: item.name,
-    //             };
-    //         }
-    //         // return [];
-    //     });
-
-    //     console.log(filtredData);
-    //     return filtredData;
-
-    //     // return trainingsData.map((training) => {
-    //     //     if (training.name !== item.name) {
-    //     //         console.log(training.name !== item.name, training.name, item.name);
-    //     //         return {
-    //     //             value: item.name,
-    //     //             label: item.name,
-    //     //         };
-    //     //     }
-    //     //     // return [];
-    //     // });
-    // });
+    const openDrawer = () => {
+        openModal(CONSTANTS.DRAWER);
+        setIsExerciseChanged(true);
+    };
 
     const options = (
         trainingsListData: IGetTrainingListResponse[],
@@ -103,34 +87,53 @@ export const CalendarCreateTrainingModal = ({
     ) => {
         const namesSet = new Set(trainingsData.map((obj) => obj.name));
 
-        // Фильтрация первого массива, удаляем объекты с именами, которые есть в множестве имен второго массива
-        const filteredArr = trainingsListData.filter((obj) => !namesSet.has(obj.name));
-        console.log(filteredArr, trainingsData);
+        const filteredArr = trainingsListData.filter(
+            (obj) => !namesSet.has(obj.name) || obj.name === currentExerciseName,
+        );
 
-        return filteredArr;
+        return filteredArr.map((item) => {
+            return {
+                label: item.name,
+                value: item.name,
+            };
+        });
     };
 
     const close = () => {
+        setSelectedExerciseName('Выбор типа тренировки');
+        setDisabled(true);
+        openInfoModal(true);
         closeModal(CONSTANTS.ADD_TRAINING_MODAL);
     };
 
     const addTraining = (value: string) => {
+        setIsExerciseChanged(false);
         setDisabled(false);
         updateAddExercisesData({
             name: value,
             date,
         });
+        const trainingExercises = trainingsData.find((training) => training.name == value);
+        saveExercisesData(trainingExercises?.exercises || []);
+        setSelectedExerciseName(value);
     };
 
     const saveTraining = () => {
+        const id = trainingsData.find((training) => training.name == addExercisesData.name)?._id;
         const request = {
+            _id: id,
             name: addExercisesData.name,
             date: moment(date, 'DD.MM.YYYY').format('YYYY-MM-DDThh:mm:ss.ms'),
-            isImplementation: false,
+            isImplementation: moment(date, 'DD.MM.YYYY') < moment(),
             exercises: exercisesData,
         };
 
-        dispatch(CreateTrainingThunk(request));
+        if (request._id) {
+            saveExercisesDataToUpdate({ data: exercisesData, id: id ? id : '' });
+            dispatch(UpdateTrainingThunk(request));
+        } else {
+            dispatch(CreateTrainingThunk(request));
+        }
         close();
     };
 
@@ -143,7 +146,8 @@ export const CalendarCreateTrainingModal = ({
                         data-test-id='modal-exercise-training-button-close'
                     />
                     <Select
-                        defaultValue='Выбор типа тренировки'
+                        defaultValue={selectedExerciseName}
+                        value={selectedExerciseName}
                         style={{ width: '92%' }}
                         variant={'borderless'}
                         onChange={addTraining}
@@ -155,6 +159,7 @@ export const CalendarCreateTrainingModal = ({
             mask={false}
             maskClosable={false}
             open={isModalOpen}
+            destroyOnClose={true}
             closable={false}
             onCancel={close}
             style={{ position: 'absolute', ...modalPosition }}
@@ -167,8 +172,7 @@ export const CalendarCreateTrainingModal = ({
                     alignItems: 'center',
                 },
             }}
-            width={CONSTANTS.CREATE_TRAINING_MODAL_WIDTH}
-            className='modal__title'
+            className='modal__create-training'
             data-test-id='modal-create-exercise'
             footer={
                 <>
@@ -183,10 +187,10 @@ export const CalendarCreateTrainingModal = ({
                     <Button
                         type='link'
                         className='button__primary_save-btn'
-                        disabled={saveButtonDisabled}
+                        disabled={exercisesData.length ? false : true}
                         onClick={saveTraining}
                     >
-                        Сохранить
+                        {isExerciseChanged ? 'Сохранить изменения' : 'Сохранить'}
                     </Button>
                 </>
             }
