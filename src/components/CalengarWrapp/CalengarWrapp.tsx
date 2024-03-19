@@ -123,6 +123,7 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
 
     useEffect(() => {
         if (isCreateTrainingError || isUpdateTrainingError) {
+            setIsOpenModal(false);
             CreateTrainingFail(() => setIsOpenModal(false));
         }
     }, [isCreateTrainingError, isUpdateTrainingError]);
