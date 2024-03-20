@@ -1,0 +1,73 @@
+@import '../../App.variables.scss';
+
+.calendar__wrapp {
+    background: $primary-color-light-1;
+    padding: 12px 24px 92px 24px;
+
+    @media (max-width: 360px) {
+        padding: 24px;
+    }
+}
+
+.calendar {
+    background: $primary-color-light-1;
+
+    @media (max-width: 360px) {
+        background: $white-color;
+    }
+}
+
+.trainings__list-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ant-picker-calendar-date-content {
+    overflow-y: hidden !important;
+}
+
+.ant-badge-status-text {
+    font-size: 12px !important;
+}
+.ant-picker-calendar-header {
+    @media (max-width: 360px) {
+        display: flex !important;
+        align-items: baseline;
+    }
+}
+
+.ant-picker-body {
+    background: aliceblue;
+
+    @media (max-width: 360px) {
+        background: $white-color;
+    }
+}
+
+.ant-picker-cell-inner {
+    margin: 10px;
+    background: $white-color;
+    @media (max-width: 360px) {
+        margin: 0px;
+    }
+}
+
+.events {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.events .ant-badge-status {
+    width: 100%;
+    overflow: hidden;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.notes-month {
+    font-size: 28px;
+    text-align: center;
+}
+.notes-month section {
+    font-size: 28px;
+}

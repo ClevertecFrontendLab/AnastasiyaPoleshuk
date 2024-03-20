@@ -30,6 +30,12 @@ export const CreateFeedbackModal = ({
             title='Ваш отзыв'
             open={isCreateFeedbackModalOpen}
             onCancel={() => closeModal(CONSTANTS.CREATE_FEEDBACK_MODAL)}
+            styles={{
+                mask: {
+                    backdropFilter: 'blur(10px)',
+                    background: 'rgba(121, 156, 212, 0.2)',
+                },
+            }}
             footer={
                 <Button
                     type='primary'

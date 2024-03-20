@@ -2,31 +2,28 @@ import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
 import CONSTANTS from '@utils/constants';
 import { Button, Modal, Result } from 'antd';
 import { push } from 'redux-first-history';
-import './FeedbacksResult.scss';
-import { AppContext } from '../../context/AppContext';
-import { useContext } from 'react';
-import { changeGetFeedbacksErrorState } from '@redux/slices/FeedbacksSlice';
+import './ErrorModals.scss';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
-export const GetFeedbacksFail = ({
-    isFeedbacksFailModalOpen,
+export const GetRequestFail = ({
+    isOpen,
+    changeErrorState,
 }: {
-    isFeedbacksFailModalOpen: boolean;
+    isOpen: boolean;
+    changeErrorState: ActionCreatorWithPayload<boolean, string>;
 }) => {
-    const { closeModal } = useContext(AppContext);
     const dispatch = useAppDispatch();
 
     const close = () => {
-        dispatch(changeGetFeedbacksErrorState(false));
+        dispatch(changeErrorState(false));
         dispatch(push(`${CONSTANTS.ROUTER__PATH.MAIN__PATH}`));
-
-        closeModal(CONSTANTS.GET_FEEDBACKS_FAIL_MODAL);
     };
 
     return (
         <Modal
-            open={isFeedbacksFailModalOpen}
-            onCancel={() => closeModal(CONSTANTS.CREATE_FEEDBACK_MODAL)}
+            open={isOpen}
             className='modal-component'
+            data-test-id='modal-no-review'
             closeIcon={null}
             footer={null}
         >

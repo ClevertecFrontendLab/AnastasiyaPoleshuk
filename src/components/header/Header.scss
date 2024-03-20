@@ -8,6 +8,19 @@
         width: 329px;
     }
 
+    .header__main-link_btn {
+        height: auto;
+        color: $gray-color;
+        border: none;
+        outline: none;
+        padding: 0;
+
+        &:hover {
+            border: none;
+            outline: none;
+        }
+    }
+
     .header__home-link {
         display: block;
         text-align: left;
@@ -56,6 +69,7 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
+        padding: 2px 0;
         margin: -10px 0 0 0;
 
         &:hover {

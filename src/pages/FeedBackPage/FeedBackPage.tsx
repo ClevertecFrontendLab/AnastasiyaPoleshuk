@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import './FeedBackPage.scss';
 import { NoFeedbacksBlok } from '@components/NoFeedbacksBlok/NoFeedbacksBlok';
 import { FeedbacksWrapp } from '@components/FeedbacksWrapp/FeedbacksWrapp';
-import { FeedbacksHeader } from '@components/FeedbacksHeader/FeedbacksHeader';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { CreateFeedbackModal } from '@components/CreateFeedbackModal/CreateFeedbackModal';
@@ -18,6 +17,7 @@ import {
 import { setToken, changeAuthState } from '@redux/slices/UserSlice';
 import { StatusCodes } from 'http-status-codes';
 import { CreateFeedbackFailModal } from '@components/FeedbacksResult/CreateFeedbackFailModal';
+import { Header } from '@components/header/Header';
 
 export const FeedBackPage = () => {
     const {
@@ -79,7 +79,7 @@ export const FeedBackPage = () => {
 
     return (
         <div className={`feedback ${isFeedbacks ? 'feedbacks__wrapp' : 'no-feedbacks'}`}>
-            <FeedbacksHeader />
+            <Header />
             {isFeedbacks ? <FeedbacksWrapp /> : <NoFeedbacksBlok />}
             <CreateFeedbackModal isCreateFeedbackModalOpen={isCreateFeedbackModalOpen} />
             <CreateFeedbackSuccessModal

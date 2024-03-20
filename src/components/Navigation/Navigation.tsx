@@ -2,7 +2,7 @@ import './Navigation.scss';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { CalendarIcon } from './Iconscomponents/CalendarIcon';
 import { ProfileIcon } from './Iconscomponents/ProfileIcon';
@@ -15,6 +15,9 @@ import CONSTANTS from '@utils/constants';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { changeAuthState, setToken } from '@redux/slices/UserSlice';
 import { push } from 'redux-first-history';
+import { MenuInfo } from 'rc-menu/lib/interface';
+import { GetTrainingInfoThunk } from '@redux/thunk/TrainingThunk';
+import { useResize } from '@hooks/useResize';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -35,21 +38,36 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Календарь', '1', <CalendarIcon />),
-    getItem('Тренировки', '2', <WorkoutIcon />),
-    getItem('Достижения', '3', <AchievementsIcon />),
-    getItem('Профиль', '4', <ProfileIcon />),
+    getItem('Календарь', CONSTANTS.SIDEBAR_KEYS.CALENDAR, <CalendarIcon />),
+    getItem('Тренировки', CONSTANTS.SIDEBAR_KEYS.TRAININGS, <WorkoutIcon />),
+    getItem('Достижения', CONSTANTS.SIDEBAR_KEYS.ACHIEVEMENTS, <AchievementsIcon />),
+    getItem('Профиль', CONSTANTS.SIDEBAR_KEYS.PROFILE, <ProfileIcon />),
 ];
 
 export const Navigation: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(window.innerWidth <= 360);
-    const [width, setIsMobile] = useState(window.innerWidth);
-    const router = useAppSelector((state) => state.router);
+    const { width: windowWidth, isScreenSm } = useResize();
+    const [collapsed, setCollapsed] = useState(isScreenSm);
+    const { accessToken } = useAppSelector((state) => state.user);
+
+    useEffect(() => {
+        setCollapsed(isScreenSm);
+    }, []);
 
     const dispatch = useAppDispatch();
 
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
+    };
+
+    const onMenuClicked = (item: MenuInfo) => {
+        switch (item.key) {
+            case CONSTANTS.SIDEBAR_KEYS.CALENDAR:
+                dispatch(GetTrainingInfoThunk(accessToken));
+                break;
+
+            default:
+                break;
+        }
     };
 
     const logOut = () => {
@@ -67,7 +85,7 @@ export const Navigation: React.FC = () => {
                     type='text'
                     onClick={toggleCollapsed}
                     className='nav__menu-btn'
-                    data-test-id={width <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
+                    data-test-id={windowWidth <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
                 >
                     {collapsed ? (
                         <MenuUnfoldOutlined
@@ -86,6 +104,7 @@ export const Navigation: React.FC = () => {
                     inlineCollapsed={collapsed}
                     items={items}
                     className={collapsed ? 'menu__collapsed' : 'menu'}
+                    onClick={(item) => onMenuClicked(item)}
                 />
             </div>
             <Button type='link' className='nav__button-exit' onClick={logOut}>

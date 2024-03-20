@@ -1,0 +1,49 @@
+@import '../../App.variables.scss';
+
+.button__primary_save-btn,
+.button__primary {
+    border-radius: 2px;
+    width: 100%;
+}
+
+.button__primary_save-btn:hover {
+    outline: none;
+    border: none;
+}
+
+.modal__no-content_text {
+    color: $gray-color;
+    margin-bottom: 16px;
+}
+
+.ant-divider-horizontal {
+    margin: 12px 0;
+}
+
+.modal__create-training {
+    width: 270px !important;
+
+    @media (max-width: 360px) {
+        width: 312px !important;
+    }
+}
+
+.training__item {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.trainings__list-item__disabled {
+    color: $gray-color;
+}
+
+.edit-training__button {
+    border: none;
+    outline: none;
+
+    &:hover {
+        border: none;
+        outline: none;
+    }
+}
