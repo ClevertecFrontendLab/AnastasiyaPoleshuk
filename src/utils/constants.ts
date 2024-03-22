@@ -6,6 +6,7 @@ const CONSTANTS = {
         CHANGE_PASSWORD__PATH: '/change-password',
         FEEDBACKS__PATH: '/feedbacks',
         CALENDAR__PATH: '/calendar',
+        PROFILE__PATH: '/profile',
         RESULT: {
             RESULT: '/result',
             SUCCESS: {
