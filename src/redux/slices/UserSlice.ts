@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IRequestError } from '../../types/apiTypes';
-import { LoginUserThunk } from '../thunk/userThunks';
+import { IUser, IRequestError } from '../../types/apiTypes';
+import { GetUserThunk, LoginUserThunk, UpdateUserThunk } from '../thunk/userThunks';
 import { RegisterUserThunk } from '../thunk/userThunks';
 
 interface IInitialState {
@@ -11,6 +11,11 @@ interface IInitialState {
     error: IRequestError;
     isError: boolean;
     isRegisterError: boolean;
+    user: IUser;
+    isGetUserError: boolean;
+    isGetUserSuccess: boolean;
+    isUpdateUserError: boolean;
+    isUpdateUserSuccess: boolean;
 }
 
 const initialState: IInitialState = {
@@ -25,6 +30,23 @@ const initialState: IInitialState = {
     },
     isError: false,
     isRegisterError: false,
+    user: {
+        email: '',
+        firstName: '',
+        lastName: '',
+        birthday: '',
+        imgSrc: '',
+        readyForJointTraining: false,
+        sendNotification: false,
+        tariff: {
+            tariffId: '',
+            expired: '',
+        },
+    },
+    isGetUserError: false,
+    isGetUserSuccess: false,
+    isUpdateUserError: false,
+    isUpdateUserSuccess: false,
 };
 
 const userSlice = createSlice({
@@ -77,6 +99,42 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.isRegisterError = true;
                 state.isAuth = false;
+
+                state.error = JSON.parse(action.error.message as string);
+            });
+        builder
+            .addCase(GetUserThunk.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(GetUserThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isGetUserError = false;
+                state.isGetUserSuccess = true;
+
+                state.user = action.payload.data;
+            })
+            .addCase(GetUserThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isGetUserError = true;
+                state.isGetUserSuccess = false;
+
+                state.error = JSON.parse(action.error.message as string);
+            });
+        builder
+            .addCase(UpdateUserThunk.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(UpdateUserThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isUpdateUserError = false;
+                state.isUpdateUserSuccess = true;
+
+                state.user = action.payload.data;
+            })
+            .addCase(UpdateUserThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isUpdateUserError = true;
+                state.isUpdateUserSuccess = false;
 
                 state.error = JSON.parse(action.error.message as string);
             });
