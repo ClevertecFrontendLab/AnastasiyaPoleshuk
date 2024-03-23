@@ -64,6 +64,9 @@ export const Navigation: React.FC = () => {
             case CONSTANTS.SIDEBAR_KEYS.CALENDAR:
                 dispatch(GetTrainingInfoThunk(accessToken));
                 break;
+            case CONSTANTS.SIDEBAR_KEYS.PROFILE:
+                dispatch(push(`${CONSTANTS.ROUTER__PATH.PROFILE__PATH}`));
+                break;
 
             default:
                 break;
@@ -80,7 +83,25 @@ export const Navigation: React.FC = () => {
     return (
         <div className={`nav__menu ${collapsed ? 'collapsed__menu' : 'not-collapsed__menu'}`}>
             <div className='nav__menu-section'>
-                {collapsed ? <LogoShortIcon /> : <LogoIcon />}
+                {collapsed ? (
+                    <Button
+                        className='nav__menu-section_btn'
+                        onClick={() => {
+                            dispatch(push(CONSTANTS.ROUTER__PATH.AUTH__PATH));
+                        }}
+                    >
+                        <LogoShortIcon />
+                    </Button>
+                ) : (
+                    <Button
+                        className='nav__menu-section_btn'
+                        onClick={() => {
+                            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
+                        }}
+                    >
+                        <LogoIcon />
+                    </Button>
+                )}
                 <Button
                     type='text'
                     onClick={toggleCollapsed}
