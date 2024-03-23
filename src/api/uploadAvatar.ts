@@ -1,13 +1,17 @@
 import axios from 'axios';
-import { IUser, IRequestError } from '../types/apiTypes';
+import { IUploadAvatarResponse, IRequestError } from '../types/apiTypes';
 
 import { api, apiSetHeader } from './api';
 
-export const getUser = async (token: string) => {
+export const uploadAvatar = async (request: { token: string; file: string }) => {
     try {
-        apiSetHeader('Authorization', `Bearer ${token}`);
+        apiSetHeader('Content-Type', 'multipart/form-data');
+        apiSetHeader('Authorization', `Bearer ${request.token}`);
 
-        const { data, status } = await api.get<IUser>('user/me');
+        const { data, status } = await api.post<IUploadAvatarResponse>(
+            'upload-image',
+            request.file,
+        );
 
         return { data, status };
     } catch (error) {

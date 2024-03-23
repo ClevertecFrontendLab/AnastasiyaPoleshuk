@@ -89,11 +89,16 @@ export interface IUser {
 
 export interface IUpdateUser {
     email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    birthday: string;
-    imgSrc: string;
-    readyForJointTraining: boolean;
-    sendNotification: boolean;
+    password?: string;
+    firstName?: string;
+    lastName?: string;
+    birthday?: string;
+    imgSrc?: string;
+    readyForJointTraining?: boolean;
+    sendNotification?: boolean;
+}
+
+export interface IUploadAvatarResponse {
+    name: string;
+    url: string;
 }

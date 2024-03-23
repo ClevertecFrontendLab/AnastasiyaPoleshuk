@@ -1,6 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUser, IRequestError } from '../../types/apiTypes';
-import { GetUserThunk, LoginUserThunk, UpdateUserThunk } from '../thunk/userThunks';
+import { IUser, IRequestError, IUploadAvatarResponse } from '../../types/apiTypes';
+import {
+    GetUserThunk,
+    LoginUserThunk,
+    UpdateUserThunk,
+    UploadAvatarThunk,
+} from '../thunk/userThunks';
 import { RegisterUserThunk } from '../thunk/userThunks';
 
 interface IInitialState {
@@ -12,10 +17,13 @@ interface IInitialState {
     isError: boolean;
     isRegisterError: boolean;
     user: IUser;
+    avatarFile: IUploadAvatarResponse;
     isGetUserError: boolean;
     isGetUserSuccess: boolean;
     isUpdateUserError: boolean;
     isUpdateUserSuccess: boolean;
+    isUploadAvatarError: boolean;
+    isUploadAvatarSuccess: boolean;
 }
 
 const initialState: IInitialState = {
@@ -43,10 +51,16 @@ const initialState: IInitialState = {
             expired: '',
         },
     },
+    avatarFile: {
+        name: '',
+        url: '',
+    },
     isGetUserError: false,
     isGetUserSuccess: false,
     isUpdateUserError: false,
     isUpdateUserSuccess: false,
+    isUploadAvatarError: false,
+    isUploadAvatarSuccess: false,
 };
 
 const userSlice = createSlice({
@@ -135,6 +149,24 @@ const userSlice = createSlice({
                 state.isLoading = false;
                 state.isUpdateUserError = true;
                 state.isUpdateUserSuccess = false;
+
+                state.error = JSON.parse(action.error.message as string);
+            });
+        builder
+            .addCase(UploadAvatarThunk.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(UploadAvatarThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isUploadAvatarError = false;
+                state.isUploadAvatarSuccess = true;
+
+                state.avatarFile = action.payload.data;
+            })
+            .addCase(UploadAvatarThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isUploadAvatarError = true;
+                state.isUploadAvatarSuccess = false;
 
                 state.error = JSON.parse(action.error.message as string);
             });
