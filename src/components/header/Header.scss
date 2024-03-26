@@ -117,4 +117,24 @@
     @media (max-width: 360px) {
         width: 329px;
     }
+
+    &__title {
+        @include h4;
+    }
+}
+
+.settings-header {
+    display: flex;
+    justify-content: flex-start;
+    background: $primary-color-light-1;
+    gap: 6px;
+    padding: 16px 24px 20px 24px;
+
+    @media (max-width: 360px) {
+        width: 329px;
+    }
+
+    &__title {
+        @include h4;
+    }
 }

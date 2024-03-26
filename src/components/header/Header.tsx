@@ -5,6 +5,7 @@ import { Breadcrumb, Button } from 'antd';
 import { push } from 'redux-first-history';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { useState, useEffect } from 'react';
+import { GetTariffListThunk } from '@redux/thunk/userThunks';
 
 export const Header = () => {
     const [pageName, setPageName] = useState('');
@@ -34,6 +35,10 @@ export const Header = () => {
         }
     }, []);
 
+    const goToSettings = () => {
+        dispatch(GetTariffListThunk());
+        dispatch(push(`${CONSTANTS.ROUTER__PATH.SETTINGS__PATH}`));
+    };
     return (
         <header className='header'>
             <Breadcrumb>
@@ -59,7 +64,11 @@ export const Header = () => {
                         <i />
                     )}
 
-                    <button className='header__info-settings-btn' data-test-id='header-settings'>
+                    <button
+                        className='header__info-settings-btn'
+                        data-test-id='header-settings'
+                        onClick={goToSettings}
+                    >
                         <SettingOutlined />
                         <p>Настройки</p>
                     </button>
