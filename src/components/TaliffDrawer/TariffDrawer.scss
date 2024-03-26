@@ -1,0 +1,18 @@
+@import '../../App.variables.scss';
+
+.tariff-drawer__title {
+    @include h4;
+}
+
+.tariff-advantages__rows {
+    margin: 16px 0;
+}
+
+.ant-table-cell:not(:first-child) {
+    text-align: center;
+}
+
+.ant-table-cell {
+    border-bottom: none !important;
+    padding: 8px 0;
+}

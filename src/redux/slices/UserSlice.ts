@@ -1,6 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUser, IRequestError, IUploadAvatarResponse } from '../../types/apiTypes';
 import {
+    IUser,
+    IRequestError,
+    IUploadAvatarResponse,
+    ITariffListResponse,
+} from '../../types/apiTypes';
+import {
+    GetTariffListThunk,
     GetUserThunk,
     LoginUserThunk,
     UpdateUserThunk,
@@ -18,12 +24,15 @@ interface IInitialState {
     isRegisterError: boolean;
     user: IUser;
     avatarFile: IUploadAvatarResponse;
+    tariff: ITariffListResponse[];
     isGetUserError: boolean;
     isGetUserSuccess: boolean;
     isUpdateUserError: boolean;
     isUpdateUserSuccess: boolean;
     isUploadAvatarError: boolean;
     isUploadAvatarSuccess: boolean;
+    isGetTariffError: boolean;
+    isGetTariffSuccess: boolean;
 }
 
 const initialState: IInitialState = {
@@ -55,12 +64,15 @@ const initialState: IInitialState = {
         name: '',
         url: '',
     },
+    tariff: [],
     isGetUserError: false,
     isGetUserSuccess: false,
     isUpdateUserError: false,
     isUpdateUserSuccess: false,
     isUploadAvatarError: false,
     isUploadAvatarSuccess: false,
+    isGetTariffError: false,
+    isGetTariffSuccess: false,
 };
 
 const userSlice = createSlice({
@@ -153,20 +165,20 @@ const userSlice = createSlice({
                 state.error = JSON.parse(action.error.message as string);
             });
         builder
-            .addCase(UploadAvatarThunk.pending, (state) => {
+            .addCase(GetTariffListThunk.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(UploadAvatarThunk.fulfilled, (state, action) => {
+            .addCase(GetTariffListThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isUploadAvatarError = false;
-                state.isUploadAvatarSuccess = true;
+                state.isGetTariffError = false;
+                state.isGetTariffSuccess = true;
 
-                state.avatarFile = action.payload.data;
+                state.tariff = action.payload.data;
             })
-            .addCase(UploadAvatarThunk.rejected, (state, action) => {
+            .addCase(GetTariffListThunk.rejected, (state, action) => {
                 state.isLoading = false;
-                state.isUploadAvatarError = true;
-                state.isUploadAvatarSuccess = false;
+                state.isGetTariffError = true;
+                state.isGetTariffSuccess = false;
 
                 state.error = JSON.parse(action.error.message as string);
             });

@@ -5,6 +5,7 @@ import { registerUser } from '../../api/registerUser';
 import { getUser } from '../../api/getUser';
 import { updateUser } from '../../api/updateUser';
 import { uploadAvatar } from '../../api/uploadAvatar';
+import { getTariff } from '../../api/getTariff';
 
 export const LoginUserThunk = createAsyncThunk('user/loginUser', async (request: IAuthRequest) => {
     const response = await authUser(request);
@@ -36,3 +37,8 @@ export const UploadAvatarThunk = createAsyncThunk(
         return response;
     },
 );
+
+export const GetTariffListThunk = createAsyncThunk('user/uploaDAvatar', async () => {
+    const response = await getTariff();
+    return response;
+});

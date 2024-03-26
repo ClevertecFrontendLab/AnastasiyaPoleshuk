@@ -12,6 +12,7 @@ export interface IAppContext {
     isRepeatRequestNeeded: boolean;
     isAddTrainingModalOpen: boolean;
     isDrawerOpen: boolean;
+    isTariffDrawerOpen: boolean;
     exercisesData: ITrainingExercises[];
     addExercisesData: {
         name: string;
@@ -25,6 +26,7 @@ export interface IAppContext {
     openModal: (type: string) => void;
     closeModal: (type: string) => void;
     setStateOfRepeatRequest: (state: boolean) => void;
+    setTariffDrawerStatus: (state: boolean) => void;
     updateAddExercisesData: (data: { name: string; date: string }) => void;
     saveExercisesData: (exercisesData: ITrainingExercises[]) => void;
     saveCurrentExerciseName: (exerciseNam: string) => void;
@@ -39,6 +41,7 @@ export const AppContext = createContext<IAppContext>({
     isRepeatRequestNeeded: false,
     isAddTrainingModalOpen: false,
     isDrawerOpen: false,
+    isTariffDrawerOpen: false,
     exercisesData: [],
     addExercisesData: {
         name: '',
@@ -56,6 +59,7 @@ export const AppContext = createContext<IAppContext>({
     saveExercisesData: () => {},
     saveCurrentExerciseName: () => {},
     saveExercisesDataToUpdate: () => {},
+    setTariffDrawerStatus: () => {},
 });
 
 export const AppState = ({ children }: { children: React.ReactNode }) => {
@@ -66,6 +70,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
     const [isRepeatRequestNeeded, setIsRepeatRequestNeeded] = useState(false);
     const [isAddTrainingModalOpen, setIsAddTrainingModalOpen] = useState(false);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isTariffDrawerOpen, setIsTariffDrawerOpen] = useState(false);
     const [addExercisesData, setAddExercisesData] = useState({
         name: '',
         date: '',
@@ -145,6 +150,10 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
         setCurrentExerciseName(name);
     };
 
+    const setTariffDrawerStatus = (status: boolean) => {
+        setIsTariffDrawerOpen(status);
+    };
+
     const contextValue = useMemo(
         () => ({
             isFeedbacksFailModalOpen,
@@ -158,6 +167,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
             currentExerciseName,
             isDrawerOpen,
             exercisesDataToUpdate,
+            isTariffDrawerOpen,
             openModal,
             closeModal,
             setStateOfRepeatRequest,
@@ -165,6 +175,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
             saveExercisesData,
             saveCurrentExerciseName,
             saveExercisesDataToUpdate,
+            setTariffDrawerStatus,
         }),
         [
             isFeedbacksFailModalOpen,
@@ -178,6 +189,7 @@ export const AppState = ({ children }: { children: React.ReactNode }) => {
             exercisesData,
             currentExerciseName,
             exercisesDataToUpdate,
+            isTariffDrawerOpen,
         ],
     );
 
