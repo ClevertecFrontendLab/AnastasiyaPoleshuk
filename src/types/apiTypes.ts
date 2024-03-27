@@ -112,3 +112,8 @@ export interface ITariffListResponse {
         days: number;
     }[];
 }
+
+export interface IPostTariffRequest {
+    tariffId: string;
+    days: number;
+}

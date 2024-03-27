@@ -30,7 +30,6 @@ export const MainPage: React.FC = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
-        dispatch(GetUserThunk(token || accessToken));
         if (token) {
             dispatch(setToken(token));
             dispatch(changeAuthState(true));
@@ -45,7 +44,10 @@ export const MainPage: React.FC = () => {
         if (!isAuth) {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
         } else {
+            const token = localStorage.getItem('jwtToken');
+
             dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
+            dispatch(GetUserThunk(token || accessToken));
         }
     }, [isAuth]);
 

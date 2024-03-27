@@ -14,36 +14,19 @@ import {
 import { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import CONSTANTS, { calendarLocale } from '@utils/constants';
-import { RcFile } from 'antd/es/upload';
 import { UpdateUserThunk, UploadAvatarThunk } from '@redux/thunk/userThunks';
-import { IRequestError, IUpdateUser } from '../../types/apiTypes';
-import { BigImage } from '@components/ProfileModals/BigImage';
+import { IUpdateUser } from '../../types/apiTypes';
+import { ProfileErrorModal } from '@components/ProfileModals/ProfileErrorModal';
 import { UpdateUserFail } from '@components/ProfileModals/UpdateUserFail';
 import { UpdateUserSuccess } from '@components/ProfileModals/UpdateUserSuccess';
 import moment from 'moment';
-
-interface IUpdateUserForm {
-    firstName?: string;
-    lastName?: string;
-    birthday?: string;
-    url: string;
-}
-
-const getBase64 = (file: RcFile): Promise<string> =>
-    new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-    });
 
 export const ProfileWrapp = () => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
-    const [uploadError, setUploadError] = useState<IRequestError>();
-    const [isErr, setIsError] = useState(false);
-    const [avatar, setAvatar] = useState<UploadFile>();
+    const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
+    const [avatar, setAvatar] = useState<UploadFile[]>([]);
     const [isValidEmail, setIsValidEmail] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState(true);
     const [isPasswordsMatch, setIsVPasswordsMatch] = useState(true);
@@ -55,28 +38,50 @@ export const ProfileWrapp = () => {
         isUploadAvatarSuccess,
         accessToken,
         isUploadAvatarError,
-        error,
         isUpdateUserError,
+        isUpdateUserSuccess,
     } = useAppSelector((state) => state.user);
+    const [avatarUrl, setAvatarUrl] = useState<string>(user.imgSrc);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (user.imgSrc) {
-            setAvatar({ uid: '0', name: 'avatar', status: 'done', url: user.imgSrc });
+        setAvatarUrl(user.imgSrc);
+        setSubmitButtonDisabled(true);
+        if (avatarUrl) {
+            setAvatar([{ uid: '0', name: 'avatar', status: 'done', url: avatarUrl }]);
         }
     }, []);
 
     useEffect(() => {
         if (isUploadAvatarSuccess) {
-            setAvatar({ uid: '0', name: 'avatar', status: 'done', url: user.imgSrc });
+            setAvatarUrl(user.imgSrc);
+            setSubmitButtonDisabled(false);
+            setAvatar([
+                {
+                    uid: '0',
+                    name: 'avatar',
+                    status: 'done',
+                    url: `${CONSTANTS.AVATAR_URL}${user?.imgSrc}`,
+                },
+            ]);
         }
     }, [isUploadAvatarSuccess]);
 
     useEffect(() => {
         if (isUploadAvatarError) {
-            setUploadError(error);
+            setSubmitButtonDisabled(true);
+            setAvatar([]);
+            ProfileErrorModal();
         }
     }, [isUploadAvatarError]);
+
+    useEffect(() => {
+        if (isUpdateUserSuccess) {
+            setIsUpdateSuccess(true);
+            setSubmitButtonDisabled(true);
+        }
+    }, [isUpdateUserSuccess]);
 
     useEffect(() => {
         if (isUpdateUserError) {
@@ -85,9 +90,8 @@ export const ProfileWrapp = () => {
     }, [isUpdateUserError]);
 
     const saveChanges = (values: IUpdateUser) => {
-        console.log(values);
-
         dispatch(UpdateUserThunk(values));
+        setSubmitButtonDisabled(true);
     };
 
     const handlePreview = async (file: UploadFile) => {
@@ -102,42 +106,27 @@ export const ProfileWrapp = () => {
     const uploadButton = (
         <div>
             <PlusOutlined />
-            <div style={{ marginTop: 6, width: 'min-content' }} data-test-id='profile-avatar'>
-                Загрузить фото профиля
-            </div>
+            <div style={{ marginTop: 6, width: 'min-content' }}>Загрузить фото профиля</div>
         </div>
     );
 
     const handleChange: UploadProps['onChange'] = async ({ file }) => {
-        console.log(file);
-
-        if (file.status === 'error') {
-            setSubmitButtonDisabled(true);
+        const status = file.status;
+        if (status && status == 'removed') {
+            setAvatarUrl('');
+            setAvatar([{ uid: '0', name: 'image.png', status: 'error' }]);
         }
-        // if (file.status === 'uploading') {
-        // }
-        if (file.status === 'done') {
-            setSubmitButtonDisabled(false);
-            setAvatar(file);
+        if (status && status == 'uploading') {
+            setAvatar([{ uid: '0', percent: 50, name: 'image.png', status: 'uploading' }]);
         }
     };
 
     const customRequest: UploadProps['customRequest'] = (options) => {
-        const { onSuccess, onError, file, onProgress } = options;
+        const { file } = options;
 
-        dispatch(UploadAvatarThunk({ token: accessToken, file }));
-
-        onError(uploadError);
-    };
-
-    const beforeUpload = (file: UploadFile) => {
-        if (file.size > 625000) {
-            // BigImage();
-            setIsError(true);
-            console.log(file.size);
-            return false;
-        }
-        return true;
+        const formData = new FormData();
+        formData.append('file', file);
+        dispatch(UploadAvatarThunk({ token: accessToken, file: formData }));
     };
 
     const CheckEmail = (data: string) => {
@@ -191,8 +180,6 @@ export const ProfileWrapp = () => {
         if (user.email) {
             initialValues.email = user.email;
         }
-        console.log('initialValues: ', initialValues);
-
         return initialValues;
     };
 
@@ -207,22 +194,25 @@ export const ProfileWrapp = () => {
                 name='update user'
                 initialValues={getInitialValues()}
                 onFinish={saveChanges}
+                onValuesChange={() => setSubmitButtonDisabled(false)}
                 className='update-user__form'
             >
                 <div className='personal-info__form-blok'>
                     <h2 className='personal-info__form-title'>Личная информация</h2>
 
                     <div style={{ width: '100%', display: 'flex', alignItems: 'flex-start' }}>
-                        <Upload
-                            customRequest={customRequest}
-                            beforeUpload={beforeUpload}
-                            listType='picture-card'
-                            onPreview={handlePreview}
-                            onChange={handleChange}
-                            className='upload-avatar'
-                        >
-                            {avatar ? null : uploadButton}
-                        </Upload>
+                        <Form.Item data-test-id='profile-avatar'>
+                            <Upload
+                                customRequest={customRequest}
+                                fileList={avatar}
+                                listType='picture-card'
+                                onPreview={handlePreview}
+                                onChange={handleChange}
+                                className='upload-avatar'
+                            >
+                                {avatar.length > 0 ? null : uploadButton}
+                            </Upload>
+                        </Form.Item>
                         <Space
                             direction='vertical'
                             style={{
@@ -255,7 +245,7 @@ export const ProfileWrapp = () => {
                     <h2 className='personal-info__form-title'>Приватность и авторизация</h2>
                     <Form.Item
                         name='email'
-                        rules={[{ required: true }]}
+                        rules={[{ type: 'email' }]}
                         validateStatus={isValidEmail ? 'success' : 'error'}
                         className='update-user__form-item'
                     >
@@ -270,7 +260,11 @@ export const ProfileWrapp = () => {
                     <Form.Item
                         name='password'
                         rules={[
-                            { required: isPasswordRequired, message: 'пожалуйста, введите параль' },
+                            {
+                                required: isPasswordRequired,
+                                message: 'пожалуйста, введите параль',
+                                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                            },
                         ]}
                         validateStatus={isValidPassword ? 'success' : 'error'}
                         help='Пароль не менее 8 символов, с заглавной буквой и цифрой'
@@ -280,7 +274,6 @@ export const ProfileWrapp = () => {
                             size='small'
                             placeholder='Пароль'
                             onChange={(e) => CheckPassword(e.target.value)}
-                            // onFocus={() => console.log('focus')}
                             onFocus={() => setRequired()}
                             data-test-id='profile-password'
                         />
@@ -288,7 +281,12 @@ export const ProfileWrapp = () => {
 
                     <Form.Item
                         name='passwordRepeat'
-                        rules={[{ required: isPasswordRequired }]}
+                        rules={[
+                            {
+                                required: isPasswordRequired,
+                                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                            },
+                        ]}
                         validateStatus={isPasswordsMatch ? 'success' : 'error'}
                         help={isPasswordsMatch ? '' : 'Пароли не совпадают'}
                         className='update-user__form-item'
@@ -321,7 +319,7 @@ export const ProfileWrapp = () => {
             >
                 <img alt='example' style={{ width: '100%' }} src={previewImage} />
             </Modal>
-            {isErr && <UpdateUserSuccess />}
+            {isUpdateSuccess && <UpdateUserSuccess />}
         </div>
     );
 };

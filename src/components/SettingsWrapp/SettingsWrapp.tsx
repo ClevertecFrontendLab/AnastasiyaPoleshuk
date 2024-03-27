@@ -10,10 +10,12 @@ import CONSTANTS from '@utils/constants';
 import { push } from 'redux-first-history';
 import { AppContext } from '../../context/AppContext';
 import { UpdateUserThunk } from '@redux/thunk/userThunks';
+import { GetFeedbacksThunk } from '@redux/thunk/feedbacksThunk';
+import moment from 'moment';
 
 export const SettingsWrapp = () => {
     const [isPROActive, setIsPROActive] = useState(false);
-    const { user } = useAppSelector((state) => state.user);
+    const { user, accessToken, isPostTariffSuccess } = useAppSelector((state) => state.user);
 
     const { openModal, setTariffDrawerStatus } = useContext(AppContext);
     const dispatch = useAppDispatch();
@@ -23,6 +25,17 @@ export const SettingsWrapp = () => {
             setIsPROActive(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (isPostTariffSuccess) {
+            openModal(CONSTANTS.CHANGE_TARIFF_INFO_MODAL);
+        }
+    }, [isPostTariffSuccess]);
+
+    const checkFeedback = () => {
+        dispatch(GetFeedbacksThunk(accessToken));
+        dispatch(push(CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH));
+    };
 
     return (
         <div className='settings-wrapp'>
@@ -45,7 +58,7 @@ export const SettingsWrapp = () => {
                         <span className='card__footer-text'>активен</span> <CheckOutlined />
                     </footer>
                 </div>
-                <div className='tariff__card card'>
+                <div className='tariff__card card' data-test-id='pro-tariff-card'>
                     <header className='card__header'>
                         <h5 className='card__header-title'>PRO tarif</h5>
                         <Button
@@ -63,9 +76,15 @@ export const SettingsWrapp = () => {
                     />
                     <footer className='card__footer'>
                         {isPROActive ? (
-                            <span className='card__footer-text'>Активен до {'вставить дату'}</span>
+                            <span className='card__footer-text'>
+                                Активен до {moment(user.tariff.expired).format('DD.MM')}
+                            </span>
                         ) : (
-                            <Button type='primary' className='card__footer-button'>
+                            <Button
+                                type='primary'
+                                className='card__footer-button'
+                                data-test-id='activate-tariff-btn'
+                            >
                                 Активировать
                             </Button>
                         )}
@@ -78,6 +97,7 @@ export const SettingsWrapp = () => {
                         <p className='advantage-item__title'>Открыт для совместных тренировок</p>
                         <Tooltip
                             placement='bottomLeft'
+                            data-test-id='tariff-trainings-icon'
                             title={
                                 'включеная функция позволит участвовать в совместных тренировках'
                             }
@@ -87,6 +107,7 @@ export const SettingsWrapp = () => {
                     </div>
                     <Switch
                         defaultChecked
+                        data-test-id='tariff-trainings'
                         onChange={(checked) =>
                             dispatch(
                                 UpdateUserThunk({
@@ -102,12 +123,14 @@ export const SettingsWrapp = () => {
                         <p className='advantage-item__title'>Уведомления</p>
                         <Tooltip
                             placement='bottomLeft'
+                            data-test-id='tariff-notifications-icon'
                             title={'включеная функция позволит получать уведомления об активностях'}
                         >
                             <ExclamationCircleOutlined />
                         </Tooltip>
                     </div>
                     <Switch
+                        data-test-id='tariff-notifications'
                         onChange={(checked) =>
                             dispatch(
                                 UpdateUserThunk({
@@ -129,12 +152,13 @@ export const SettingsWrapp = () => {
                         </p>
                         <Tooltip
                             placement='bottomLeft'
+                            data-test-id='tariff-theme-icon'
                             title={'темная тема доступна для PRO tarif'}
                         >
                             <ExclamationCircleOutlined />
                         </Tooltip>
                     </div>
-                    <Switch disabled={isPROActive ? false : true} />
+                    <Switch disabled={isPROActive ? false : true} data-test-id='tariff-theme' />
                 </div>
 
                 <div className='feedbacks-btns__wrapp'>
@@ -148,7 +172,7 @@ export const SettingsWrapp = () => {
                     </Button>
                     <Button
                         type='link'
-                        onClick={() => dispatch(push(CONSTANTS.ROUTER__PATH.FEEDBACKS__PATH))}
+                        onClick={checkFeedback}
                         className='feedbacks-wrapp__btn'
                         data-test-id='all-reviews-button'
                     >

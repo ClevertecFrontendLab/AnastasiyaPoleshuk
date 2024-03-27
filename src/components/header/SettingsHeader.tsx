@@ -17,7 +17,7 @@ export const SettingsHeader = () => {
 
     return (
         <header className='settings-header'>
-            <ArrowLeftOutlined onClick={goBack} />
+            <ArrowLeftOutlined onClick={goBack} data-test-id='settings-back' />
             <h4 className='settings-header__title'>Настройки</h4>
         </header>
     );
