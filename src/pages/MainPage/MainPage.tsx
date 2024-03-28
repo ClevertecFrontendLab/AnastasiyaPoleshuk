@@ -14,10 +14,12 @@ import {
     changeGetTrainingInfoSuccessState,
 } from '@redux/slices/CalendarSlice';
 import { cleanError } from '@redux/slices/CalendarSlice';
+import { GetUserThunk } from '@redux/thunk/userThunks';
+import { UserSelector, calendarSelector } from '@utils/StoreSelectors';
 
 export const MainPage: React.FC = () => {
-    const { isAuth, accessToken } = useAppSelector((state) => state.user);
-    const { isGetTrainingInfoSuccess } = useAppSelector((state) => state.calendar);
+    const { isAuth, accessToken } = useAppSelector(UserSelector);
+    const { isGetTrainingInfoSuccess } = useAppSelector(calendarSelector);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -44,6 +46,10 @@ export const MainPage: React.FC = () => {
             dispatch(push(`${CONSTANTS.ROUTER__PATH.AUTH__PATH}`));
         } else {
             dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
+
+            setTimeout(() => {
+                dispatch(GetUserThunk(accessToken));
+            }, 1000);
         }
     }, [isAuth]);
 
@@ -97,7 +103,14 @@ export const MainPage: React.FC = () => {
                         </div>
                         <div className='card'>
                             <h5 className='card__title'>Заполнить профить</h5>
-                            <Button type='link' className='card__link'>
+                            <Button
+                                type='link'
+                                className='card__link'
+                                data-test-id='menu-button-profile'
+                                onClick={() =>
+                                    dispatch(push(`${CONSTANTS.ROUTER__PATH.PROFILE__PATH}`))
+                                }
+                            >
                                 Профиль
                             </Button>
                         </div>

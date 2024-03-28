@@ -8,6 +8,7 @@ import { IGetTrainingListResponse, IGetTrainingsResponse } from '../../types/api
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import moment, { Moment } from 'moment';
 import { updateTrainingsState } from '@redux/slices/CalendarSlice';
+import { calendarSelector } from '@utils/StoreSelectors';
 
 interface IProps {
     date: string;
@@ -87,7 +88,7 @@ export const CalendarCellInfoModal = ({
     isAddTrainingDisabled,
     setOpen,
 }: IProps) => {
-    const { trainingList, isUpdateTrainingSuccess } = useAppSelector((state) => state.calendar);
+    const { trainingList, isUpdateTrainingSuccess } = useAppSelector(calendarSelector);
     const { saveExercisesData, saveCurrentExerciseName, openModal, exercisesDataToUpdate } =
         useContext(AppContext);
     const dispatch = useAppDispatch();

@@ -18,6 +18,7 @@ import { push } from 'redux-first-history';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { GetTrainingInfoThunk } from '@redux/thunk/TrainingThunk';
 import { useResize } from '@hooks/useResize';
+import { UserSelector } from '@utils/StoreSelectors';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -47,11 +48,11 @@ const items: MenuItem[] = [
 export const Navigation: React.FC = () => {
     const { width: windowWidth, isScreenSm } = useResize();
     const [collapsed, setCollapsed] = useState(isScreenSm);
-    const { accessToken } = useAppSelector((state) => state.user);
+    const { accessToken } = useAppSelector(UserSelector);
 
     useEffect(() => {
         setCollapsed(isScreenSm);
-    }, []);
+    }, [windowWidth]);
 
     const dispatch = useAppDispatch();
 
@@ -63,6 +64,10 @@ export const Navigation: React.FC = () => {
         switch (item.key) {
             case CONSTANTS.SIDEBAR_KEYS.CALENDAR:
                 dispatch(GetTrainingInfoThunk(accessToken));
+                dispatch(push(`${CONSTANTS.ROUTER__PATH.CALENDAR__PATH}`));
+                break;
+            case CONSTANTS.SIDEBAR_KEYS.PROFILE:
+                dispatch(push(`${CONSTANTS.ROUTER__PATH.PROFILE__PATH}`));
                 break;
 
             default:
@@ -80,7 +85,25 @@ export const Navigation: React.FC = () => {
     return (
         <div className={`nav__menu ${collapsed ? 'collapsed__menu' : 'not-collapsed__menu'}`}>
             <div className='nav__menu-section'>
-                {collapsed ? <LogoShortIcon /> : <LogoIcon />}
+                {collapsed ? (
+                    <Button
+                        className='nav__menu-section_btn'
+                        onClick={() => {
+                            dispatch(push(CONSTANTS.ROUTER__PATH.AUTH__PATH));
+                        }}
+                    >
+                        <LogoShortIcon />
+                    </Button>
+                ) : (
+                    <Button
+                        className='nav__menu-section_btn'
+                        onClick={() => {
+                            dispatch(push(CONSTANTS.ROUTER__PATH.MAIN__PATH));
+                        }}
+                    >
+                        <LogoIcon />
+                    </Button>
+                )}
                 <Button
                     type='text'
                     onClick={toggleCollapsed}

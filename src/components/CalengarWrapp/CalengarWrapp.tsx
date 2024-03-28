@@ -2,12 +2,10 @@ import { Badge, BadgeProps, Calendar, Empty } from 'antd';
 import { Moment } from 'moment';
 import 'moment/locale/ru';
 
-import locale from 'antd/es/locale/ru_RU';
-
 import './CalengarWrapp.scss';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { useContext, useEffect, useState } from 'react';
-import CONSTANTS from '@utils/constants';
+import CONSTANTS, { calendarLocale } from '@utils/constants';
 import { IGetTrainingListResponse, IGetTrainingsResponse } from '../../types/apiTypes';
 import moment from 'moment';
 import { CalendarCellInfoModal } from '@components/CalendarCellInfoModal/CalendarCellInfoModal';
@@ -16,6 +14,7 @@ import { AddExercisesDrawer } from '@components/AddExercisesDrawer/AddExerscises
 import { CreateTrainingFail } from '@components/ErrorModals/CreateTrainingFail';
 import { useResize } from '@hooks/useResize';
 import { CalendarCreateTrainingModal } from '@components/CalendarCellInfoModal/CalendarCreateTrainingModal';
+import { calendarSelector } from '@utils/StoreSelectors';
 
 const getListData = (
     value: Moment,
@@ -49,30 +48,6 @@ const getCurrentDayTrainings = (day: Moment, allTrainingsArr: IGetTrainingsRespo
     return allTrainingsArr.filter((item) => moment(item.date).format('DD') === day.format('DD'));
 };
 
-const calendarLocale = {
-    lang: {
-        ...locale.Calendar?.lang,
-        shortWeekDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-        shortMonths: [
-            'Янв',
-            'Февр',
-            'Мар',
-            'Апр',
-            'Май',
-            'Июн',
-            'Июл',
-            'Авг',
-            'Сен',
-            'Окт',
-            'Ноя',
-            'Дек',
-        ],
-    },
-    timePickerLocale: {
-        ...locale.Calendar?.timePickerLocale,
-    },
-};
-
 const getStatus = (key: string) => {
     switch (key) {
         case CONSTANTS.TRAINING_TYPE.BACK:
@@ -98,7 +73,7 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
         isUpdateTrainingError,
         trainingList,
         trainingInfo,
-    } = useAppSelector((state) => state.calendar);
+    } = useAppSelector(calendarSelector);
     const [cellData, setCellData] = useState(<></>);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [isModalRender, setIsModalRender] = useState(false);

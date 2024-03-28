@@ -10,16 +10,25 @@ import { push } from 'redux-first-history';
 import CONSTANTS from '@utils/constants';
 import { changeGetFeedbacksErrorState } from '@redux/slices/FeedbacksSlice';
 import { changeGetTrainingInfoErrorState } from '@redux/slices/CalendarSlice';
+import { CreateFeedbackModal } from '@components/CreateFeedbackModal/CreateFeedbackModal';
+import { CreateFeedbackFailModal } from '@components/FeedbacksResult/CreateFeedbackFailModal';
+import { CreateFeedbackSuccessModal } from '@components/FeedbacksResult/CreateFeedbackSuccessModal';
+import { UserSelector, changePasswordSelector, feedbacksSelector } from '@utils/StoreSelectors';
 
 export const Layout = () => {
     const [queryParams, setQueryParams] = useSearchParams();
-    const { isLoading: isLoadingUser } = useAppSelector((state) => state.user);
-    const { isLoading: isLoadingChangePassword } = useAppSelector((state) => state.changePassword);
-    const { isLoading: isLoadingFeedback } = useAppSelector((state) => state.feedbacks);
+    const { isLoading: isLoadingUser } = useAppSelector(UserSelector);
+    const { isLoading: isLoadingChangePassword } = useAppSelector(changePasswordSelector);
+    const { isLoading: isLoadingFeedback } = useAppSelector(feedbacksSelector);
     const { isLoading: isLoadingTrainingInfo, isGetTrainingInfoError } = useAppSelector(
         (state) => state.calendar,
     );
-    const { isFeedbacksFailModalOpen } = useContext(AppContext);
+    const {
+        isFeedbacksFailModalOpen,
+        isCreateFeedbackModalOpen,
+        isCreateFeedbackSuccessModalOpen,
+        isCreateFeedbackErrorModalOpen,
+    } = useContext(AppContext);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -46,6 +55,13 @@ export const Layout = () => {
             <GetRequestFail
                 isOpen={isGetTrainingInfoError}
                 changeErrorState={changeGetTrainingInfoErrorState}
+            />
+            <CreateFeedbackModal isCreateFeedbackModalOpen={isCreateFeedbackModalOpen} />
+            <CreateFeedbackSuccessModal
+                isCreateFeedbackSuccessModalOpen={isCreateFeedbackSuccessModalOpen}
+            />
+            <CreateFeedbackFailModal
+                isCreateFeedbackErrorModalOpen={isCreateFeedbackErrorModalOpen}
             />
         </div>
     );

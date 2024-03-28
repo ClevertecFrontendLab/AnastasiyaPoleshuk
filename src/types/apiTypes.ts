@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { ITrainingExercises, ITrainingParameters } from './storeTypes';
 
 export interface IAuthRequest {
@@ -71,4 +72,49 @@ export interface ICreateTrainingRequest {
     date: string;
     isImplementation: boolean;
     exercises: ITrainingExercises[];
+}
+
+export interface IUser {
+    email: string;
+    firstName: string;
+    lastName: string;
+    birthday: string;
+    imgSrc: string;
+    readyForJointTraining: boolean;
+    sendNotification: boolean;
+    tariff: {
+        tariffId: string;
+        expired: string;
+    };
+}
+
+export interface IUpdateUser {
+    email: string;
+    password?: string;
+    firstName?: string;
+    lastName?: string;
+    birthday?: Moment;
+    imgSrc?: string;
+    readyForJointTraining?: boolean;
+    sendNotification?: boolean;
+}
+
+export interface IUploadAvatarResponse {
+    name: string;
+    url: string;
+}
+
+export interface ITariffListResponse {
+    _id: string;
+    name: string;
+    periods: {
+        text: string;
+        cost: number;
+        days: number;
+    }[];
+}
+
+export interface IPostTariffRequest {
+    tariffId: string;
+    days: number;
 }

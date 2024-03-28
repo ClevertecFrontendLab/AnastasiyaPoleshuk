@@ -1,11 +1,16 @@
+import locale from 'antd/es/locale/ru_RU';
+
 const CONSTANTS = {
     URL: 'https://marathon-api.clevertec.ru/',
+    AVATAR_URL: 'https://training-api.clevertec.ru/',
     ROUTER__PATH: {
         AUTH__PATH: '/auth',
         MAIN__PATH: '/main',
         CHANGE_PASSWORD__PATH: '/change-password',
         FEEDBACKS__PATH: '/feedbacks',
         CALENDAR__PATH: '/calendar',
+        PROFILE__PATH: '/profile',
+        SETTINGS__PATH: '/settings',
         RESULT: {
             RESULT: '/result',
             SUCCESS: {
@@ -29,11 +34,14 @@ const CONSTANTS = {
     CREATE_FEEDBACK_SUCCESS_MODAL: 'create feedback success modal window',
     CREATE_FEEDBACK_ERROR_MODAL: 'create feedback error modal window',
     ADD_TRAINING_MODAL: 'create or update training',
+    CHANGE_TARIFF_INFO_MODAL: 'Чек для оплаты у вас на почте',
     DRAWER: 'open drawer',
     DEFAULT__FEEDBACKS_COUNT: 4,
     DATE_FORMAT: 'DD.MM.YYYY',
     RESULT_STATUS_TYPE_500: '500',
     RATE_DEFAULT_VALUE: 3,
+    EMAIL_RGX: /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/,
+    PASSWORD_RGX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
     SIDEBAR_KEYS: {
         CALENDAR: 'calendar',
         TRAININGS: 'trainings',
@@ -59,3 +67,27 @@ const CONSTANTS = {
 };
 
 export default CONSTANTS;
+
+export const calendarLocale = {
+    lang: {
+        ...locale.Calendar?.lang,
+        shortWeekDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+        shortMonths: [
+            'Янв',
+            'Февр',
+            'Мар',
+            'Апр',
+            'Май',
+            'Июн',
+            'Июл',
+            'Авг',
+            'Сен',
+            'Окт',
+            'Ноя',
+            'Дек',
+        ],
+    },
+    timePickerLocale: {
+        ...locale.Calendar?.timePickerLocale,
+    },
+};
