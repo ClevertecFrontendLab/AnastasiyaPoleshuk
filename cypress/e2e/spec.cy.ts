@@ -229,7 +229,6 @@ describe('Sprint 5', () => {
 
     it('profile page with google photo', () => {
         beforeEach('profileGoogle');
-
         cy.wait('@getUser');
         cy.get(`[data-test-id=${DATA_TEST_ID.menuButtonProfile}]`).click();
         cy.url().should('include', '/profile');
@@ -252,7 +251,6 @@ describe('Sprint 5', () => {
 
     it('settings page', () => {
         beforeEach('profile');
-
         cy.wait('@getUser');
         cy.intercept('GET', 'tariff-list', {
             statusCode: 200,
@@ -389,7 +387,6 @@ describe('Sprint 5', () => {
                 },
             ],
         }).as('getTarifList');
-
         cy.wait('@getUser');
         cy.get(`[data-test-id=${DATA_TEST_ID.headerSettings}]`).click();
 
