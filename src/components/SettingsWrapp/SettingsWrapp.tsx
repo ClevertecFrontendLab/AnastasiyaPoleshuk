@@ -84,6 +84,7 @@ export const SettingsWrapp = () => {
                                 type='primary'
                                 className='card__footer-button'
                                 data-test-id='activate-tariff-btn'
+                                onClick={() => setTariffDrawerStatus(true)}
                             >
                                 Активировать
                             </Button>
@@ -97,17 +98,19 @@ export const SettingsWrapp = () => {
                         <p className='advantage-item__title'>Открыт для совместных тренировок</p>
                         <Tooltip
                             placement='bottomLeft'
-                            data-test-id='tariff-trainings-icon'
                             title={
                                 'включеная функция позволит участвовать в совместных тренировках'
                             }
                         >
-                            <ExclamationCircleOutlined />
+                            <ExclamationCircleOutlined
+                                data-test-id='tariff-trainings-icon'
+                                className='advantage-item__icon'
+                            />
                         </Tooltip>
                     </div>
                     <Switch
-                        defaultChecked
                         data-test-id='tariff-trainings'
+                        checked={user.readyForJointTraining}
                         onChange={(checked) =>
                             dispatch(
                                 UpdateUserThunk({
@@ -123,14 +126,14 @@ export const SettingsWrapp = () => {
                         <p className='advantage-item__title'>Уведомления</p>
                         <Tooltip
                             placement='bottomLeft'
-                            data-test-id='tariff-notifications-icon'
                             title={'включеная функция позволит получать уведомления об активностях'}
                         >
-                            <ExclamationCircleOutlined />
+                            <ExclamationCircleOutlined data-test-id='tariff-notifications-icon' />
                         </Tooltip>
                     </div>
                     <Switch
                         data-test-id='tariff-notifications'
+                        checked={user.sendNotification}
                         onChange={(checked) =>
                             dispatch(
                                 UpdateUserThunk({
@@ -152,10 +155,9 @@ export const SettingsWrapp = () => {
                         </p>
                         <Tooltip
                             placement='bottomLeft'
-                            data-test-id='tariff-theme-icon'
                             title={'темная тема доступна для PRO tarif'}
                         >
-                            <ExclamationCircleOutlined />
+                            <ExclamationCircleOutlined data-test-id='tariff-theme-icon' />
                         </Tooltip>
                     </div>
                     <Switch disabled={isPROActive ? false : true} data-test-id='tariff-theme' />

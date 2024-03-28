@@ -12,7 +12,7 @@ import {
     UploadProps,
 } from 'antd';
 import { useEffect, useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import CONSTANTS, { calendarLocale } from '@utils/constants';
 import { UpdateUserThunk, UploadAvatarThunk } from '@redux/thunk/userThunks';
 import { IUpdateUser } from '../../types/apiTypes';
@@ -20,6 +20,8 @@ import { ProfileErrorModal } from '@components/ProfileModals/ProfileErrorModal';
 import { UpdateUserFail } from '@components/ProfileModals/UpdateUserFail';
 import { UpdateUserSuccess } from '@components/ProfileModals/UpdateUserSuccess';
 import moment from 'moment';
+import { useResize } from '@hooks/useResize';
+import { changeUpdateUserSuccessState } from '@redux/slices/UserSlice';
 
 export const ProfileWrapp = () => {
     const [previewOpen, setPreviewOpen] = useState(false);
@@ -33,6 +35,7 @@ export const ProfileWrapp = () => {
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
     const [isPasswordRequired, setIsPasswordRequired] = useState(false);
     const [password, setPassword] = useState('');
+    const { isScreenSm } = useResize();
     const {
         user,
         isUploadAvatarSuccess,
@@ -46,11 +49,24 @@ export const ProfileWrapp = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
+        setIsUpdateSuccess(false);
         setAvatarUrl(user.imgSrc);
         setSubmitButtonDisabled(true);
         if (avatarUrl) {
-            setAvatar([{ uid: '0', name: 'avatar', status: 'done', url: avatarUrl }]);
+            setAvatar([
+                {
+                    uid: '0',
+                    name: 'avatar',
+                    status: 'done',
+                    url: `${CONSTANTS.AVATAR_URL}${avatarUrl}`,
+                },
+            ]);
         }
+
+        return () => {
+            setIsUpdateSuccess(false);
+            dispatch(changeUpdateUserSuccessState(false));
+        };
     }, []);
 
     useEffect(() => {
@@ -90,7 +106,12 @@ export const ProfileWrapp = () => {
     }, [isUpdateUserError]);
 
     const saveChanges = (values: IUpdateUser) => {
-        dispatch(UpdateUserThunk(values));
+        dispatch(
+            UpdateUserThunk({
+                ...values,
+                imgSrc: avatarUrl,
+            }),
+        );
         setSubmitButtonDisabled(true);
     };
 
@@ -104,7 +125,7 @@ export const ProfileWrapp = () => {
         setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
     };
     const uploadButton = (
-        <div>
+        <div style={{ padding: 16 }}>
             <PlusOutlined />
             <div style={{ marginTop: 6, width: 'min-content' }}>Загрузить фото профиля</div>
         </div>
@@ -172,7 +193,7 @@ export const ProfileWrapp = () => {
             initialValues.lastName = user.lastName;
         }
         if (user.birthday) {
-            initialValues.birthday = moment(user.birthday).format('DD.MM.YYYY');
+            initialValues.birthday = moment(user.birthday);
         }
         if (user.email) {
             initialValues.email = user.email;
@@ -196,22 +217,39 @@ export const ProfileWrapp = () => {
                 onFinish={saveChanges}
                 onValuesChange={() => setSubmitButtonDisabled(false)}
                 className='update-user__form'
+                autoComplete='off'
             >
                 <div className='personal-info__form-blok'>
                     <h2 className='personal-info__form-title'>Личная информация</h2>
 
-                    <div style={{ width: '100%', display: 'flex', alignItems: 'flex-start' }}>
+                    <div className='personal-info__form-blok-item' style={{}}>
                         <Form.Item data-test-id='profile-avatar'>
-                            <Upload
-                                customRequest={customRequest}
-                                fileList={avatar}
-                                listType='picture-card'
-                                onPreview={handlePreview}
-                                onChange={handleChange}
-                                className='upload-avatar'
-                            >
-                                {avatar.length > 0 ? null : uploadButton}
-                            </Upload>
+                            {isScreenSm ? (
+                                <div className='mobile__upload-box'>
+                                    <h5 className='mobile__upload-title'>
+                                        Загрузить фото профиля:
+                                    </h5>
+                                    <Upload
+                                        customRequest={customRequest}
+                                        fileList={avatar}
+                                        onChange={handleChange}
+                                        className='mobile__upload-btn'
+                                    >
+                                        <Button icon={<UploadOutlined />}>Загрузить</Button>
+                                    </Upload>
+                                </div>
+                            ) : (
+                                <Upload
+                                    customRequest={customRequest}
+                                    fileList={avatar}
+                                    listType='picture-card'
+                                    onPreview={handlePreview}
+                                    onChange={handleChange}
+                                    className='upload-avatar'
+                                >
+                                    {avatar.length > 0 ? null : uploadButton}
+                                </Upload>
+                            )}
                         </Form.Item>
                         <Space
                             direction='vertical'
@@ -230,7 +268,7 @@ export const ProfileWrapp = () => {
                                     placeholder='Дата рождения'
                                     size='large'
                                     locale={calendarLocale}
-                                    format='DD.MM.YYYY'
+                                    format={['DD.MM.YYYY']}
                                     data-test-id='profile-birthday'
                                     style={{
                                         width: '100%',
@@ -305,7 +343,7 @@ export const ProfileWrapp = () => {
                         data-test-id='profile-submit'
                         htmlType='submit'
                         disabled={submitButtonDisabled}
-                        style={{ borderRadius: 2, width: 206, height: 40, marginTop: 24 }}
+                        className='form__submit-btn'
                     >
                         Сохранить изменения
                     </Button>
@@ -319,7 +357,7 @@ export const ProfileWrapp = () => {
             >
                 <img alt='example' style={{ width: '100%' }} src={previewImage} />
             </Modal>
-            {isUpdateSuccess && <UpdateUserSuccess />}
+            {isUpdateSuccess ? <UpdateUserSuccess /> : null}
         </div>
     );
 };
