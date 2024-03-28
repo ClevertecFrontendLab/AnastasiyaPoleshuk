@@ -7,10 +7,11 @@ import CONSTANTS from '@utils/constants';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { setToken, changeAuthState, changeIsPostTariffSuccessState } from '@redux/slices/UserSlice';
 import { push } from 'redux-first-history';
+import { UserSelector } from '@utils/StoreSelectors';
 
 export const ChangeTariffInfoModal = ({ isModalOpen }: { isModalOpen: boolean }) => {
     const { closeModal } = useContext(AppContext);
-    const { user } = useAppSelector((state) => state.user);
+    const { user } = useAppSelector(UserSelector);
 
     const dispatch = useAppDispatch();
 

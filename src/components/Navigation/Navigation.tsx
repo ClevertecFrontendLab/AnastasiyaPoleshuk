@@ -18,6 +18,7 @@ import { push } from 'redux-first-history';
 import { MenuInfo } from 'rc-menu/lib/interface';
 import { GetTrainingInfoThunk } from '@redux/thunk/TrainingThunk';
 import { useResize } from '@hooks/useResize';
+import { UserSelector } from '@utils/StoreSelectors';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -47,7 +48,7 @@ const items: MenuItem[] = [
 export const Navigation: React.FC = () => {
     const { width: windowWidth, isScreenSm } = useResize();
     const [collapsed, setCollapsed] = useState(isScreenSm);
-    const { accessToken } = useAppSelector((state) => state.user);
+    const { accessToken } = useAppSelector(UserSelector);
 
     useEffect(() => {
         setCollapsed(isScreenSm);

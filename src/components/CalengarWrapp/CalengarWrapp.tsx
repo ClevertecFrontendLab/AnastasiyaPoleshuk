@@ -14,6 +14,7 @@ import { AddExercisesDrawer } from '@components/AddExercisesDrawer/AddExerscises
 import { CreateTrainingFail } from '@components/ErrorModals/CreateTrainingFail';
 import { useResize } from '@hooks/useResize';
 import { CalendarCreateTrainingModal } from '@components/CalendarCellInfoModal/CalendarCreateTrainingModal';
+import { calendarSelector } from '@utils/StoreSelectors';
 
 const getListData = (
     value: Moment,
@@ -72,7 +73,7 @@ export const CalengarWrapp = ({ trainings }: { trainings: IGetTrainingsResponse[
         isUpdateTrainingError,
         trainingList,
         trainingInfo,
-    } = useAppSelector((state) => state.calendar);
+    } = useAppSelector(calendarSelector);
     const [cellData, setCellData] = useState(<></>);
     const [isOpenModal, setIsOpenModal] = useState(false);
     const [isModalRender, setIsModalRender] = useState(false);

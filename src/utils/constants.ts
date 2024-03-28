@@ -40,6 +40,8 @@ const CONSTANTS = {
     DATE_FORMAT: 'DD.MM.YYYY',
     RESULT_STATUS_TYPE_500: '500',
     RATE_DEFAULT_VALUE: 3,
+    EMAIL_RGX: /([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/,
+    PASSWORD_RGX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
     SIDEBAR_KEYS: {
         CALENDAR: 'calendar',
         TRAININGS: 'trainings',

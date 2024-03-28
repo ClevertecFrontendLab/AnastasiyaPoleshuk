@@ -15,10 +15,11 @@ import {
 } from '@redux/slices/CalendarSlice';
 import { cleanError } from '@redux/slices/CalendarSlice';
 import { GetUserThunk } from '@redux/thunk/userThunks';
+import { UserSelector, calendarSelector } from '@utils/StoreSelectors';
 
 export const MainPage: React.FC = () => {
-    const { isAuth, accessToken } = useAppSelector((state) => state.user);
-    const { isGetTrainingInfoSuccess } = useAppSelector((state) => state.calendar);
+    const { isAuth, accessToken } = useAppSelector(UserSelector);
+    const { isGetTrainingInfoSuccess } = useAppSelector(calendarSelector);
     const dispatch = useAppDispatch();
 
     useEffect(() => {

@@ -22,6 +22,7 @@ import { UpdateUserSuccess } from '@components/ProfileModals/UpdateUserSuccess';
 import moment from 'moment';
 import { useResize } from '@hooks/useResize';
 import { changeUpdateUserSuccessState } from '@redux/slices/UserSlice';
+import { UserSelector } from '@utils/StoreSelectors';
 
 export const ProfileWrapp = () => {
     const [previewOpen, setPreviewOpen] = useState(false);
@@ -43,7 +44,7 @@ export const ProfileWrapp = () => {
         isUploadAvatarError,
         isUpdateUserError,
         isUpdateUserSuccess,
-    } = useAppSelector((state) => state.user);
+    } = useAppSelector(UserSelector);
     const [avatarUrl, setAvatarUrl] = useState<string>(user.imgSrc);
 
     const dispatch = useAppDispatch();
@@ -151,7 +152,7 @@ export const ProfileWrapp = () => {
     };
 
     const CheckEmail = (data: string) => {
-        if (/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/.test(data)) {
+        if (CONSTANTS.EMAIL_RGX.test(data)) {
             setIsValidEmail(true);
             setSubmitButtonDisabled(false);
         } else {
@@ -161,7 +162,7 @@ export const ProfileWrapp = () => {
     };
 
     const CheckPassword = (data: string) => {
-        if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(data)) {
+        if (CONSTANTS.PASSWORD_RGX.test(data)) {
             setIsValidPassword(true);
             setSubmitButtonDisabled(false);
         } else {
@@ -222,7 +223,7 @@ export const ProfileWrapp = () => {
                 <div className='personal-info__form-blok'>
                     <h2 className='personal-info__form-title'>Личная информация</h2>
 
-                    <div className='personal-info__form-blok-item' style={{}}>
+                    <div className='personal-info__form-blok-item'>
                         <Form.Item data-test-id='profile-avatar'>
                             {isScreenSm ? (
                                 <div className='mobile__upload-box'>
@@ -301,7 +302,7 @@ export const ProfileWrapp = () => {
                             {
                                 required: isPasswordRequired,
                                 message: 'пожалуйста, введите параль',
-                                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                                pattern: CONSTANTS.PASSWORD_RGX,
                             },
                         ]}
                         validateStatus={isValidPassword ? 'success' : 'error'}

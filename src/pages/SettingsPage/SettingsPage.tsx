@@ -8,9 +8,10 @@ import { useContext, useEffect } from 'react';
 import { push } from 'redux-first-history';
 import { ChangeTariffInfoModal } from '@components/ChangeTariffInfoModal/ChangeTariffInfoModal';
 import { AppContext } from '../../context/AppContext';
+import { UserSelector } from '@utils/StoreSelectors';
 
 export const SettingsPage = () => {
-    const { isAuth } = useAppSelector((state) => state.user);
+    const { isAuth } = useAppSelector(UserSelector);
     const { isChangeTariffInfoModalOpen } = useContext(AppContext);
 
     const dispatch = useAppDispatch();

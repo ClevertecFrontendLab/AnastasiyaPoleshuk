@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { PostTariffThunk } from '@redux/thunk/userThunks';
 import moment from 'moment';
 import { useResize } from '@hooks/useResize';
+import { UserSelector } from '@utils/StoreSelectors';
 
 const AdvantagesTableColumns = [
     {
@@ -49,19 +50,39 @@ const priseTableColumns = [
     },
 ];
 
-interface AdvantagesTableData {
+const drawerMobileStyles = {
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
+};
+
+const drawerStyles = {
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+};
+
+const drawerMobileStylesHeader = {
+    borderTopRightRadius: 24,
+    borderTopLeftRadius: 24,
+    borderBottom: 'none',
+};
+
+const drawerStylesHeader = {
+    borderBottom: 'none',
+};
+
+type AdvantagesTableData = {
     key: string;
     name: string;
     free: JSX.Element;
     pro: JSX.Element;
-}
+};
 
-interface PriseTableData {
+type PriseTableData = {
     key: string;
     period: JSX.Element;
     prise: JSX.Element;
     isChecked: JSX.Element;
-}
+};
 
 export const TariffDrawer = () => {
     const [days, setDays] = useState(0);
@@ -73,7 +94,7 @@ export const TariffDrawer = () => {
         AdvantagesTableData[]
     >([]);
     const { setTariffDrawerStatus, isTariffDrawerOpen } = useContext(AppContext);
-    const { tariff, user } = useAppSelector((state) => state.user);
+    const { tariff, user } = useAppSelector(UserSelector);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -195,11 +216,13 @@ export const TariffDrawer = () => {
         <Drawer
             title={<h4 className='tariff-drawer__title'>Сравнить тарифы</h4>}
             styles={{
-                header: { borderBottom: 'none' },
+                header: isMobile ? drawerMobileStylesHeader : drawerStylesHeader,
                 body: { padding: '0 24px 0 24px' },
+                content: isMobile ? drawerMobileStyles : drawerStyles,
             }}
             data-test-id='tariff-sider'
             width={408}
+            height={550}
             placement={isMobile ? 'bottom' : 'right'}
             open={isTariffDrawerOpen}
             closable={false}

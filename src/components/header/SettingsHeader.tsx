@@ -1,11 +1,11 @@
 import './Header.scss';
-import CONSTANTS from '@utils/constants';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { push } from 'redux-first-history';
+import { routerSelector } from '@utils/StoreSelectors';
 
 export const SettingsHeader = () => {
-    const router = useAppSelector((state) => state.router);
+    const router = useAppSelector(routerSelector);
     const dispatch = useAppDispatch();
 
     const goBack = () => {

@@ -12,10 +12,11 @@ import { AppContext } from '../../context/AppContext';
 import { UpdateUserThunk } from '@redux/thunk/userThunks';
 import { GetFeedbacksThunk } from '@redux/thunk/feedbacksThunk';
 import moment from 'moment';
+import { UserSelector } from '@utils/StoreSelectors';
 
 export const SettingsWrapp = () => {
     const [isPROActive, setIsPROActive] = useState(false);
-    const { user, accessToken, isPostTariffSuccess } = useAppSelector((state) => state.user);
+    const { user, accessToken, isPostTariffSuccess } = useAppSelector(UserSelector);
 
     const { openModal, setTariffDrawerStatus } = useContext(AppContext);
     const dispatch = useAppDispatch();
