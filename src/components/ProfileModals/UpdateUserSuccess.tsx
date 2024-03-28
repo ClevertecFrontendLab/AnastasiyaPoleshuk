@@ -1,6 +1,6 @@
 import { Alert } from 'antd';
 
-export const UpdateUserSuccess = () => {
+export const UpdateUserSuccess = () => (
     <Alert
         message='Данные профиля успешно обновлены'
         type='success'
@@ -15,5 +15,5 @@ export const UpdateUserSuccess = () => {
             left: '50%',
             transform: 'translate(-50%)',
         }}
-    />;
-};
+    />
+);
